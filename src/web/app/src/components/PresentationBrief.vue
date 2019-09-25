@@ -29,15 +29,18 @@
       </el-button>
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
-      <el-button type="danger" v-if="!isNewPresentation && isLogin && isPresentationEditable"
-                 @click="openDeleteModal()">Delete
-      </el-button>
+      <DeleteModal
+        v-if="!isNewPresentation && isLogin && isPresentationEditable"
+        typeOfDelete="presentation"
+        :deleteFunction="this.deletePresentation">
+      </DeleteModal>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
   import AccessControlPanel from '@/components/AccessControlPanel'
+  import DeleteModal from '@/components/common/DeleteModal'
   import {download} from "@/store/helpers/pdfDownloader"
   import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
   import {deepCopy} from "@/common/utility";
@@ -168,25 +171,6 @@
           }
         });
       },
-      openDeleteModal() {
-        this.$confirm('This will permanently delete the presentation. Continue?', 'Warning', {
-          confirmButtonText: 'OK',
-          cancelButtonText: 'Cancel',
-          type: 'warning',
-          center: true
-        }).then(() => {
-          this.deletePresentation();
-          this.$message({
-            type: 'success',
-            message: 'Presentation deleted'
-          });
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: 'Delete canceled'
-          });
-        });
-      },
       deletePresentation() {
         this.$store.dispatch('deletePresentation', this.id)
           .then(() => {
@@ -240,7 +224,8 @@
     },
 
     components: {
-      AccessControlPanel
+      AccessControlPanel,
+      DeleteModal
     },
   }
 </script>
