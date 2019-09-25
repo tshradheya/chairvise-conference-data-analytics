@@ -5,7 +5,7 @@
       <div class="title" v-if="!isEditing">
         {{ sectionDetail.title }}
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteSectionDetail"
+        <el-button type="danger" icon="el-icon-delete" circle @click="openDeleteModal()"
                    v-if="isPresentationEditable"></el-button>
       </div>
       <div class="title" v-else>
@@ -399,7 +399,25 @@
           }
         });
       },
-
+      openDeleteModal() {
+        this.$confirm('This will permanently delete the section. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.deleteSectionDetail();
+          this.$message({
+            type: 'success',
+            message: 'Section deleted'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled'
+          });
+        });
+      },
       deleteSectionDetail() {
         this.$store.dispatch('deleteSectionDetail', {
           presentationId: this.presentationId,

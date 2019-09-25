@@ -30,7 +30,7 @@
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
       <el-button type="danger" v-if="!isNewPresentation && isLogin && isPresentationEditable"
-                 @click="deletePresentation()">Delete
+                 @click="openDeleteModal()">Delete
       </el-button>
     </el-form-item>
   </el-form>
@@ -166,6 +166,25 @@
                 this.isEditing = false
               })
           }
+        });
+      },
+      openDeleteModal() {
+        this.$confirm('This will permanently delete the presentation. Continue?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.deletePresentation();
+          this.$message({
+            type: 'success',
+            message: 'Presentation deleted'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Delete canceled'
+          });
         });
       },
       deletePresentation() {
