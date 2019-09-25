@@ -6,8 +6,8 @@
         {{ sectionDetail.title }}
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
         <delete-modal
-          typeOfDelete="section"
           v-if="isPresentationEditable"
+          typeOfDelete="section"
           :deleteFunction="this.deleteSectionDetail">
         </delete-modal>
       </div>
