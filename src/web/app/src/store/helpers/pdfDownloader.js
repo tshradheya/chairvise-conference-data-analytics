@@ -12,6 +12,15 @@ import {
 
 let doc, marginTop;
 
+export function downloadAsPresentation(presentationFormName) {
+  doc = new JavascriptPDF("l", "mm", "a4");
+  marginTop = PDF_CHART_MARGIN_TOP;
+  doc.setFontSize(TITLE_FONT_SIZE);
+  doc.text(TITLE_MARGIN_LEFT, TITLE_MARGIN_TOP, presentationFormName);
+
+  return createPresentablePDF(presentationFormName);
+}
+
 export function download(presentationFormName) {
   doc = new JavascriptPDF("p", "mm", "a4");
   marginTop = PDF_CHART_MARGIN_TOP;
@@ -47,6 +56,16 @@ function getChart(chartElement, idx) {
   });
 }
 
+const getSingleChartInPage = (chartElement) => {
+  return html2canvas(chartElement).then(element => {
+    doc.addPage();
+    let imageData = element.toDataURL("image/png");
+    let chartWidth = doc.internal.pageSize.getWidth();
+    let chartHeight = doc.internal.pageSize.getHeight();
+    doc.addImage(imageData, "PNG", 0, 0, chartWidth, chartHeight, "", "FAST");
+  });
+}
+
 async function createPDF(pdfName) {
   await getDescription();
   let chartElements = document.getElementsByClassName("presentation-section");
@@ -54,4 +73,13 @@ async function createPDF(pdfName) {
     await getChart(chartElements[i], i);
   }
   doc.save(pdfName + ".pdf");
+}
+
+const createPresentablePDF = async (presentationName) => {
+  await getDescription();
+  let chartElements = document.getElementsByClassName("presentation-section");
+  for (let i = 0; i < chartElements.length; i++) {
+    await getSingleChartInPage(chartElements[i]);
+  }
+  doc.save(presentationName + ".pdf");
 }
