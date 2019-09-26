@@ -56,7 +56,7 @@ function getChart(chartElement, idx) {
   });
 }
 
-const getSingleChartInPage = (chartElement) => {
+const getSingleChartInPage = async (chartElement) => {
   return html2canvas(chartElement).then(element => {
     doc.addPage();
     let imageData = element.toDataURL("image/png");
