@@ -4,6 +4,7 @@
   <el-form v-else label-position="right" ref="presentationForm" label-width="120px" :rules="rules"
            :model="presentationForm" v-loading="isLoading">
     <el-alert v-if="isError" :title="apiErrorMsg" type="error" show-icon class="errorMsg"/>
+    <el-alert v-if="hasDuplicateName" :title="duplicatePresentationErrorMsg" type="error" show-icon class="errorMsg"/>
     <el-form-item label="Name" :prop=" isInEditMode ? 'name' : ''">
       <div v-if="!isInEditMode">{{ presentationForm.name }}</div>
       <el-input v-model="presentationFormName" v-if="isInEditMode"/>
@@ -109,7 +110,19 @@
       },
       apiErrorMsg() {
         return this.$store.state.presentation.presentationFormStatus.apiErrorMsg
-      }
+      },
+      duplicatePresentationErrorMsg() {
+        return 'Cannot have duplicate presentation names'
+      },
+      hasDuplicateName() {
+          var p
+          for (p of this.$store.state.presentation.presentationList) {
+              if (p.name === this.presentationFormName && p.id != this.id) {
+                  return true;
+              }
+          }
+          return false;
+      },
     },
     data() {
       return {
@@ -118,8 +131,8 @@
         rules: {
           name: [
             {required: true, message: 'Please enter presentation name', trigger: 'blur'},
-            {min: 3, message: 'The length should be more than 3 character', trigger: 'blur'}
-          ]
+            {min: 3, message: 'The length should be more than 3 character', trigger: 'blur'},
+          ],
         }
       }
     },
@@ -137,9 +150,12 @@
 
       addPresentation() {
         this.$refs['presentationForm'].validate((valid) => {
-          if (!valid) {
-            return
-          }
+           if (!valid) {
+             return
+           }
+           if (this.hasDuplicateName === true) {
+                 return
+           }
           this.$refs['presentationForm'].clearValidate();
           if (this.isNewPresentation) {
             // add
