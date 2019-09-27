@@ -9,6 +9,12 @@ export default {
       isApiError: false,
       apiErrorMsg: '',
     },
+    sharedPresentationList: [],
+      sharedPresentationListStatus: {
+      isLoading: true,
+      isApiError: false,
+      apiErrorMsg: '',
+    },
     presentationForm: {
       id: '',
       name: '',
@@ -50,6 +56,40 @@ export default {
 
     updatePresentationListWith(state, payload) {
       state.presentationList = state.presentationList.map(presentation => {
+        if (presentation.id === payload.id) {
+          return payload
+        }
+        return presentation
+      });
+    },
+
+    setSharedPresentationListLoading(state, payload) {
+      if (payload) {
+        state.sharedPresentationListStatus.isApiError = false;
+      }
+      state.sharedPresentationListStatus.isLoading = payload;
+    },
+
+    setSharedPresentationListApiError(state, payload) {
+      state.sharedPresentationListStatus.isApiError = true;
+      state.sharedPresentationListStatus.apiErrorMsg = payload;
+    },
+
+    setSharedPresentationList(state, payload) {
+      state.sharedPresentationList = payload;
+    },
+
+    addToSharedPresentationList(state, payload) {
+      state.sharedPresentationList.push(payload);
+    },
+
+    deleteFromSharedPresentationList(state, payload) {
+      const index = state.sharedPresentationList.findIndex(presentation => presentation.id === payload);
+      state.sharedPresentationList.splice(index, 1)
+    },
+
+    updateSharedPresentationListWith(state, payload) {
+      state.sharedPresentationList = state.sharedPresentationList.map(presentation => {
         if (presentation.id === payload.id) {
           return payload
         }
@@ -101,6 +141,20 @@ export default {
         .finally(() => {
           commit('setPresentationListLoading', false);
         })
+    },
+
+    async getSharedPresentationList({commit}) {
+       commit('setPresentationListLoading', true);
+       axios.get('/api/sharedPresentations')
+          .then(response => {
+            commit('setSharedPresentationList', response.data)
+          })
+          .catch(e => {
+            commit('setSharedPresentationListApiError', e.toString());
+          })
+          .finally(() => {
+            commit('setSharedPresentationListLoading', false);
+          })
     },
 
     async getPresentation({commit}, presentationId) {
