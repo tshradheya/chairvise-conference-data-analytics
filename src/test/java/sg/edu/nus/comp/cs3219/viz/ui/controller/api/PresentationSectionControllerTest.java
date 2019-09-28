@@ -30,6 +30,30 @@ public class PresentationSectionControllerTest extends BaseTestREST {
     }
 
     @Test
+    public void testAllShared_notLogin_shouldNotAccess() throws Exception {
+        gaeSimulation.logoutUser();
+
+        mvc.perform(get("/api/sharedPresentations"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testAllShared_Login_shouldHaveAccess() throws Exception {
+        gaeSimulation.loginUser("test1@viz.test");
+
+        mvc.perform(get("/api/sharedPresentations"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].id").value("1"))
+                .andExpect(jsonPath("$[0].description").value("test description 1"))
+                .andExpect(jsonPath("$[0].creatorIdentifier").value("test@viz.test"))
+                .andExpect(jsonPath("$[1].id").value("2"))
+                .andExpect(jsonPath("$[1].description").value("test description 2"))
+                .andExpect(jsonPath("$[1].creatorIdentifier").value("test@viz.test"));
+    }
+
+    @Test
     public void testAll_loginWithoutReadAccess_shouldNotAccess() throws Exception {
         gaeSimulation.loginUser("random@email.com");
 
