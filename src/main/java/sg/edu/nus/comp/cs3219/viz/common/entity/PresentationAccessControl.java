@@ -20,10 +20,8 @@ public class PresentationAccessControl {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    private Long presentation_id;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "presentation_id", nullable = false, insertable=false, updatable=false)
+    @JoinColumn(name = "presentation_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Presentation presentation;
@@ -55,8 +53,6 @@ public class PresentationAccessControl {
     public void setUserIdentifier(String userIdentifier) {
         this.userIdentifier = userIdentifier;
     }
-
-    public Long getPresentationId() { return presentation_id; }
 
     public AccessLevel getAccessLevel() {
         return accessLevel;

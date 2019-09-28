@@ -60,10 +60,8 @@ public class PresentationAccessControlController extends BaseRestController {
         List<PresentationAccessControl> listOfShared= presentationAccessControlLogic.findAllByUserIdentifier(currentUser);
         List<Presentation> listOfSharedPresentation = new ArrayList<>();
         for (int i = 0; i < listOfShared.size(); i++) {
-            PresentationAccessControl presentation1 = listOfShared.get(i);
-            Long id = presentation1.getPresentationId();
-            Presentation presentation = presentationLogic.findById(id)
-                    .orElseThrow(() -> new PresentationNotFoundException(id));
+            PresentationAccessControl presentationAccessControl = listOfShared.get(i);
+            Presentation presentation = presentationAccessControl.getPresentation();
             listOfSharedPresentation.add(presentation);
         }
         return listOfSharedPresentation;
