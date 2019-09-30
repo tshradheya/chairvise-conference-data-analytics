@@ -1,8 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import DeleteModal from '@/components/common/DeleteModal.vue'
 
 let component, mockDeleteFn
-const localVue = createLocalVue()
 describe('DeleteModal.vue', () => {
   beforeEach(()=> {
     mockDeleteFn = jest.fn()
