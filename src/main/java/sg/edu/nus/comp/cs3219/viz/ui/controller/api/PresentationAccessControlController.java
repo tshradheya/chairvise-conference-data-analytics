@@ -59,8 +59,7 @@ public class PresentationAccessControlController extends BaseRestController {
         UserInfo currentUser = gateKeeper.verifyLoginAccess();
         List<PresentationAccessControl> listOfShared= presentationAccessControlLogic.findAllByUserIdentifier(currentUser);
         List<Presentation> listOfSharedPresentation = new ArrayList<>();
-        for (int i = 0; i < listOfShared.size(); i++) {
-            PresentationAccessControl presentationAccessControl = listOfShared.get(i);
+        for (PresentationAccessControl presentationAccessControl: listOfShared) {
             Presentation presentation = presentationAccessControl.getPresentation();
             listOfSharedPresentation.add(presentation);
         }
