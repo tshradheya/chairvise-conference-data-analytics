@@ -33,7 +33,7 @@ public class PresentationSectionControllerTest extends BaseTestREST {
     public void testAllShared_notLogin_shouldNotAccess() throws Exception {
         gaeSimulation.logoutUser();
 
-        mvc.perform(get("/api/sharedPresentations"))
+        mvc.perform(get("/api/presentations/sharedPresentations"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -41,7 +41,7 @@ public class PresentationSectionControllerTest extends BaseTestREST {
     public void testAllShared_Login_shouldHaveAccess() throws Exception {
         gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(get("/api/sharedPresentations"))
+        mvc.perform(get("/api/presentations/sharedPresentations"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$", hasSize(2)))

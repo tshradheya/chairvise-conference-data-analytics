@@ -145,7 +145,7 @@ export default {
 
     async getSharedPresentationList({commit}) {
        commit('setPresentationListLoading', true);
-       axios.get('/api/sharedPresentations')
+       axios.get('/api/presentations/sharedPresentations')
           .then(response => {
             commit('setSharedPresentationList', response.data)
           })

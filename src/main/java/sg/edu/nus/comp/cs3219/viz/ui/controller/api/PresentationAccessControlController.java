@@ -54,7 +54,7 @@ public class PresentationAccessControlController extends BaseRestController {
                 .body(newAccessControl);
     }
 
-    @GetMapping("/sharedPresentations")
+    @GetMapping("/presentations/sharedPresentations")
     public List<Presentation> allSharedPresentations() {
         UserInfo currentUser = gateKeeper.verifyLoginAccess();
         List<PresentationAccessControl> listOfShared= presentationAccessControlLogic.findAllByUserIdentifier(currentUser);
