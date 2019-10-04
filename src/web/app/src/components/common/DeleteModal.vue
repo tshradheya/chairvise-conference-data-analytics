@@ -3,7 +3,6 @@
     <el-button v-if="isPresentation" class="delete" type="danger" @click="openDeleteModal()">Delete</el-button>
     <el-button v-if="!isPresentation" class="delete" type="danger" icon="el-icon-delete" circle @click="openDeleteModal()"></el-button>
   </span>
-  
 </template>
 
 <script>
