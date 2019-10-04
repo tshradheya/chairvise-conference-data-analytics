@@ -1,7 +1,5 @@
 import { shallowMount, createLocalVue} from '@vue/test-utils'
 import DeleteModal from '@/components/common/DeleteModal.vue'
-
-import Vue from 'vue'
 import ElementUI from 'element-ui'
 
 const localVue = createLocalVue();
