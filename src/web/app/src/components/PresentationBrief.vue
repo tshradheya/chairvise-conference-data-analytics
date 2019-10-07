@@ -23,7 +23,9 @@
       <el-input v-model="presentationFormDescription" v-if="isInEditMode"/>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="downloadPDF()" v-if="!isInEditMode && !isNewPresentation">Download as PDF
+      <el-button type="primary" @click="downloadPDF(false)" v-if="!isInEditMode && !isNewPresentation">Download as PDF
+      </el-button>
+      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
@@ -38,7 +40,7 @@
 
 <script>
   import AccessControlPanel from '@/components/AccessControlPanel'
-  import {download} from "@/store/helpers/pdfDownloader"
+  import {download, downloadAsPresentation} from "@/store/helpers/pdfDownloader"
   import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
   import {deepCopy} from "@/common/utility";
 
@@ -205,19 +207,24 @@
             })
         }
       },
-      downloadPDF() {
+      downloadPDF(asPresentation) {
         let vm = this;
         let wasPresentationEditable = deepCopy(vm.isPresentationEditable);
         vm.$store.commit('setIsPresentationEditable', false);
         vm.$store.commit('setPageLoadingStatus', true);
 
+        let downloadFunc = download;
+        if (asPresentation) {
+          downloadFunc = downloadAsPresentation;
+        }
+
         this.$nextTick(() => {
-          download(vm.presentationFormName).then(() => {
+          downloadFunc(vm.presentationFormName).then(() => {
             vm.$store.commit('setIsPresentationEditable', wasPresentationEditable);
             vm.$store.commit('setPageLoadingStatus', false);
           });
         });
-      }
+      },
     },
 
     components: {
