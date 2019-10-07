@@ -4,6 +4,7 @@
       <el-container>
         <el-aside width="250px" v-if="isLogin">
           <list-of-presentation/>
+          <list-of-shared-presentation/>
         </el-aside>
         <el-main>
           <presentation-brief :id="id"/>
@@ -17,6 +18,7 @@
 <script>
   import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
   import ListOfPresentation from '@/components/ListOfPresentation.vue'
+  import ListOfSharedPresentation from '@/components/ListOfSharedPresentation.vue'
   import PresentationBrief from "@/components/PresentationBrief.vue";
   import SectionListPanel from "@/components/SectionListPanel.vue";
 
@@ -36,6 +38,7 @@
     components: {
       PresentationBrief,
       ListOfPresentation,
+      ListOfSharedPresentation,
       SectionListPanel,
       ChartJsPluginDataLabels
     }

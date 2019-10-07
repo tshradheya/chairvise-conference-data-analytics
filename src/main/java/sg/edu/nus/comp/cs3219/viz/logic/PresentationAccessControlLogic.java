@@ -1,6 +1,7 @@
 package sg.edu.nus.comp.cs3219.viz.logic;
 
 import org.springframework.stereotype.Component;
+import sg.edu.nus.comp.cs3219.viz.common.datatransfer.UserInfo;
 import sg.edu.nus.comp.cs3219.viz.common.entity.Presentation;
 import sg.edu.nus.comp.cs3219.viz.common.entity.PresentationAccessControl;
 import sg.edu.nus.comp.cs3219.viz.storage.repository.PresentationAccessControlRepository;
@@ -39,6 +40,10 @@ public class PresentationAccessControlLogic {
 
     public Optional<PresentationAccessControl> findById(Long id) {
         return presentationAccessControlRepository.findById(id);
+    }
+
+    public List<PresentationAccessControl> findAllByUserIdentifier(UserInfo userInfo) {
+        return presentationAccessControlRepository.findAllByUserIdentifier(userInfo.getUserEmail());
     }
 
     public void deleteById(Long id) {

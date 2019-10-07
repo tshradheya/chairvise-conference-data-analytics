@@ -3,6 +3,7 @@ package sg.edu.nus.comp.cs3219.viz.ui.controller.api;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.nus.comp.cs3219.viz.common.datatransfer.AccessLevel;
+import sg.edu.nus.comp.cs3219.viz.common.datatransfer.UserInfo;
 import sg.edu.nus.comp.cs3219.viz.common.entity.Presentation;
 import sg.edu.nus.comp.cs3219.viz.common.entity.PresentationAccessControl;
 import sg.edu.nus.comp.cs3219.viz.common.exception.PresentationAccessControlNotFoundException;
@@ -13,6 +14,7 @@ import sg.edu.nus.comp.cs3219.viz.logic.PresentationLogic;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -50,6 +52,18 @@ public class PresentationAccessControlController extends BaseRestController {
         return ResponseEntity
                 .created(new URI("/presentations/" + presentation.getId() + "/accessControl/" + newAccessControl.getId()))
                 .body(newAccessControl);
+    }
+
+    @GetMapping("/presentations/sharedPresentations")
+    public List<Presentation> allSharedPresentations() {
+        UserInfo currentUser = gateKeeper.verifyLoginAccess();
+        List<PresentationAccessControl> listOfShared= presentationAccessControlLogic.findAllByUserIdentifier(currentUser);
+        List<Presentation> listOfSharedPresentation = new ArrayList<>();
+        for (PresentationAccessControl presentationAccessControl: listOfShared) {
+            Presentation presentation = presentationAccessControl.getPresentation();
+            listOfSharedPresentation.add(presentation);
+        }
+        return listOfSharedPresentation;
     }
 
     @PutMapping("/presentations/{presentationId}/accessControl/{accessControlId}")
