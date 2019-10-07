@@ -116,9 +116,9 @@
         return 'Cannot have duplicate presentation names'
       },
       hasDuplicateName() {
-          var p
-          for (p of this.$store.state.presentation.presentationList) {
-              if (p.name === this.presentationFormName && p.id != this.id) {
+          var presentation
+          for (presentation of this.$store.state.presentation.presentationList) {
+              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
                   return true;
               }
           }
@@ -133,7 +133,7 @@
           name: [
             {required: true, message: 'Please enter presentation name', trigger: 'blur'},
             {min: 3, message: 'The length should be more than 3 character', trigger: 'blur'}
-          ],
+          ]
         }
       }
     },
@@ -155,9 +155,6 @@
             return
           }
           this.$refs['presentationForm'].clearValidate();
-          //if (this.hasDuplicateName) {
-           //               return
-           //         }
           if (this.isNewPresentation) {
             // add
             this.$store.dispatch('savePresentation')
