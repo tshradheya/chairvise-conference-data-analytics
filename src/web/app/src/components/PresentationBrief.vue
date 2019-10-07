@@ -33,15 +33,18 @@
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
       <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
-      <el-button type="danger" v-if="!isNewPresentation && isLogin && isPresentationEditable"
-                 @click="deletePresentation()">Delete
-      </el-button>
+      <DeleteModal
+        v-if="!isNewPresentation && isLogin && isPresentationEditable"
+        typeOfDelete="presentation"
+        :deleteFunction="this.deletePresentation">
+      </DeleteModal>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
   import AccessControlPanel from '@/components/AccessControlPanel'
+  import DeleteModal from '@/components/common/DeleteModal'
   import {download, downloadAsPresentation} from "@/store/helpers/pdfDownloader"
   import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
   import {deepCopy} from "@/common/utility";
@@ -242,7 +245,8 @@
     },
 
     components: {
-      AccessControlPanel
+      AccessControlPanel,
+      DeleteModal
     },
   }
 </script>
