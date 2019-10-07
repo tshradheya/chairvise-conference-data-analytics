@@ -23,9 +23,9 @@
       <el-input v-model="presentationFormDescription" v-if="isInEditMode"/>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="downloadPDF()" v-if="!isInEditMode && !isNewPresentation">Download as PDF
+      <el-button type="primary" @click="downloadPDF(false)" v-if="!isInEditMode && !isNewPresentation">Download as PDF
       </el-button>
-      <el-button type="primary" @click="downloadPresentablePDF()" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
+      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
@@ -207,32 +207,24 @@
             })
         }
       },
-      downloadPDF() {
+      downloadPDF(asPresentation) {
         let vm = this;
         let wasPresentationEditable = deepCopy(vm.isPresentationEditable);
         vm.$store.commit('setIsPresentationEditable', false);
         vm.$store.commit('setPageLoadingStatus', true);
 
+        let downloadFunc = download;
+        if (asPresentation) {
+          downloadFunc = downloadAsPresentation;
+        }
+
         this.$nextTick(() => {
-          download(vm.presentationFormName).then(() => {
+          downloadFunc(vm.presentationFormName).then(() => {
             vm.$store.commit('setIsPresentationEditable', wasPresentationEditable);
             vm.$store.commit('setPageLoadingStatus', false);
           });
         });
       },
-      downloadPresentablePDF() {
-        let vm = this;
-        let wasPresentationEditable = deepCopy(vm.isPresentationEditable);
-        vm.$store.commit('setIsPresentationEditable', false);
-        vm.$store.commit('setPageLoadingStatus', true);
-
-        this.$nextTick(() => {
-          downloadAsPresentation(vm.presentationFormName).then(() => {
-            vm.$store.commit('setIsPresentationEditable', wasPresentationEditable);
-            vm.$store.commit('setPageLoadingStatus', false);
-          });
-        });
-      }
     },
 
     components: {
