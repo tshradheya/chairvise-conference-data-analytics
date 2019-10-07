@@ -4,6 +4,7 @@
   <el-form v-else label-position="right" ref="presentationForm" label-width="120px" :rules="rules"
            :model="presentationForm" v-loading="isLoading">
     <el-alert v-if="isError" :title="apiErrorMsg" type="error" show-icon class="errorMsg"/>
+    <el-alert v-if="hasDuplicateName" :title="duplicatePresentationErrorMsg" type="error" show-icon class="errorMsg"/>
     <el-form-item label="Name" :prop=" isInEditMode ? 'name' : ''">
       <div v-if="!isInEditMode">{{ presentationForm.name }}</div>
       <el-input v-model="presentationFormName" v-if="isInEditMode"/>
@@ -23,11 +24,14 @@
       <el-input v-model="presentationFormDescription" v-if="isInEditMode"/>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="downloadPDF()" v-if="!isInEditMode && !isNewPresentation">Download as PDF
+      <el-button type="primary" @click="downloadPDF(false)" v-if="!isInEditMode && !isNewPresentation">Download as PDF
+      </el-button>
+      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
-      <el-button type="primary" @click="addPresentation()" v-if="isInEditMode">Save</el-button>
+      <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
+      <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
       <el-button type="danger" v-if="!isNewPresentation && isLogin && isPresentationEditable"
                  @click="deletePresentation()">Delete
@@ -38,7 +42,7 @@
 
 <script>
   import AccessControlPanel from '@/components/AccessControlPanel'
-  import {download} from "@/store/helpers/pdfDownloader"
+  import {download, downloadAsPresentation} from "@/store/helpers/pdfDownloader"
   import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
   import {deepCopy} from "@/common/utility";
 
@@ -109,7 +113,19 @@
       },
       apiErrorMsg() {
         return this.$store.state.presentation.presentationFormStatus.apiErrorMsg
-      }
+      },
+      duplicatePresentationErrorMsg() {
+        return 'Cannot have duplicate presentation names'
+      },
+      hasDuplicateName() {
+          var presentation
+          for (presentation of this.$store.state.presentation.presentationList) {
+              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
+                  return true;
+              }
+          }
+          return false;
+      },
     },
     data() {
       return {
@@ -205,19 +221,24 @@
             })
         }
       },
-      downloadPDF() {
+      downloadPDF(asPresentation) {
         let vm = this;
         let wasPresentationEditable = deepCopy(vm.isPresentationEditable);
         vm.$store.commit('setIsPresentationEditable', false);
         vm.$store.commit('setPageLoadingStatus', true);
 
+        let downloadFunc = download;
+        if (asPresentation) {
+          downloadFunc = downloadAsPresentation;
+        }
+
         this.$nextTick(() => {
-          download(vm.presentationFormName).then(() => {
+          downloadFunc(vm.presentationFormName).then(() => {
             vm.$store.commit('setIsPresentationEditable', wasPresentationEditable);
             vm.$store.commit('setPageLoadingStatus', false);
           });
         });
-      }
+      },
     },
 
     components: {

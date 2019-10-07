@@ -23,7 +23,7 @@
             </el-option>
           </el-option-group>
         </el-select>
-        <el-button class="addButtonLeft" type="success" @click="addNewSection">Add New Section</el-button>
+        <el-button class="addButtonLeft" type="success" @click="addNewSection" :disabled="!isNewSectionTypeSelected">Add New Section</el-button>
       </el-row>
       <br/>
       <el-alert
@@ -112,6 +112,9 @@
       },
       isLoadingDBMetaData() {
         return this.$store.state.dbMetaData.entitiesStatus.isLoading
+      },
+      isNewSectionTypeSelected() {
+        return this.selectedNewSection.length !== 0
       }
     },
     components: {
