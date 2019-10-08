@@ -21,3 +21,5 @@ src/main/webapp/dist/*
 # Fronend dependency
 src/web/app/node_modules/*
 
+# Local Files
+src/main/resources/application-local.properties
