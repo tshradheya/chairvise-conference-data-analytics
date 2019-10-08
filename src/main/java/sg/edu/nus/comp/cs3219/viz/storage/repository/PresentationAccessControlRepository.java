@@ -10,6 +10,7 @@ import java.util.List;
 public interface PresentationAccessControlRepository extends JpaRepository<PresentationAccessControl, Long> {
 
     List<PresentationAccessControl> findAllByPresentation(Presentation presentation);
+    List<PresentationAccessControl> findAllByUserIdentifier(String userIdentifier);
 
     boolean existsByPresentationAndUserIdentifierEqualsAndAccessLevelEquals(Presentation presentation, String userIdentifier, AccessLevel accessLevel);
 

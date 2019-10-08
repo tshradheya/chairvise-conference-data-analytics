@@ -4,6 +4,7 @@
   <el-form v-else label-position="right" ref="presentationForm" label-width="120px" :rules="rules"
            :model="presentationForm" v-loading="isLoading">
     <el-alert v-if="isError" :title="apiErrorMsg" type="error" show-icon class="errorMsg"/>
+    <el-alert v-if="hasDuplicateName" :title="duplicatePresentationErrorMsg" type="error" show-icon class="errorMsg"/>
     <el-form-item label="Name" :prop=" isInEditMode ? 'name' : ''">
       <div v-if="!isInEditMode">{{ presentationForm.name }}</div>
       <el-input v-model="presentationFormName" v-if="isInEditMode"/>
@@ -29,17 +30,21 @@
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
-      <el-button type="primary" @click="addPresentation()" v-if="isInEditMode">Save</el-button>
+      <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
+      <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
-      <el-button type="danger" v-if="!isNewPresentation && isLogin && isPresentationEditable"
-                 @click="deletePresentation()">Delete
-      </el-button>
+      <DeleteModal
+        v-if="!isNewPresentation && isLogin && isPresentationEditable"
+        typeOfDelete="presentation"
+        :deleteFunction="this.deletePresentation">
+      </DeleteModal>
     </el-form-item>
   </el-form>
 </template>
 
 <script>
   import AccessControlPanel from '@/components/AccessControlPanel'
+  import DeleteModal from '@/components/common/DeleteModal'
   import {download, downloadAsPresentation} from "@/store/helpers/pdfDownloader"
   import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
   import {deepCopy} from "@/common/utility";
@@ -111,7 +116,19 @@
       },
       apiErrorMsg() {
         return this.$store.state.presentation.presentationFormStatus.apiErrorMsg
-      }
+      },
+      duplicatePresentationErrorMsg() {
+        return 'Cannot have duplicate presentation names'
+      },
+      hasDuplicateName() {
+          var presentation
+          for (presentation of this.$store.state.presentation.presentationList) {
+              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
+                  return true;
+              }
+          }
+          return false;
+      },
     },
     data() {
       return {
@@ -228,7 +245,8 @@
     },
 
     components: {
-      AccessControlPanel
+      AccessControlPanel,
+      DeleteModal
     },
   }
 </script>
