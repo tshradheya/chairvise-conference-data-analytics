@@ -1,4 +1,47 @@
 export default {
+  "review_overview": {
+    name: "Review Overview",
+    group: 'Review Record',
+    data: {
+      type: 'overview',
+      title: 'Review Overview',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      description: 'This table gives the overview of review',
+      selections: [
+         {
+          expression: 'r_id',
+          rename: 'reviews'
+        },
+         {
+          expression: 'r_confidence_level',
+          rename: 'confidence level'
+        },
+         {
+          expression: 'r_overall_evaluation_score',
+          rename: 'overall evaluation score'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: 'review_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData:
+        {
+         types: [
+            {name:'reviews',find: 'count'},
+            {name:'confidence level',find: 'avg'},
+            {name:'overall evaluation score',find: 'avg'},
+            {name:'overall evaluation score',find: 'mod'}
+            ]
+        }
+    }
+  },
   "word_cloud_keywords_all_submission": {
     name: "Word Cloud for All Submissions Keywords",
     group: 'Submission Record',
