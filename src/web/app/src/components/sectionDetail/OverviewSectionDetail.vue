@@ -31,7 +31,9 @@
         </el-select>&nbsp;
         <el-button type="danger" icon="el-icon-delete" circle @click="removeType(index, slotProps.extraData.types)"></el-button>
       </el-form-item>
-       <el-button type="success" plain @click="addType(slotProps.extraData.types)" v-if="slotProps.isInAdvancedMode">Add Type</el-button>
+      <el-form-item v-if="slotProps.isInAdvancedMode">
+       <el-button type="success" plain @click="addType(slotProps.extraData.types)" >Add Type</el-button>
+      </el-form-item>
     </template>
   </basic-section-detail>
 </template>
