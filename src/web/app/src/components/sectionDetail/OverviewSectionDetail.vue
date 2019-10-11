@@ -22,6 +22,12 @@
           <el-option label="Sum" value="sum"></el-option>
           <el-option label="Average" value="avg"></el-option>
           <el-option label="Count" value="count"></el-option>
+          <el-option label="Unique Count" value="unique_count"></el-option>
+          <el-option label="Min" value="min"></el-option>
+          <el-option label="Max" value="max"></el-option>
+          <el-option label="Median" value="median"></el-option>
+          <el-option label="Standard Deviation" value="std"></el-option>
+           <el-option label="Breakdown of values" value="breakdown"></el-option>
         </el-select>&nbsp;
         <el-button type="danger" icon="el-icon-delete" circle @click="removeType(index, slotProps.extraData.types)"></el-button>
       </el-form-item>
@@ -81,7 +87,7 @@
                 value: (result.map(r => r[t.name])).length,
               });
               break;
-            case 'mode':
+            case 'mod':
               this.tableData.push({
                  type: 'Mode of ' + t.name,
                  value: mode((result.map(r => r[t.name]))),
@@ -93,6 +99,47 @@
                  value: sum((result.map(r => r[t.name]))),
               });
               break;
+            case 'unique_count':
+              let uniqueItems = Array.from(new Set(result.map(r => r[t.name])));
+              this.tableData.push({
+                 type: 'Unique count of ' + t.name,
+                 value: uniqueItems.length,
+              });
+              break;
+            case 'min':
+              this.tableData.push({
+                type: 'Min of ' + t.name,
+                value: min((result.map(r => r[t.name]))),
+              });
+              break;
+            case 'max':
+              this.tableData.push({
+                type: 'Max of ' + t.name,
+                value: max((result.map(r => r[t.name]))),
+              });
+              break;
+            case 'median':
+              this.tableData.push({
+                type: 'Median of ' + t.name,
+                value: median((result.map(r => r[t.name]))),
+              });
+              break;
+            case 'std':
+              this.tableData.push({
+                type: 'Standard Deviation ' + t.name,
+                value: standardDeviation((result.map(r => r[t.name]))).toFixed(2),
+              });
+            break;
+            case 'breakdown':
+              let uniqueValues = Array.from(new Set(result.map(r => r[t.name])));
+              let data = result.map(r => r[t.name]);
+              uniqueValues.forEach( d => {
+              this.tableData.push({
+                type: 'Count of ' + t.name + ' with ' + d,
+                value: (data.filter(i => i === d)).length,
+                });
+              });
+            break;
           }
         })
       },
