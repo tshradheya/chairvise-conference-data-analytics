@@ -58,23 +58,22 @@
       },
       presentations() {
         var stringToFilter = this.filter
-        if (stringToFilter === '') {
-            return this.$store.state.presentation.presentationList
-        }
-        var filteredPresentations = this.$store.state.presentation.presentationList.filter(function(presentation) {
-          return presentation.name.includes(stringToFilter);
-        });
+        var presentationList = this.$store.state.presentation.presentationList
+          if (stringToFilter === '') {
+              return presentationList
+          }
+          var filteredPresentations = presentationList.filter(function(presentation) {
+            return presentation.name.includes(stringToFilter);
+          });
         return filteredPresentations;
       },
       isError() {
         return this.$store.state.presentation.presentationListStatus.isApiError
       },
-
        listOfPresentationForm() {
           return {
           }
         },
-
     },
     mounted() {
       this.$store.dispatch('getPresentationList')

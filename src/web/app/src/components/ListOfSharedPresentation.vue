@@ -1,6 +1,13 @@
 <template>
   <div>
     <h4>Presentations Shared with me</h4>
+    <el-form label-position="right" ref="listOfSharedPresentationForm" label-width="60px"
+               :model="listOfSharedPresentationForm">
+        <el-form-item label="Filter">
+             <div>{{ listOfSharedPresentationForm.filter }}</div>
+             <el-input v-model="filter"/>
+       </el-form-item>
+    </el-form>
     <el-menu :default-active="$route.path" v-loading="isLoading" router>
       <li v-for="presentation in sharedPresentations" :key="presentation.id">
         <el-menu-item :index="`/analyze/${presentation.id}`">
@@ -17,7 +24,9 @@
   export default {
     name: 'ListOfSharedPresentation',
     data() {
-      return {}
+      return {
+      filter: '',
+      }
     },
     watch: {
       'isError'() {
@@ -39,10 +48,22 @@
           || this.$store.state.section.sectionList.some(s => s.status.isLoading)
       },
       sharedPresentations() {
-        return this.$store.state.presentation.sharedPresentationList
+        var stringToFilter = this.filter
+        var sharedPresentationList = this.$store.state.presentation.sharedPresentationList
+          if (stringToFilter === '') {
+              return sharedPresentationList
+          }
+          var filteredPresentations = sharedPresentationList.filter(function(presentation) {
+            return presentation.name.includes(stringToFilter);
+          });
+          return filteredPresentations;
       },
       isError() {
         return this.$store.state.presentation.presentationListStatus.isApiError
+      },
+     listOfSharedPresentationForm() {
+        return {
+        }
       },
     },
     mounted() {
