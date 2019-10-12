@@ -26,6 +26,7 @@
           <li>Step 2. Create a new presentation name (minimum 3 characters) with description (optional).</li>
              <ul>
                <li>a. You cannot add presentations that share the same name as one of your existing presentations.</li>
+               <li>b. You can search for presentations by name using the Filter box by typing the name of the presentation you are looking for.</li>
              </ul>
           <li>Step 3. Select a list of pre-defined visualizations for submission, author or review.</li>
           <li>Step 4. Click "Add New Section" to view the selected visualization section.</li>
