@@ -24,6 +24,9 @@
         <ul>
           <li>Step 1. Upon logging in, click on the "Analyze" tab.</li>
           <li>Step 2. Create a new presentation name (minimum 3 characters) with description (optional).</li>
+             <ul>
+               <li>a. You cannot add presentations that share the same name as one of your existing presentations.</li>
+             </ul>
           <li>Step 3. Select a list of pre-defined visualizations for submission, author or review.</li>
           <li>Step 4. Click "Add New Section" to view the selected visualization section.</li>
           <li>Step 5. For each pre-defined visualization, you can edit, delete, filter and preview.</li>
@@ -31,6 +34,9 @@
           <li class="without-bullets">
             <ul>
               <li>a. Change the name and add description of the visualization.</li>
+              <ul>
+                <li>a. You cannot edit presentations to share the same name as one of your other existing presentations.</li>
+              </ul>
               <li>b. Edit the mode of visualization.</li>
               <li>c. Add filter for the field and value to hide from the visualization.</li>
               <li>d. Preview the changes before making the final change through the save button.</li>
