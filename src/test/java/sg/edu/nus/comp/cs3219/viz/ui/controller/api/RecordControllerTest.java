@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class RecordControllerTest extends BaseTestREST {
 
+    private String CONF_NAME = "defaultConf";
+
     @Override
     protected String getDataBundleName() {
         return "/RecordControllerTest.json";
@@ -20,7 +22,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.logoutUser();
 
         mvc.perform(
-                post("/api/record/author")
+                post("/api/record/author/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.authorRecords.values())))
                 .andExpect(status().isUnauthorized());
@@ -31,7 +33,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.logoutUser();
 
         mvc.perform(
-                post("/api/record/review")
+                post("/api/record/review/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.reviewRecords.values())))
                 .andExpect(status().isUnauthorized());
@@ -42,7 +44,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.logoutUser();
 
         mvc.perform(
-                post("/api/record/submission")
+                post("/api/record/submission/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.submissionRecords.values())))
                 .andExpect(status().isUnauthorized());
@@ -53,7 +55,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.loginUser("test@example.com");
 
         mvc.perform(
-                post("/api/record/author")
+                post("/api/record/author/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.authorRecords.values())))
                 .andExpect(status().isCreated());
@@ -69,7 +71,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.loginUser("test@example.com");
 
         mvc.perform(
-                post("/api/record/review")
+                post("/api/record/review/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.reviewRecords.values())))
                 .andExpect(status().isCreated());
@@ -85,7 +87,7 @@ public class RecordControllerTest extends BaseTestREST {
         gaeSimulation.loginUser("test@example.com");
 
         mvc.perform(
-                post("/api/record/submission")
+                post("/api/record/submission/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.submissionRecords.values())))
                 .andExpect(status().isCreated());
@@ -104,7 +106,7 @@ public class RecordControllerTest extends BaseTestREST {
         Assert.assertNotEquals("test1@example.com", dataBundle.authorRecords.get("authorS1").getDataSet());
 
         mvc.perform(
-                post("/api/record/author")
+                post("/api/record/author/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.authorRecords.values())))
                 .andExpect(status().isCreated());
@@ -123,7 +125,7 @@ public class RecordControllerTest extends BaseTestREST {
         Assert.assertNotEquals("test1@example.com", dataBundle.reviewRecords.get("review1S1").getDataSet());
 
         mvc.perform(
-                post("/api/record/review")
+                post("/api/record/review/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.reviewRecords.values())))
                 .andExpect(status().isCreated());
@@ -142,7 +144,7 @@ public class RecordControllerTest extends BaseTestREST {
         Assert.assertNotEquals("test1@example.com", dataBundle.submissionRecords.get("s1").getDataSet());
 
         mvc.perform(
-                post("/api/record/submission")
+                post("/api/record/submission/" + CONF_NAME)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectToJson(dataBundle.submissionRecords.values())))
                 .andExpect(status().isCreated());
