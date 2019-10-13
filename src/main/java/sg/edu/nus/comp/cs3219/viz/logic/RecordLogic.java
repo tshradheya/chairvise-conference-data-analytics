@@ -11,6 +11,7 @@ import sg.edu.nus.comp.cs3219.viz.storage.repository.ReviewRecordRepository;
 import sg.edu.nus.comp.cs3219.viz.storage.repository.SubmissionAuthorRecordRepository;
 import sg.edu.nus.comp.cs3219.viz.storage.repository.SubmissionRecordRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,38 +36,41 @@ public class RecordLogic {
     }
 
     @Transactional
-    public void removeAndPersistAuthorRecordForDataSet(String dataSet, List<AuthorRecord> authorRecordList) {
-        authorRecordRepository.deleteAllByDataSetEquals(dataSet);
+    public void removeAndPersistAuthorRecordForDataSet(String dataSet, List<AuthorRecord> authorRecordList, String confName) {
+        authorRecordRepository.deleteAllByDataSetEqualsAndConferenceNameEquals(dataSet, confName);
         authorRecordRepository.saveAll(authorRecordList.stream().peek(r -> {
             // should not set ID when creating records
             r.setId(null);
             // should set dataSet
             r.setDataSet(dataSet);
             // the other field can be arbitrary
+            r.setConferenceName(confName);
         }).collect(Collectors.toList()));
     }
 
     @Transactional
-    public void removeAndPersistReviewRecordForDataSet(String dataSet, List<ReviewRecord> reviewRecordList) {
-        reviewRecordRepository.deleteAllByDataSetEquals(dataSet);
+    public void removeAndPersistReviewRecordForDataSet(String dataSet, List<ReviewRecord> reviewRecordList, String confName) {
+        reviewRecordRepository.deleteAllByDataSetEqualsAndConferenceNameEquals(dataSet, confName);
         reviewRecordRepository.saveAll(reviewRecordList.stream().peek(r -> {
             // should not set ID when creating records
             r.setId(null);
             // should set dataSet
             r.setDataSet(dataSet);
             // the other field can be arbitrary
+            r.setConferenceName(confName);
         }).collect(Collectors.toList()));
     }
 
     @Transactional
-    public void removeAndPersistSubmissionRecordForDataSet(String dataSet, List<SubmissionRecord> submissionRecordList) {
-        submissionRecordRepository.deleteAllByDataSetEquals(dataSet);
-        submissionAuthorRecordRepository.deleteAllByDataSetEquals(dataSet);
+    public void removeAndPersistSubmissionRecordForDataSet(String dataSet, List<SubmissionRecord> submissionRecordList, String confName) {
+        submissionRecordRepository.deleteAllByDataSetEqualsAndConferenceNameEquals(dataSet, confName);
+        submissionAuthorRecordRepository.deleteAllByDataSetEqualsAndConferenceNameEquals(dataSet, confName);
         submissionRecordRepository.saveAll(submissionRecordList.stream().peek(s -> {
             // should not set ID when creating records
             s.setId(null);
             // should set dataSet
             s.setDataSet(dataSet);
+            s.setConferenceName(confName);
             // create many to many relationship for authors
             List<SubmissionAuthorRecord> submissionAuthorRecords = s.getAuthors().stream()
                     .map(authorName -> {
@@ -74,6 +78,7 @@ public class RecordLogic {
                         if (existing == null) {
                             existing = new SubmissionAuthorRecord();
                             existing.setDataSet(dataSet);
+                            existing.setConferenceName(confName);
                             existing.setName(authorName);
                             existing = submissionAuthorRecordRepository.save(existing);
                         }
@@ -83,5 +88,33 @@ public class RecordLogic {
             s.setAuthorSet(submissionAuthorRecords);
             // the other field can be arbitrary
         }).collect(Collectors.toList()));
+    }
+
+    @Transactional
+    public List<String> getAllConferenceNames(String dataSet) {
+        List<String> conferenceNames = new ArrayList<>();
+
+        List<AuthorRecord> conferencesFromAuthorRecord = authorRecordRepository.findByDataSetEquals(dataSet);
+        for (AuthorRecord ar: conferencesFromAuthorRecord) {
+            if (!conferenceNames.contains(ar.getConferenceName())) {
+                conferenceNames.add(ar.getConferenceName());
+            }
+        }
+
+        List<ReviewRecord> conferencesFromReviewRecord = reviewRecordRepository.findByDataSetEquals(dataSet);
+        for (ReviewRecord rr: conferencesFromReviewRecord) {
+            if (!conferenceNames.contains(rr.getConferenceName())) {
+                conferenceNames.add(rr.getConferenceName());
+            }
+        }
+
+        List<SubmissionRecord> conferencesFromSubmissionRecord = submissionRecordRepository.findByDataSetEquals(dataSet);
+        for (SubmissionRecord sr: conferencesFromSubmissionRecord) {
+            if (!conferenceNames.contains(sr.getConferenceName())) {
+                conferenceNames.add(sr.getConferenceName());
+            }
+        }
+
+        return conferenceNames;
     }
 }

@@ -20,5 +20,4 @@ public class DBMetaDataController extends BaseRestController {
     public List<DBEntityMetaData> getEntityMetaDataList() {
         return dbMetaDataLogic.getEntityMetaDataList();
     }
-
 }
