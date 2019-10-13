@@ -5,8 +5,11 @@
       <div class="title" v-if="!isEditing">
         {{ sectionDetail.title }}
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
-        <el-button type="danger" icon="el-icon-delete" circle @click="deleteSectionDetail"
-                   v-if="isPresentationEditable"></el-button>
+        <delete-modal
+          v-if="isPresentationEditable"
+          typeOfDelete="section"
+          :deleteFunction="this.deleteSectionDetail">
+        </delete-modal>
       </div>
       <div class="title" v-else>
         <el-input v-model="editForm.title"></el-input>
@@ -176,6 +179,7 @@
 
 <script>
   import {deepCopy} from "@/common/utility"
+  import DeleteModal from '@/components/common/DeleteModal'
 
   export default {
     props: {
@@ -399,7 +403,6 @@
           }
         });
       },
-
       deleteSectionDetail() {
         this.$store.dispatch('deleteSectionDetail', {
           presentationId: this.presentationId,
@@ -456,6 +459,9 @@
           })
       },
     },
+    components: {
+      DeleteModal
+    }
   }
 </script>
 
