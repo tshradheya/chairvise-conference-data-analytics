@@ -10,4 +10,7 @@ public interface SubmissionRecordRepository extends JpaRepository<SubmissionReco
     List<SubmissionRecord> findByDataSetEquals(String dataSet);
 
     void deleteAllByDataSetEquals(String dataSet);
+
+    void deleteAllByDataSetEqualsAndConferenceNameEquals(String dataSet, String conferenceName);
+
 }
