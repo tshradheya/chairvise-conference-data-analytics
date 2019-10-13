@@ -3,6 +3,7 @@ import axios from 'axios'
 export default {
   state: {
     entities: [],
+    uniqueConferenceNames: [],
     entitiesStatus: {
       isLoading: false,
       isApiError: false,
@@ -25,6 +26,10 @@ export default {
       state.entities = payload;
     },
 
+    setUniqueConferenceNames(state, payload) {
+      state.uniqueConferenceNames = payload;
+    }
+
   },
 
   actions: {
@@ -39,6 +44,17 @@ export default {
           commit('setDBMetaDataEntitiesApiError', e.toString());
         })
         .finally(() => {
+          commit('setDBMetaDataEntitiesLoading', false);
+        })
+    },
+
+    async fetchUniqueConferenceNames({commit}) {
+      commit('setDBMetaDataEntitiesLoading', true);
+
+      await axios.get('/api/allConferenceNames')
+        .then(response => {
+          commit('setUniqueConferenceNames', response.data)
+        }).finally(() => {
           commit('setDBMetaDataEntitiesLoading', false);
         })
     }

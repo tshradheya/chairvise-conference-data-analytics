@@ -10,6 +10,7 @@ export default {
     hasHeaderSpecified: false,
     hasPredefinedSpecified: false,
     hasMappingFinished: false,
+    hasConferenceNameSpecified: false,
     isUploadSuccess: false,
     data: {
       dbSchema: null,
@@ -20,6 +21,7 @@ export default {
       formatType: null,
       tableType: null,
       hasHeader: null,
+      conferenceName: '',
       predefinedMapping: null,
       predefinedMappingId: null,
     },
@@ -125,6 +127,16 @@ export default {
 
     clearError(state) {
       state.error = [];
+    },
+
+    setConferencename(state, conferenceName) {
+      state.data.conferenceName = conferenceName;
+      state.hasConferenceNameSpecified = true;
+    },
+
+    clearConferenceName(state) {
+      state.data.conferenceName = '';
+      state.hasConferenceNameSpecified = false;
     }
   },
 
@@ -143,7 +155,7 @@ export default {
           endpoint = "submission";
           break;
       }
-      await axios.post("/api/record/" + endpoint, state.data.processedResult)
+      await axios.post("/api/record/" + endpoint + `/${state.data.conferenceName}`, state.data.processedResult)
         .then(() => {
           commit("setPageLoadingStatus", false);
           commit("setUploadSuccess", true);

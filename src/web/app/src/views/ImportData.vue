@@ -10,6 +10,10 @@
     <div v-if="isLogin">
       <mapping-tool v-if="isReadyForMapping" ref="mapTool"></mapping-tool>
       <div v-else class="upload-box">
+        <el-autocomplete v-model="conferenceName"
+                          placeholder="Conference Name"
+                          :fetch-suggestions="querySearchConferenceNames"
+                          :trigger-on-focus="false" />
         <el-select v-model="formatType" placeholder="Format Type">
           <el-option :key="'EasyChair'" :label="'EasyChair'" :value="1"></el-option>
           <el-option :key="'SoftConf'" :label="'SoftConf'" :value="2"></el-option>
@@ -64,6 +68,7 @@
     mounted() {
       // When page is loaded, fetch all the database fields
       this.$store.dispatch('fetchDBMetaDataEntities');
+      this.$store.dispatch('fetchUniqueConferenceNames');
     },
     computed: {
       isLogin() {
@@ -74,6 +79,9 @@
       },
       dbSchemas: function () {
         return this.$store.state.dbMetaData.entities;
+      },
+      conferenceNames: function() {
+        return this.$store.state.dbMetaData.uniqueConferenceNames;
       },
       formatType: {
         get: function () {
@@ -113,26 +121,52 @@
           this.$store.commit("setPredefinedMapping", {id: newValue, mapping: PredefinedMappings[newValue].mapping});
         }
       },
+      conferenceName: {
+        get() {
+          return this.$store.state.dataMapping.data.conferenceName
+        },
+        set(value) {
+          this.$store.commit('setConferencename', value)
+        },
+      },
       isReadyForMapping: function () {
         return this.$store.state.dataMapping.hasFileUploaded
           && this.$store.state.dataMapping.hasFormatTypeSpecified
           && this.$store.state.dataMapping.hasTableTypeSelected
           && this.$store.state.dataMapping.hasHeaderSpecified
-          && this.$store.state.dataMapping.hasPredefinedSpecified;
+          && this.$store.state.dataMapping.hasPredefinedSpecified
+          && this.$store.state.dataMapping.hasConferenceNameSpecified;
       },
       uploaded: function () {
         return this.$store.state.dataMapping.hasFileUploaded;
       },
+
       isReadyForUpload: function () {
         return this.$store.state.dataMapping.hasFormatTypeSpecified
          && this.$store.state.dataMapping.hasTableTypeSelected
          && this.$store.state.dataMapping.hasHeaderSpecified
-         && this.$store.state.dataMapping.hasPredefinedSpecified;
+         && this.$store.state.dataMapping.hasPredefinedSpecified
+         && this.$store.state.dataMapping.hasConferenceNameSpecified;
       }
     },
     methods: {
       navigateToHomePage() {
         this.$router.replace("/home");
+      },
+      querySearchConferenceNames(queryString, cb) {
+        var conferenceNames = this.conferenceNames;
+        var results = queryString ? conferenceNames.filter(this.createFilter(queryString)) : conferenceNames;
+        // call callback function to return suggestions
+        // NOTE: https://github.com/ElemeFE/element/issues/12956 [How to format result for autocomplete?]
+        results = results.map(res => {
+          return { value: res }
+        });
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (conferenceName) => {
+          return (conferenceName.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
       },
       fileUploadHandler: function (file) {
         // show loading and go parsing
@@ -277,6 +311,11 @@
   }
 
   .upload-box .el-select {
+    margin-top: 20px;
+    margin-left: 15px;
+  }
+
+  .upload-box .el-autocomplete {
     margin-top: 20px;
     margin-left: 15px;
   }
