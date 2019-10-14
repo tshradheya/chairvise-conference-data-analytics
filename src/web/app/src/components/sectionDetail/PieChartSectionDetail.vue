@@ -1,7 +1,8 @@
 <template>
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        :moveSection="moveSection">
     <pie-chart :chart-data="chartData" :options="options"></pie-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -49,6 +50,9 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
       }
     },
 

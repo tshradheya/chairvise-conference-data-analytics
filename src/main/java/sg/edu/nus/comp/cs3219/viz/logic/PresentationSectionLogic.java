@@ -35,6 +35,7 @@ public class PresentationSectionLogic {
         newPresentationSection.setFilters(presentationSection.getFilters());
         newPresentationSection.setJoiners(presentationSection.getJoiners());
         newPresentationSection.setGroupers(presentationSection.getGroupers());
+        newPresentationSection.setSectionIndex(presentationSection.getSectionIndex());
         newPresentationSection.setSorters(presentationSection.getSorters());
         newPresentationSection.setExtraData(presentationSection.getExtraData());
 
@@ -55,10 +56,24 @@ public class PresentationSectionLogic {
         oldPresentationSection.setFilters(newPresentationSection.getFilters());
         oldPresentationSection.setJoiners(newPresentationSection.getJoiners());
         oldPresentationSection.setGroupers(newPresentationSection.getGroupers());
+        oldPresentationSection.setSectionIndex(newPresentationSection.getSectionIndex());
         oldPresentationSection.setSorters(newPresentationSection.getSorters());
         oldPresentationSection.setExtraData(newPresentationSection.getExtraData());
 
         return presentationSectionRepository.save(oldPresentationSection);
+    }
+
+    public PresentationSection[] swapSectionIndices(PresentationSection presentationSectionOne, PresentationSection presentationSectionTwo) {
+
+        Integer indexToSwap = presentationSectionOne.getSectionIndex();
+        presentationSectionOne.setSectionIndex(presentationSectionTwo.getSectionIndex());
+        presentationSectionTwo.setSectionIndex(indexToSwap);
+    
+        // try to return both these sections in a blob
+        PresentationSection[] returnArray = {presentationSectionRepository.saveAndFlush(presentationSectionOne),
+                                             presentationSectionRepository.saveAndFlush(presentationSectionTwo)};
+
+        return returnArray;
     }
 
     public void deleteById(Long id) {

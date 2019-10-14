@@ -3,6 +3,10 @@
     <el-form status-icon ref="editForm" label-position="left" :model="editForm" label-width="170px"
              :rules="editFormRule">
       <div class="title" v-if="!isEditing">
+      <el-button-group>
+        <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'up')" icon="el-icon-arrow-up"></el-button>
+        <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'down')" icon="el-icon-arrow-down"></el-button>
+      </el-button-group>
         {{ sectionDetail.title }}
         <div v-if="!isEditing" class="conferenceName">Conference: {{ editForm.conferenceName }}</div>
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
@@ -242,6 +246,9 @@
         required: false,
         default: () => ([])
       },
+      moveSection: {
+        type: Function
+      }
 
     },
 
@@ -265,6 +272,7 @@
           filters: [],
           joiners: [],
           groupers: [],
+          sectionIndex: [],
           sorters: [],
           extraData: {}
         },
@@ -345,6 +353,7 @@
         this.editForm.filters = this.sectionDetail.filters.map(f => Object.assign({}, f));
         this.editForm.joiners = this.sectionDetail.joiners.map(f => Object.assign({}, f));
         this.editForm.groupers = this.sectionDetail.groupers.map(r => r.field);
+        this.editForm.sectionIndex = this.sectionDetail.sectionIndex;
         this.editForm.sorters = deepCopy(this.sectionDetail.sorters); // deep copy
         this.editForm.extraData = deepCopy(this.sectionDetail.extraData) // deep copy
       },
@@ -398,6 +407,10 @@
         this.editForm.sorters.splice(index, 1)
       },
 
+      changeSectionOrder(direction) {
+        this.$emit('changeSectionOrder', direction)
+      },
+
       saveSectionDetail(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -413,6 +426,7 @@
               filters: this.editForm.filters.map(f => Object.assign({}, f)),
               joiners: this.editForm.joiners.map(j => Object.assign({}, j)),
               groupers: this.editForm.groupers.map(g => ({field: g})),
+              sectionIndex: this.sectionDetail.sectionIndex,
               sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
               extraData: this.editForm.extraData
             })

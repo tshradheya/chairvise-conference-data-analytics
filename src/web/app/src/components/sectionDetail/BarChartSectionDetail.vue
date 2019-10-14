@@ -6,7 +6,8 @@
                         :edit-form-groupers-rule="editFormGroupersRule"
                         :edit-form-sorters-rule="editFormSortersRule"
                         :extraFormItemsRules="extraFormItemsRules"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        :moveSection="moveSection">
     <bar-chart :chart-data="chartData" :options="options"></bar-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -83,6 +84,9 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
       }
     },
 
