@@ -10,10 +10,12 @@
     <div v-if="isLogin">
       <mapping-tool v-if="isReadyForMapping" ref="mapTool"></mapping-tool>
       <div v-else class="upload-box">
-        <el-autocomplete v-model="conferenceName"
+        <el-tooltip class="item" effect="dark" :content="enterValidConferenceName" placement="top-end" :disabled="isValidConferenceName">
+          <el-autocomplete v-model="conferenceName"
                           placeholder="Conference Name"
                           :fetch-suggestions="querySearchConferenceNames"
                           :trigger-on-focus="false" />
+        </el-tooltip>
         <el-select v-model="formatType" placeholder="Format Type">
           <el-option :key="'EasyChair'" :label="'EasyChair'" :value="1"></el-option>
           <el-option :key="'SoftConf'" :label="'SoftConf'" :value="2"></el-option>
@@ -135,7 +137,8 @@
           && this.$store.state.dataMapping.hasTableTypeSelected
           && this.$store.state.dataMapping.hasHeaderSpecified
           && this.$store.state.dataMapping.hasPredefinedSpecified
-          && this.$store.state.dataMapping.hasConferenceNameSpecified;
+          && this.$store.state.dataMapping.hasConferenceNameSpecified
+          && this.$store.state.dataMapping.data.conferenceName.length >= 3;
       },
       uploaded: function () {
         return this.$store.state.dataMapping.hasFileUploaded;
@@ -146,7 +149,17 @@
          && this.$store.state.dataMapping.hasTableTypeSelected
          && this.$store.state.dataMapping.hasHeaderSpecified
          && this.$store.state.dataMapping.hasPredefinedSpecified
-         && this.$store.state.dataMapping.hasConferenceNameSpecified;
+         && this.$store.state.dataMapping.hasConferenceNameSpecified
+         && this.$store.state.dataMapping.data.conferenceName.length >= 3;
+      },
+
+      isValidConferenceName() {
+        return this.$store.state.dataMapping.hasConferenceNameSpecified
+         && this.$store.state.dataMapping.data.conferenceName.length >= 3;
+      },
+
+      enterValidConferenceName() {
+        return 'Conference Name length should be of minimum of 3 characters'
       }
     },
     methods: {
@@ -323,4 +336,5 @@
   .button-row {
     margin-top: 30px;
   }
+
 </style>
