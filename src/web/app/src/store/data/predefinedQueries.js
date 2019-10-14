@@ -86,10 +86,10 @@ export default {
           {
            types: [
               {name:'submissions',find: 'count'},
-              {name:'acceptance outcome',find: 'breakdown'},
-              {name:'notified',find: 'breakdown'},
-              {name:'reviews sent',find: 'breakdown'},
-              {name:'track',find: 'breakdown'},
+              {name:'acceptance outcome',find: 'breakDown'},
+              {name:'notified',find: 'breakDown'},
+              {name:'reviews sent',find: 'breakDown'},
+              {name:'track',find: 'breakDown'},
              ]
           }
       }
@@ -129,9 +129,9 @@ export default {
         extraData:
           {
            types: [
-              {name:'organisation',find: 'unique_count'},
-              {name:'person',find: 'unique_count'},
-              {name:'country',find: 'unique_count'},
+              {name:'organisation',find: 'uniqueCount'},
+              {name:'person',find: 'uniqueCount'},
+              {name:'country',find: 'uniqueCount'},
              ]
           }
       }
@@ -156,8 +156,7 @@ export default {
           customized: false,
         }
       ],
-      filters: [
-      ],
+      filters: [],
       joiners: [],
       groupers: [],
       sorters: [],

@@ -15,19 +15,19 @@
       </el-table-column>
     </el-table>
     <template slot="extraFormItems" slot-scope="slotProps">
-      <el-form-item v-if="slotProps.isInAdvancedMode" v-for="(input, index) in slotProps.extraData.types" :label="'Type ' + index">
+      <el-form-item v-if="slotProps.isInAdvancedMode" v-bind:key="index" v-for="(input, index) in slotProps.extraData.types" :label="'Type ' + index">
         <el-input v-model="input.name" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
         <el-select placeholder="type" v-model="input.find">
           <el-option label="Mode" value="mod"></el-option>
           <el-option label="Sum" value="sum"></el-option>
           <el-option label="Average" value="avg"></el-option>
           <el-option label="Count" value="count"></el-option>
-          <el-option label="Unique Count" value="unique_count"></el-option>
+          <el-option label="Unique Count" value="uniqueCount"></el-option>
           <el-option label="Min" value="min"></el-option>
           <el-option label="Max" value="max"></el-option>
           <el-option label="Median" value="median"></el-option>
           <el-option label="Standard Deviation" value="std"></el-option>
-           <el-option label="Breakdown of values" value="breakdown"></el-option>
+           <el-option label="Breakdown of values" value="breakDown"></el-option>
         </el-select>&nbsp;
         <el-button type="danger" icon="el-icon-delete" circle @click="removeType(index, slotProps.extraData.types)"></el-button>
       </el-form-item>
@@ -69,7 +69,7 @@
     },
 
     methods: {
-      updateVisualisation({result, selections, extraData}) {
+      updateVisualisation({result, extraData}) {
         this.tableData = [];
         if (result.length === 0) {
           return
@@ -101,13 +101,14 @@
                  value: sum((result.map(r => r[t.name]))),
               });
               break;
-            case 'unique_count':
+            case 'uniqueCount': {
               let uniqueItems = Array.from(new Set(result.map(r => r[t.name])));
               this.tableData.push({
                  type: 'Unique count of ' + t.name,
                  value: uniqueItems.length,
               });
               break;
+              }
             case 'min':
               this.tableData.push({
                 type: 'Min of ' + t.name,
@@ -132,7 +133,7 @@
                 value: standardDeviation((result.map(r => r[t.name]))).toFixed(2),
               });
             break;
-            case 'breakdown':
+            case 'breakDown': {
               let uniqueValues = Array.from(new Set(result.map(r => r[t.name])));
               let data = result.map(r => r[t.name]);
               uniqueValues.forEach( d => {
@@ -142,6 +143,7 @@
                 });
               });
             break;
+            }
           }
         })
       },
