@@ -64,14 +64,12 @@ public class PresentationSectionLogic {
     }
 
     public PresentationSection[] swapSectionIndices(PresentationSection presentationSectionOne, PresentationSection presentationSectionTwo) {
-
         Integer indexToSwap = presentationSectionOne.getSectionIndex();
         presentationSectionOne.setSectionIndex(presentationSectionTwo.getSectionIndex());
         presentationSectionTwo.setSectionIndex(indexToSwap);
     
-        // try to return both these sections in a blob
-        PresentationSection[] returnArray = {presentationSectionRepository.saveAndFlush(presentationSectionOne),
-                                             presentationSectionRepository.saveAndFlush(presentationSectionTwo)};
+        PresentationSection[] returnArray = {presentationSectionRepository.save(presentationSectionOne),
+                                             presentationSectionRepository.save(presentationSectionTwo)};
 
         return returnArray;
     }

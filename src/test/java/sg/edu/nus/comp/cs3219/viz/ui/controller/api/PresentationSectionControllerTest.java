@@ -14,235 +14,262 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class PresentationSectionControllerTest extends BaseTestREST {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+        private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    protected String getDataBundleName() {
-        return "/PresentationSectionControllerTest.json";
-    }
+        @Override
+        protected String getDataBundleName() {
+                return "/PresentationSectionControllerTest.json";
+        }
 
-    @Test
-    public void testAll_notLogin_shouldNotAccess() throws Exception {
-        gaeSimulation.logoutUser();
+        @Test
+        public void testAll_notLogin_shouldNotAccess() throws Exception {
+                gaeSimulation.logoutUser();
 
-        mvc.perform(get("/api/presentations/1/sections"))
-                .andExpect(status().isUnauthorized());
-    }
+                mvc.perform(get("/api/presentations/1/sections")).andExpect(status().isUnauthorized());
+        }
 
-    @Test
-    public void testAllShared_notLogin_shouldNotAccess() throws Exception {
-        gaeSimulation.logoutUser();
+        @Test
+        public void testAllShared_notLogin_shouldNotAccess() throws Exception {
+                gaeSimulation.logoutUser();
 
-        mvc.perform(get("/api/presentations/sharedPresentations"))
-                .andExpect(status().isUnauthorized());
-    }
+                mvc.perform(get("/api/presentations/sharedPresentations")).andExpect(status().isUnauthorized());
+        }
 
-    @Test
-    public void testAllShared_Login_shouldHaveAccess() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+        @Test
+        public void testAllShared_Login_shouldHaveAccess() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(get("/api/presentations/sharedPresentations"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").value("1"))
-                .andExpect(jsonPath("$[0].description").value("test description 1"))
-                .andExpect(jsonPath("$[0].creatorIdentifier").value("test@viz.test"))
-                .andExpect(jsonPath("$[1].id").value("2"))
-                .andExpect(jsonPath("$[1].description").value("test description 2"))
-                .andExpect(jsonPath("$[1].creatorIdentifier").value("test@viz.test"));
-    }
+                mvc.perform(get("/api/presentations/sharedPresentations")).andExpect(status().isOk())
+                                .andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(2)))
+                                .andExpect(jsonPath("$[0].id").value("1"))
+                                .andExpect(jsonPath("$[0].description").value("test description 1"))
+                                .andExpect(jsonPath("$[0].creatorIdentifier").value("test@viz.test"))
+                                .andExpect(jsonPath("$[1].id").value("2"))
+                                .andExpect(jsonPath("$[1].description").value("test description 2"))
+                                .andExpect(jsonPath("$[1].creatorIdentifier").value("test@viz.test"));
+        }
 
-    @Test
-    public void testAll_loginWithoutReadAccess_shouldNotAccess() throws Exception {
-        gaeSimulation.loginUser("random@email.com");
+        @Test
+        public void testAll_loginWithoutReadAccess_shouldNotAccess() throws Exception {
+                gaeSimulation.loginUser("random@email.com");
 
-        mvc.perform(get("/api/presentations/1/sections"))
-                .andExpect(status().isUnauthorized());
-    }
+                mvc.perform(get("/api/presentations/1/sections")).andExpect(status().isUnauthorized());
+        }
 
-    @Test
-    public void testAll_nonExistentPresentation_shouldThrowNotFound() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+        @Test
+        public void testAll_nonExistentPresentation_shouldThrowNotFound() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(get("/api/presentations/100/sections"))
-                .andExpect(status().isNotFound());
-    }
+                mvc.perform(get("/api/presentations/100/sections")).andExpect(status().isNotFound());
+        }
 
-    @Test
-    public void testAll_loginWithReadAccess_shouldAccess() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+        @Test
+        public void testAll_loginWithReadAccess_shouldAccess() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(get("/api/presentations/1/sections"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].presentation").doesNotExist())
-                .andExpect(jsonPath("$[0].title").value("my section title"))
-                .andExpect(jsonPath("$[0].description").value("my section description"))
-                .andExpect(jsonPath("$[0].type").value("word_cloud"))
-                .andExpect(jsonPath("$[0].dataSet").value("test@viz.test"))
-                .andExpect(jsonPath("$[0].selections").isArray())
-                .andExpect(jsonPath("$[0].selections", hasSize(1)))
-                .andExpect(jsonPath("$[0].selections[0].expression").value("selection1"))
-                .andExpect(jsonPath("$[0].selections[0].rename").value("hi"))
-                .andExpect(jsonPath("$[0].involvedRecords", hasSize(2)))
-                .andExpect(jsonPath("$[0].involvedRecords[0].name").value("record1"))
-                .andExpect(jsonPath("$[0].involvedRecords[0].customized").value(true))
-                .andExpect(jsonPath("$[0].involvedRecords[1].name").value("record2"))
-                .andExpect(jsonPath("$[0].involvedRecords[1].customized").value(true))
-                .andExpect(jsonPath("$[0].filters", hasSize(1)))
-                .andExpect(jsonPath("$[0].filters[0].field").value("filter1"))
-                .andExpect(jsonPath("$[0].filters[0].comparator").value("="))
-                .andExpect(jsonPath("$[0].filters[0].value").value("test"))
-                .andExpect(jsonPath("$[0].joiners", hasSize(1)))
-                .andExpect(jsonPath("$[0].joiners[0].left").value("record1"))
-                .andExpect(jsonPath("$[0].joiners[0].right").value("record2"));
-    }
+                mvc.perform(get("/api/presentations/1/sections")).andExpect(status().isOk())
+                                .andExpect(jsonPath("$").isArray()).andExpect(jsonPath("$", hasSize(2)))
+                                .andExpect(jsonPath("$[0].presentation").doesNotExist())
+                                .andExpect(jsonPath("$[0].title").value("my section title"))
+                                .andExpect(jsonPath("$[0].description").value("my section description"))
+                                .andExpect(jsonPath("$[0].type").value("word_cloud"))
+                                .andExpect(jsonPath("$[0].dataSet").value("test@viz.test"))
+                                .andExpect(jsonPath("$[0].selections").isArray())
+                                .andExpect(jsonPath("$[0].selections", hasSize(1)))
+                                .andExpect(jsonPath("$[0].selections[0].expression").value("selection1"))
+                                .andExpect(jsonPath("$[0].selections[0].rename").value("hi"))
+                                .andExpect(jsonPath("$[0].involvedRecords", hasSize(2)))
+                                .andExpect(jsonPath("$[0].involvedRecords[0].name").value("record1"))
+                                .andExpect(jsonPath("$[0].involvedRecords[0].customized").value(true))
+                                .andExpect(jsonPath("$[0].involvedRecords[1].name").value("record2"))
+                                .andExpect(jsonPath("$[0].involvedRecords[1].customized").value(true))
+                                .andExpect(jsonPath("$[0].filters", hasSize(1)))
+                                .andExpect(jsonPath("$[0].filters[0].field").value("filter1"))
+                                .andExpect(jsonPath("$[0].filters[0].comparator").value("="))
+                                .andExpect(jsonPath("$[0].filters[0].value").value("test"))
+                                .andExpect(jsonPath("$[0].joiners", hasSize(1)))
+                                .andExpect(jsonPath("$[0].joiners[0].left").value("record1"))
+                                .andExpect(jsonPath("$[0].joiners[0].right").value("record2"));
+        }
 
-    @Test
-    public void testNewPresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.logoutUser();
+        @Test
+        public void testNewPresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.logoutUser();
 
-        mvc.perform(
-                post("/api/presentations/1/sections")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
-                .andExpect(status().isUnauthorized());
-    }
+                mvc.perform(post("/api/presentations/1/sections").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-    @Test
-    public void testNewPresentationSection_nonExistentPresentation_shouldThrowNotFound() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+        @Test
+        public void testNewPresentationSection_nonExistentPresentation_shouldThrowNotFound() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(
-                post("/api/presentations/100/sections")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
-                .andExpect(status().isNotFound());
-    }
+                mvc.perform(post("/api/presentations/100/sections").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
+                                .andExpect(status().isNotFound());
+        }
 
-    @Test
-    public void testNewPresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+        @Test
+        public void testNewPresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        mvc.perform(
-                post("/api/presentations/1/sections")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
-                .andExpect(status().isUnauthorized());
-    }
+                mvc.perform(post("/api/presentations/1/sections").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection1"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-    @Test
-    public void testNewPresentationSection_withWriteAccess_shouldSaveCorrectly() throws Exception {
-        gaeSimulation.loginUser("test2@viz.test");
+        @Test
+        public void testNewPresentationSection_withWriteAccess_shouldSaveCorrectly() throws Exception {
+            gaeSimulation.loginUser("test2@viz.test");
+    
+            Assert.assertFalse(presentationSectionRepository.findById(3L).isPresent());
+    
+            PresentationSection presentationSectionToSave = dataBundle.presentationSections.get("presentationSection1");
+    
+            mvc.perform(
+                    post("/api/presentations/1/sections")
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(objectToJson(presentationSectionToSave)))
+                    .andExpect(status().isCreated());
+    
+            PresentationSection savedPresentationSection = presentationSectionRepository.findById(3L)
+                    .orElseThrow(AssertionError::new);
+            // make two consistent
+            savedPresentationSection.setId(presentationSectionToSave.getId());
+    
+            Assert.assertEquals(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(presentationSectionToSave),
+                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(savedPresentationSection));
+        }
 
-        Assert.assertFalse(presentationSectionRepository.findById(3L).isPresent());
+        @Test
+        public void testUpdatePresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.logoutUser();
 
-        PresentationSection presentationSectionToSave = dataBundle.presentationSections.get("presentationSection1");
+                mvc.perform(put("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-        mvc.perform(
-                post("/api/presentations/1/sections")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(presentationSectionToSave)))
-                .andExpect(status().isCreated());
+        @Test
+        public void testUpdatePresentationSection_nonExistentPresentationSection_shouldThrowNotFound()
+                        throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        PresentationSection savedPresentationSection = presentationSectionRepository.findById(3L)
-                .orElseThrow(AssertionError::new);
-        // make two consistent
-        savedPresentationSection.setId(presentationSectionToSave.getId());
+                mvc.perform(put("/api/presentations/1/sections/1000").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isNotFound());
+        }
 
-        Assert.assertEquals(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(presentationSectionToSave),
-                objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(savedPresentationSection));
-    }
+        @Test
+        public void testUpdatePresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-    @Test
-    public void testUpdatePresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.logoutUser();
+                mvc.perform(put("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-        mvc.perform(
-                put("/api/presentations/1/sections/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
-                .andExpect(status().isUnauthorized());
-    }
+        @Test
+        public void testUpdatePresentationSection_withWriteAccess_shouldUpdateCorrectly() throws Exception {
+                gaeSimulation.loginUser("test2@viz.test");
 
-    @Test
-    public void testUpdatePresentationSection_nonExistentPresentationSection_shouldThrowNotFound() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+                PresentationSection presentationSectionUsedToUpdate = dataBundle.presentationSections
+                                .get("presentationSection2");
 
-        mvc.perform(
-                put("/api/presentations/1/sections/1000")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
-                .andExpect(status().isNotFound());
-    }
+                mvc.perform(put("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(presentationSectionUsedToUpdate)))
+                                .andExpect(status().isCreated());
 
-    @Test
-    public void testUpdatePresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+                PresentationSection updatedPresentationSection = presentationSectionRepository.findById(1L)
+                                .orElseThrow(AssertionError::new);
+                // make two consistent
+                updatedPresentationSection.setId(presentationSectionUsedToUpdate.getId());
+                // type cannot be updated
+                presentationSectionUsedToUpdate.setType(updatedPresentationSection.getType());
 
-        mvc.perform(
-                put("/api/presentations/1/sections/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
-                .andExpect(status().isUnauthorized());
-    }
+                Assert.assertEquals(
+                                objectMapper.writerWithDefaultPrettyPrinter()
+                                                .writeValueAsString(updatedPresentationSection),
+                                objectMapper.writerWithDefaultPrettyPrinter()
+                                                .writeValueAsString(presentationSectionUsedToUpdate));
+        }
 
-    @Test
-    public void testUpdatePresentationSection_withWriteAccess_shouldUpdateCorrectly() throws Exception {
-        gaeSimulation.loginUser("test2@viz.test");
+        @Test
+        public void testUpdatePresentationSectionIndex_notLogin_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.logoutUser();
 
-        PresentationSection presentationSectionUsedToUpdate = dataBundle.presentationSections.get("presentationSection2");
+                mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-        mvc.perform(
-                put("/api/presentations/1/sections/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectToJson(presentationSectionUsedToUpdate)))
-                .andExpect(status().isCreated());
+        @Test
+        public void testUpdatePresentationSectionIndex_nonExistentPresentationSection_shouldThrowNotFound()
+                        throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        PresentationSection updatedPresentationSection = presentationSectionRepository.findById(1L)
-                .orElseThrow(AssertionError::new);
-        // make two consistent
-        updatedPresentationSection.setId(presentationSectionUsedToUpdate.getId());
-        // type cannot be updated
-        presentationSectionUsedToUpdate.setType(updatedPresentationSection.getType());
+                mvc.perform(patch("/api/presentations/1/sections/1000").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isNotFound());
+        }
 
-        Assert.assertEquals(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(updatedPresentationSection),
-                objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(presentationSectionUsedToUpdate));
-    }
+        @Test
+        public void testUpdatePresentationSectionIndex_noWriteAccess_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-    @Test
-    public void testDeletePresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.logoutUser();
+                mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                                .andExpect(status().isUnauthorized());
+        }
 
-        mvc.perform(delete("/api/presentations/1/sections/1"))
-                .andExpect(status().isUnauthorized());
-    }
+        @Test
+        public void testUpdatePresentationSectionIndex_withWriteAccess_shouldUpdateCorrectly() throws Exception {
+                gaeSimulation.loginUser("test2@viz.test");
 
-    @Test
-    public void testDeletePresentationSection_nonExistentPresentationSection_shouldThrowNotFound() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+                PresentationSection presentationSectionUsedToUpdate = dataBundle.presentationSections
+                                .get("presentationSection2");
 
-        mvc.perform(delete("/api/presentations/1/sections/100"))
-                .andExpect(status().isNotFound());
-    }
+                mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectToJson(presentationSectionUsedToUpdate)))
+                                .andExpect(status().isAccepted());
 
-    @Test
-    public void testDeletePresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
-        gaeSimulation.loginUser("test1@viz.test");
+                PresentationSection updatedPresentationSection1 = presentationSectionRepository.findById(1L)
+                                .orElseThrow(AssertionError::new);
+                PresentationSection updatedPresentationSection2 = presentationSectionRepository.findById(2L)
+                                .orElseThrow(AssertionError::new);
+                Assert.assertEquals(updatedPresentationSection1.getSectionIndex(), new Integer(1));
+                Assert.assertEquals(updatedPresentationSection2.getSectionIndex(), new Integer(0));
+        }
 
-        mvc.perform(delete("/api/presentations/1/sections/1"))
-                .andExpect(status().isUnauthorized());
-    }
+        @Test
+        public void testDeletePresentationSection_notLogin_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.logoutUser();
 
-    @Test
-    public void testDeletePresentationSection_withWriteAccess_shouldDeleteCorrectly() throws Exception {
-        gaeSimulation.loginUser("test2@viz.test");
+                mvc.perform(delete("/api/presentations/1/sections/1")).andExpect(status().isUnauthorized());
+        }
 
-        mvc.perform(delete("/api/presentations/1/sections/1"))
-                .andExpect(status().isNoContent());
+        @Test
+        public void testDeletePresentationSection_nonExistentPresentationSection_shouldThrowNotFound()
+                        throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
 
-        Assert.assertFalse(presentationSectionRepository.findById(1L).isPresent());
-    }
+                mvc.perform(delete("/api/presentations/1/sections/100")).andExpect(status().isNotFound());
+        }
+
+        @Test
+        public void testDeletePresentationSection_noWriteAccess_shouldThrowUnauthorized() throws Exception {
+                gaeSimulation.loginUser("test1@viz.test");
+
+                mvc.perform(delete("/api/presentations/1/sections/1")).andExpect(status().isUnauthorized());
+        }
+
+        @Test
+        public void testDeletePresentationSection_withWriteAccess_shouldDeleteCorrectly() throws Exception {
+                gaeSimulation.loginUser("test2@viz.test");
+
+                mvc.perform(delete("/api/presentations/1/sections/1")).andExpect(status().isNoContent());
+
+                Assert.assertFalse(presentationSectionRepository.findById(1L).isPresent());
+        }
 }
