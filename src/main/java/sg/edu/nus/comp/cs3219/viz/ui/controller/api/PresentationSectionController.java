@@ -37,14 +37,6 @@ public class PresentationSectionController extends BaseRestController {
                 .orElseThrow(() -> new PresentationNotFoundException(presentationId));
         gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_READ);
 
-		List<PresentationSection> allPresentations = presentationSectionLogic.findAllByPresentation(presentation);
-        System.out.print("\n\n\n\nall presentations");
-		int i;
-		for (i=0;i<allPresentations.size();i++) {
-        	System.out.println(allPresentations.get(i).getId());
-		}
-        System.out.print("\n\n\n\n\n");
-
         return presentationSectionLogic.findAllByPresentation(presentation);
     }
 
@@ -55,9 +47,6 @@ public class PresentationSectionController extends BaseRestController {
         gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_WRITE);
         PresentationSection newPresentationSection = presentationSectionLogic.saveForPresentation(presentation, presentationSection);
 
-		System.out.println("\n\n\n\n new presentaition: ");
-        System.out.println(newPresentationSection.getId());
-        System.out.print("\n\n\n\n\n");
         return ResponseEntity
                 .created(new URI("/presentations/" + presentationId + "/section/" + newPresentationSection.getId()))
                 .body(newPresentationSection);
@@ -93,21 +82,6 @@ public class PresentationSectionController extends BaseRestController {
 				
 		PresentationSection[] newPresentationSections =
                 presentationSectionLogic.swapSectionIndices(presentationSectionOne, presentationSectionTwo);
-
-		System.out.print("\n\n\n\nreturn from swapping: ");
-        System.out.println(newPresentationSections[0].getId());
-        System.out.println(newPresentationSections[1].getId());
-        System.out.print("\n\n\n\n\n");
-
-		// buggo happens here -- returns two in newPresentationSections but one is deleted somehow
-
-		List<PresentationSection> allPresentations = presentationSectionLogic.findAllByPresentation(presentation);
-        System.out.print("\n\n\n\nall presentations after swap");
-		int i;
-		for (i=0;i<allPresentations.size();i++) {
-        	System.out.println(allPresentations.get(i).getId());
-		}
-        System.out.print("\n\n\n\n\n");
 
 		return ResponseEntity
                 .accepted()

@@ -68,8 +68,6 @@ export default {
         let sectionToUpdate = findSectionDetailById(state.sectionList, section.id);
         sectionToUpdate.sectionIndex = section.sectionIndex;
       })
-      console.log('final sectionList')
-      console.log(state.sectionList)
     },
 
     setSectionDetailLoading(state, {id, isLoading}) {
@@ -201,8 +199,6 @@ export default {
 
     async deleteSectionDetail({commit}, {id, presentationId}) {
       commit('setSectionDetailLoading', {id, isLoading: true});
-
-      console.log('delete called on ' + id)
 
       await axios.delete(`/api/presentations/${presentationId}/sections/${id}`)
         .then(() => {
