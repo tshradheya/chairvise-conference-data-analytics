@@ -33,11 +33,11 @@
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
       <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
-      <DeleteModal
+      <delete-modal
         v-if="!isNewPresentation && isLogin && isPresentationEditable"
         typeOfDelete="presentation"
         :deleteFunction="this.deletePresentation">
-      </DeleteModal>
+      </delete-modal>
     </el-form-item>
   </el-form>
 </template>

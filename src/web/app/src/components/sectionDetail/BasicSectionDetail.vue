@@ -129,6 +129,18 @@
           </el-input>
         </el-form-item>
 
+        <el-form-item label="Conference Name">
+            <el-select v-model="editForm.conferenceName" placeholder="Conference Name" style="width: 300px"
+                filterable>
+              <el-option
+                v-for="item in conferenceNames"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
         <el-form-item label="Group (Aggregation)" prop="groupers" v-if="isInAdvancedMode" key="groupers">
           <el-select placeholder="Groupers" v-model="editForm.groupers"
                      style="width: 100%"
@@ -246,6 +258,7 @@
           title: '',
           description: '',
           dataSet: '',
+          conferenceName: '',
           selections: [],
           involvedRecords: [],
           filters: [],
@@ -296,7 +309,18 @@
       },
       isPresentationEditable() {
         return this.$store.state.presentation.isPresentationEditable;
-      }
+      },
+      conferenceNames() {
+        let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
+        
+        conferenceNames = conferenceNames.map(res => {
+          return { 
+            value: res,
+            label: res,
+          }
+        });
+        return conferenceNames;
+      },
     },
 
     methods: {
@@ -314,6 +338,7 @@
         this.editForm.title = this.sectionDetail.title;
         this.editForm.description = this.sectionDetail.description;
         this.editForm.dataSet = this.sectionDetail.dataSet;
+        this.editForm.conferenceName = this.sectionDetail.conferenceName;
         this.editForm.selections = deepCopy(this.sectionDetail.selections); // deep copy
         this.editForm.involvedRecords = this.sectionDetail.involvedRecords.map(r => r.name);
         this.editForm.filters = this.sectionDetail.filters.map(f => Object.assign({}, f));
@@ -381,6 +406,7 @@
               title: this.editForm.title,
               description: this.editForm.description,
               dataSet: this.sectionDetail.dataSet,
+              conferenceName: this.editForm.conferenceName,
               selections: this.editForm.selections,
               involvedRecords: deepCopy(this.editFormInvolvedRecords),
               filters: this.editForm.filters.map(f => Object.assign({}, f)),
@@ -420,6 +446,7 @@
             presentationId: this.presentationId,
             id: this.sectionDetail.id,
             dataSet: this.sectionDetail.dataSet,
+            conferenceName: this.sectionDetail.conferenceName,
             selections: this.editForm.selections,
             involvedRecords: this.editFormInvolvedRecords,
             filters: this.editForm.filters,
