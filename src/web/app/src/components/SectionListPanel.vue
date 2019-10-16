@@ -173,7 +173,7 @@
       },
 
       changeSectionOrder(sectionId, sectionIndex, direction) {
-        var indexToSwap, idToSwap;
+        var indexToSwap;
 
         if (direction === 'up') {
           // Get ID of section that is one index smaller
