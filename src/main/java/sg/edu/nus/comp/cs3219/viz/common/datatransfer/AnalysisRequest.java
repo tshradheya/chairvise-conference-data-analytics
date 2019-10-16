@@ -11,6 +11,9 @@ public class AnalysisRequest {
     @NotEmpty
     private String dataSet;
 
+    //    @NotEmpty : To be uncommented when webapp deployed a version later
+    private String conferenceName;
+
     private List<PresentationSection.Selection> selections = new ArrayList<>();
 
     @NotEmpty
@@ -30,6 +33,14 @@ public class AnalysisRequest {
 
     public void setDataSet(String dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
     }
 
     public List<PresentationSection.Selection> getSelections() {
