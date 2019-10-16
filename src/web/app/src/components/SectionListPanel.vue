@@ -120,7 +120,6 @@
         return this.presentationId === ID_NEW_PRESENTATION
       },
       orderedSectionList() {
-        console.log('called orderedSectionList of size ' + this.$store.state.section.sectionList.length)
         return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
       },
       isLoadingSectionList() {
@@ -182,14 +181,9 @@
         } else {
           // Get ID of section that is one index greater
           indexToSwap = sectionIndex < this.orderedSectionList.length - 1 ? sectionIndex + 1 : sectionIndex
-          // console.log(sectionId)
-          // console.log(typeof indexToSwap)
-          // console.log(typeof sectionId)
-          // console.log('at ', sectionIndex, 'move down')
         }
         // Don't bother trying to swap if they are not swap-able
         if (indexToSwap == sectionIndex) {
-          console.log('don\'t swap')
           return
         }
         var sectionToSwap = this.orderedSectionList[indexToSwap]
