@@ -3,7 +3,7 @@
     <el-form status-icon ref="editForm" label-position="left" :model="editForm" label-width="170px"
              :rules="editFormRule">
       <div class="title" v-if="!isEditing">
-      <el-button-group class="toggleIndex">
+      <el-button-group v-if="isPresentationEditable" class="toggleIndex">
         <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'up')" icon="el-icon-arrow-up"></el-button>
         <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'down')" icon="el-icon-arrow-down"></el-button>
       </el-button-group>
