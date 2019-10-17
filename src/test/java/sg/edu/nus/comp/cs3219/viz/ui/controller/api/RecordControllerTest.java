@@ -160,6 +160,8 @@ public class RecordControllerTest extends BaseTestREST {
 
     @Test
     public void testGetConferenceNames_unauthorizedIfNotLoggedIn() throws Exception {
+        gaeSimulation.logoutUser();
+
         mvc.perform((get("/api/allConferenceNames")))
                 .andExpect(status().isUnauthorized());
 
