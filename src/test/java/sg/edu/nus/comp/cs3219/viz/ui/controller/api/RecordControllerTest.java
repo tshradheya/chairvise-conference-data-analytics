@@ -5,7 +5,10 @@ import org.junit.Test;
 import org.springframework.http.MediaType;
 import sg.edu.nus.comp.cs3219.viz.BaseTestREST;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class RecordControllerTest extends BaseTestREST {
@@ -153,5 +156,24 @@ public class RecordControllerTest extends BaseTestREST {
                 submissionRecordRepository.findByDataSetEquals("test@example.com").size());
         Assert.assertEquals(1,
                 submissionRecordRepository.findByDataSetEquals("test1@example.com").size());
+    }
+
+    @Test
+    public void testGetConferenceNames_unauthorizedIfNotLoggedIn() throws Exception {
+        mvc.perform((get("/api/allConferenceNames")))
+                .andExpect(status().isUnauthorized());
+
+    }
+
+    @Test
+    public void testGetConferenceNames_shouldReturnCorrectData() throws Exception {
+        gaeSimulation.loginUser("test@example.com");
+
+        mvc.perform((get("/api/allConferenceNames")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0]").value(CONF_NAME))
+        ;
     }
 }
