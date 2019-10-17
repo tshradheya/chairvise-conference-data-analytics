@@ -1,4 +1,34 @@
 export default {
+"network": {
+    name: "network",
+    group: 'Submission Record',
+    data: {
+      type: 'network_chart',
+      title: 'Word Cloud for All Submissions',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers.',
+      selections: [
+        {
+          expression: 's_keywords',
+          rename: 's_keywords'
+        }
+      ],
+      involvedRecords: [
+        {
+          name: 'submission_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        delimiters: ['\\r', '\\n'],
+        ignoreWords: [],
+      }
+    }
+  },
   "word_cloud_keywords_all_submission": {
     name: "Word Cloud for All Submissions Keywords",
     group: 'Submission Record',
