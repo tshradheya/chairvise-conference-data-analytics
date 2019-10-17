@@ -26,7 +26,7 @@
     <el-form-item>
       <el-button type="primary" @click="downloadPDF(false)" v-if="!isInEditMode && !isNewPresentation">Download as PDF
       </el-button>
-      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
+      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
