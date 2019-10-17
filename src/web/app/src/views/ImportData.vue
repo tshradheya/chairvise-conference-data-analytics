@@ -336,5 +336,4 @@
   .button-row {
     margin-top: 30px;
   }
-
 </style>
