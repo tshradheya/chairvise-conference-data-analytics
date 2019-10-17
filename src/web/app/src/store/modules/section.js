@@ -177,11 +177,12 @@ export default {
         })
     },
 
-    async sendPreviewAnalysisRequest({commit}, {presentationId, id, dataSet, selections, involvedRecords, filters, joiners, groupers, sorters}) {
+    async sendPreviewAnalysisRequest({commit}, {presentationId, id, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sorters}) {
       commit('setSectionDetailLoading', {id, isLoading: true});
 
       await axios.post(`/api/presentations/${presentationId}/analysis`, {
         dataSet,
+        conferenceName,
         selections,
         involvedRecords,
         filters,

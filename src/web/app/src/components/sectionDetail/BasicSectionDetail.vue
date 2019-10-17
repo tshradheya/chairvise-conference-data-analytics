@@ -4,6 +4,7 @@
              :rules="editFormRule">
       <div class="title" v-if="!isEditing">
         {{ sectionDetail.title }}
+        <div v-if="!isEditing" class="conferenceName">Conference: {{ editForm.conferenceName }}</div>
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
         <delete-modal
           v-if="isPresentationEditable"
@@ -446,7 +447,7 @@
             presentationId: this.presentationId,
             id: this.sectionDetail.id,
             dataSet: this.sectionDetail.dataSet,
-            conferenceName: this.sectionDetail.conferenceName,
+            conferenceName: this.editForm.conferenceName,
             selections: this.editForm.selections,
             involvedRecords: this.editFormInvolvedRecords,
             filters: this.editForm.filters,
@@ -513,5 +514,12 @@
 
   .errorMessage {
     margin-top: 10px;
+  }
+
+  .conferenceName {
+    margin-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-content: center;
   }
 </style>
