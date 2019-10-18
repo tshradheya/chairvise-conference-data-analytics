@@ -44,7 +44,7 @@
     SECTION_TYPE_PIE_CHART,
     SECTION_TYPE_STATS,
     SECTION_TYPE_WORD_CLOUD,
-    SECTION_TYPE_OVERVIEW
+    SECTION_TYPE_OVERVIEW,
     SECTION_TYPE_NETWORK_CHART
   } from "@/common/const";
 
@@ -67,7 +67,7 @@
         PIE_CHART: SECTION_TYPE_PIE_CHART,
         LINE_CHART: SECTION_TYPE_LINE_CHART,
         STATS: SECTION_TYPE_STATS,
-        OVERVIEW: SECTION_TYPE_OVERVIEW
+        OVERVIEW: SECTION_TYPE_OVERVIEW,
         NETWORK_CHART:SECTION_TYPE_NETWORK_CHART,
       }
     },
@@ -77,7 +77,7 @@
       PieChartSectionDetail,
       LineChartSectionDetail,
       StatsSectionDetail,
-      OverviewSectionDetail
+      OverviewSectionDetail,
       NetworkChartSectionDetail
     }
   }
