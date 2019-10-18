@@ -6,6 +6,7 @@ export default {
       type: 'overview',
       title: 'Review Overview',
       dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
       description: 'This table gives the overview of reviews.',
       selections: [
          {
@@ -31,8 +32,7 @@ export default {
       joiners: [],
       groupers: [],
       sorters: [],
-      extraData:
-        {
+      extraData: {
          types: [
             {name:'reviews',find: 'count'},
             {name:'confidence level',find: 'avg'},
@@ -49,6 +49,7 @@ export default {
         type: 'overview',
         title: 'Submission Overview',
         dataSet: '${PLACEHOLDER_DATA_SET}',
+        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
         description: 'This table gives the overview of submissions.',
         selections: [
            {
@@ -82,8 +83,7 @@ export default {
         joiners: [],
         groupers: [],
         sorters: [],
-        extraData:
-          {
+        extraData: {
            types: [
               {name:'submissions',find: 'count'},
               {name:'acceptance outcome',find: 'breakDown'},
@@ -101,6 +101,7 @@ export default {
         type: 'overview',
         title: 'Author Overview',
         dataSet: '${PLACEHOLDER_DATA_SET}',
+        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
         description: 'This table gives the overview of authors.',
         selections: [
           {
@@ -126,8 +127,7 @@ export default {
         joiners: [],
         groupers: [],
         sorters: [],
-        extraData:
-          {
+        extraData: {
            types: [
               {name:'organisation',find: 'uniqueCount'},
               {name:'person',find: 'uniqueCount'},
