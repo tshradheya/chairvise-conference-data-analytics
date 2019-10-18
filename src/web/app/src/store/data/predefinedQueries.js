@@ -1,4 +1,141 @@
 export default {
+  "review_overview": {
+    name: "Review Overview",
+    group: 'Review Record',
+    data: {
+      type: 'overview',
+      title: 'Review Overview',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      description: 'This table gives the overview of reviews.',
+      selections: [
+         {
+          expression: 'r_id',
+          rename: 'reviews'
+        },
+         {
+          expression: 'r_confidence_level',
+          rename: 'confidence level'
+        },
+         {
+          expression: 'r_overall_evaluation_score',
+          rename: 'overall evaluation score'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: 'review_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData:
+        {
+         types: [
+            {name:'reviews',find: 'count'},
+            {name:'confidence level',find: 'avg'},
+            {name:'overall evaluation score',find: 'avg'},
+            {name:'overall evaluation score',find: 'mod'},
+            ]
+        }
+    }
+  },
+  "submission_overview": {
+      name: "Submission Overview",
+      group: 'Submission Record',
+      data: {
+        type: 'overview',
+        title: 'Submission Overview',
+        dataSet: '${PLACEHOLDER_DATA_SET}',
+        description: 'This table gives the overview of submissions.',
+        selections: [
+           {
+            expression: 's_id',
+            rename: 'submissions'
+          },
+           {
+            expression: 's_is_accepted',
+            rename: 'acceptance outcome'
+          },
+          {
+           expression: 's_is_notified',
+           rename: 'notified'
+          },
+          {
+           expression: 's_is_reviews_sent',
+           rename: 'reviews sent'
+          },
+          {
+           expression: 's_track_name',
+           rename: 'track'
+          },
+        ],
+        involvedRecords: [
+          {
+            name: 'submission_record',
+            customized: false,
+          }
+        ],
+        filters: [],
+        joiners: [],
+        groupers: [],
+        sorters: [],
+        extraData:
+          {
+           types: [
+              {name:'submissions',find: 'count'},
+              {name:'acceptance outcome',find: 'breakDown'},
+              {name:'notified',find: 'breakDown'},
+              {name:'reviews sent',find: 'breakDown'},
+              {name:'track',find: 'breakDown'},
+             ]
+          }
+      }
+    },
+    "author_overview": {
+      name: "Author Overview",
+      group: 'Author Record',
+      data: {
+        type: 'overview',
+        title: 'Author Overview',
+        dataSet: '${PLACEHOLDER_DATA_SET}',
+        description: 'This table gives the overview of authors.',
+        selections: [
+          {
+           expression: 'a_person_id',
+           rename: 'person'
+          },
+          {
+           expression: 'a_organisation',
+           rename: 'organisation'
+          },
+          {
+           expression: 'a_country',
+           rename: 'country'
+          },
+        ],
+        involvedRecords: [
+          {
+           name: 'author_record',
+           customized: false,
+          }
+        ],
+        filters: [],
+        joiners: [],
+        groupers: [],
+        sorters: [],
+        extraData:
+          {
+           types: [
+              {name:'organisation',find: 'uniqueCount'},
+              {name:'person',find: 'uniqueCount'},
+              {name:'country',find: 'uniqueCount'},
+             ]
+          }
+      }
+    },
   "word_cloud_keywords_all_submission": {
     name: "Word Cloud for All Submissions Keywords",
     group: 'Submission Record',

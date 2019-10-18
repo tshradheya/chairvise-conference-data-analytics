@@ -15,6 +15,9 @@
     <div v-else-if="sectionDetail.type === STATS">
       <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
     </div>
+    <div v-else-if="sectionDetail.type === OVERVIEW">
+      <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+    </div>
     <div v-else>
       <el-alert
         :title="`Unexpected Section Detail Type: ${sectionDetail.type}`"
@@ -30,12 +33,14 @@
   import PieChartSectionDetail from "@/components/sectionDetail/PieChartSectionDetail.vue"
   import LineChartSectionDetail from "@/components/sectionDetail/LineChartSectionDetail.vue"
   import StatsSectionDetail from "@/components/sectionDetail/StatsSectionDetail.vue"
+  import OverviewSectionDetail from "@/components/sectionDetail/OverviewSectionDetail.vue"
   import {
     SECTION_TYPE_BAR_CHART,
     SECTION_TYPE_LINE_CHART,
     SECTION_TYPE_PIE_CHART,
     SECTION_TYPE_STATS,
-    SECTION_TYPE_WORD_CLOUD
+    SECTION_TYPE_WORD_CLOUD,
+    SECTION_TYPE_OVERVIEW
   } from "@/common/const";
 
   export default {
@@ -56,7 +61,8 @@
         BAR_CHART: SECTION_TYPE_BAR_CHART,
         PIE_CHART: SECTION_TYPE_PIE_CHART,
         LINE_CHART: SECTION_TYPE_LINE_CHART,
-        STATS: SECTION_TYPE_STATS
+        STATS: SECTION_TYPE_STATS,
+        OVERVIEW: SECTION_TYPE_OVERVIEW
       }
     },
     components: {
@@ -64,7 +70,8 @@
       BarChartSectionDetail,
       PieChartSectionDetail,
       LineChartSectionDetail,
-      StatsSectionDetail
+      StatsSectionDetail,
+      OverviewSectionDetail
     }
   }
 </script>
