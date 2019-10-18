@@ -1,6 +1,13 @@
 <template>
   <div>
     <h4>Presentations created by me</h4>
+    <el-form label-position="right" ref="listOfPresentationForm" label-width="60px"
+               :model="listOfPresentationForm">
+        <el-form-item label="Filter">
+             <div>{{ listOfPresentationForm.filter }}</div>
+             <el-input v-model="filter"/>
+       </el-form-item>
+    </el-form>
     <el-menu :default-active="$route.path" v-loading="isLoading" router>
       <li key="__NEW__">
         <el-menu-item :index="'/analyze/__NEW__'">
@@ -26,7 +33,9 @@
   export default {
     name: 'ListOfPresentation',
     data() {
-      return {}
+      return {
+        filter: '',
+      }
     },
     watch: {
       'isError'() {
@@ -48,11 +57,23 @@
           || this.$store.state.section.sectionList.some(s => s.status.isLoading)
       },
       presentations() {
-        return this.$store.state.presentation.presentationList
+        var stringToFilter = this.filter
+        var presentationList = this.$store.state.presentation.presentationList
+          if (stringToFilter === '') {
+              return presentationList
+          }
+          var filteredPresentations = presentationList.filter(function(presentation) {
+            return presentation.name.includes(stringToFilter);
+          });
+        return filteredPresentations;
       },
       isError() {
         return this.$store.state.presentation.presentationListStatus.isApiError
       },
+       listOfPresentationForm() {
+          return {
+          }
+        },
     },
     mounted() {
       this.$store.dispatch('getPresentationList')

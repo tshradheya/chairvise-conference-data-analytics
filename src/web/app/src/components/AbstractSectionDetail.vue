@@ -15,6 +15,9 @@
     <div v-else-if="sectionDetail.type === STATS">
       <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
     </div>
+    <div v-else-if="sectionDetail.type === OVERVIEW">
+      <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+    </div>
     <div v-else-if="sectionDetail.type === NETWORK_CHART">
       <network-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
     </div>
@@ -33,6 +36,7 @@
   import PieChartSectionDetail from "@/components/sectionDetail/PieChartSectionDetail.vue"
   import LineChartSectionDetail from "@/components/sectionDetail/LineChartSectionDetail.vue"
   import StatsSectionDetail from "@/components/sectionDetail/StatsSectionDetail.vue"
+  import OverviewSectionDetail from "@/components/sectionDetail/OverviewSectionDetail.vue"
   import NetworkChartSectionDetail from "@/components/sectionDetail/NetworkChartSectionDetail.vue"
   import {
     SECTION_TYPE_BAR_CHART,
@@ -40,6 +44,7 @@
     SECTION_TYPE_PIE_CHART,
     SECTION_TYPE_STATS,
     SECTION_TYPE_WORD_CLOUD,
+    SECTION_TYPE_OVERVIEW
     SECTION_TYPE_NETWORK_CHART
   } from "@/common/const";
 
@@ -62,6 +67,7 @@
         PIE_CHART: SECTION_TYPE_PIE_CHART,
         LINE_CHART: SECTION_TYPE_LINE_CHART,
         STATS: SECTION_TYPE_STATS,
+        OVERVIEW: SECTION_TYPE_OVERVIEW
         NETWORK_CHART:SECTION_TYPE_NETWORK_CHART,
       }
     },
@@ -71,6 +77,7 @@
       PieChartSectionDetail,
       LineChartSectionDetail,
       StatsSectionDetail,
+      OverviewSectionDetail
       NetworkChartSectionDetail
     }
   }
