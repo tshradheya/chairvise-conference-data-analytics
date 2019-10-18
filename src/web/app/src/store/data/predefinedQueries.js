@@ -1,21 +1,33 @@
 export default {
 "network": {
-    name: "network",
-    group: 'Submission Record',
+    name: "Network of Countries",
+    group: 'Author Record',
     data: {
       type: 'network_chart',
       title: 'Word Cloud for All Submissions',
       dataSet: '${PLACEHOLDER_DATA_SET}',
-      description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers.',
+      description: 'This network graph shows the countries linked based on submission ',
       selections: [
         {
-          expression: 's_keywords',
-          rename: 's_keywords'
+          expression: 'a_organisation',
+          rename: 'organisation'
+        },
+        {
+          expression: 'a_person_id',
+          rename: 'person_id'
+        },
+        {
+          expression: 'a_submission_id',
+          rename: 'submission_id'
+        },
+        {
+          expression: 'a_country',
+          rename: 'country'
         }
       ],
       involvedRecords: [
         {
-          name: 'submission_record',
+          name: 'author_record',
           customized: false,
         }
       ],
@@ -23,10 +35,7 @@ export default {
       joiners: [],
       groupers: [],
       sorters: [],
-      extraData: {
-        delimiters: ['\\r', '\\n'],
-        ignoreWords: [],
-      }
+      extraData: {first: 'submission_id', second:'country'}
     }
   },
   "word_cloud_keywords_all_submission": {
