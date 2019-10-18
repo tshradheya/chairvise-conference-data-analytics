@@ -7,7 +7,8 @@
                         :edit-form-sorters-rule="editFormSortersRule"
                         :extraFormItemsRules="extraFormItemsRules"
                         @update-visualisation="updateVisualisation"
-                        :moveSection="moveSection">
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <bar-chart :chart-data="chartData" :options="options"></bar-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -87,6 +88,9 @@
       },
       moveSection: {
         type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

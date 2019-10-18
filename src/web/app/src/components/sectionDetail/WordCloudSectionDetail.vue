@@ -5,7 +5,8 @@
                         :edit-form-filters-rule="editFormFiltersRule"
                         :extraFormItemsRules="extraFormItemsRules"
                         @update-visualisation="updateVisualisation"
-                        :moveSection="moveSection">
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <word-cloud
       :data="words">
     </word-cloud>
@@ -42,6 +43,9 @@
       },
       moveSection: {
         type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

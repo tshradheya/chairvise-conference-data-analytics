@@ -2,7 +2,8 @@
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation"
-                        :moveSection="moveSection">
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <pie-chart :chart-data="chartData" :options="options"></pie-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -53,6 +54,9 @@
       },
       moveSection: {
         type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

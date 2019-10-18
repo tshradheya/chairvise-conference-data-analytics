@@ -41,7 +41,8 @@
         type="error" show-icon>
       </el-alert>
       <abstract-section-detail class="presentation-section" v-for="section in orderedSectionList" :sectionDetail="section"
-                               :key="section.id" :presentationId="presentationId" :moveSection="changeSectionOrder"/>
+                               :key="section.id" :presentationId="presentationId" :moveSection="changeSectionOrder"
+                               :isLastIndex="section.sectionIndex === orderedSectionList.length - 1"/>
     </div>
   </div>
 </template>

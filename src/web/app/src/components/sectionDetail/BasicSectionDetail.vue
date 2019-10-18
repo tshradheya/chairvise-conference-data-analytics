@@ -4,8 +4,10 @@
              :rules="editFormRule">
       <div class="title" v-if="!isEditing">
       <el-button-group v-if="isPresentationEditable" class="toggleIndex">
-        <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'up')" icon="el-icon-arrow-up"></el-button>
-        <el-button type="primary" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'down')" icon="el-icon-arrow-down"></el-button>
+        <el-button type="primary" v-if="isFirstIndex" disabled icon="el-icon-arrow-up"></el-button>
+        <el-button type="primary" v-if="!isFirstIndex" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'up')" icon="el-icon-arrow-up"></el-button>
+        <el-button type="primary" v-if="!isLastIndex" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'down')" icon="el-icon-arrow-down"></el-button>
+        <el-button type="primary" v-if="isLastIndex" disabled icon="el-icon-arrow-down"></el-button>
       </el-button-group>
         {{ sectionDetail.title }}
         <div v-if="!isEditing" class="conferenceName">Conference: {{ editForm.conferenceName }}</div>
@@ -248,8 +250,10 @@
       },
       moveSection: {
         type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
-
     },
 
     created() {
@@ -272,7 +276,7 @@
           filters: [],
           joiners: [],
           groupers: [],
-          sectionIndex: [],
+          sectionIndex: '',
           sorters: [],
           extraData: {}
         },
@@ -330,6 +334,9 @@
         });
         return conferenceNames;
       },
+      isFirstIndex() {
+        return this.sectionDetail.sectionIndex === 0;
+      }
     },
 
     methods: {

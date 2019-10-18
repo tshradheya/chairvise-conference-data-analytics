@@ -1,19 +1,19 @@
 <template>
   <el-row class="sectionDetail">
     <div v-if="sectionDetail.type === WORD_CLOUD">
-      <word-cloud-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection"/>
+      <word-cloud-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === BAR_CHART">
-      <bar-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection"/>
+      <bar-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === PIE_CHART">
-      <pie-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection"/>
+      <pie-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === LINE_CHART">
-      <line-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection"/>
+      <line-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === STATS">
-      <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection"/>
+      <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === OVERVIEW">
       <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
@@ -55,6 +55,9 @@
       },
       moveSection: {
         type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
     data() {
