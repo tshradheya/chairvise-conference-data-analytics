@@ -1,8 +1,14 @@
 <template>
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
+                        :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation">
-    <network-chart :nodes="nodes" :links="links">
-    </network-chart>
+    <network-chart :nodes="nodes" :links="links"></network-chart>
+     <template slot="extraFormItems" slot-scope="slotProps">
+          <el-form-item v-if="slotProps.isInAdvancedMode" :label="Type">
+            <el-input v-model="slotProps.extraData.first" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
+            <el-input v-model="slotProps.extraData.second" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
+          </el-form-item>
+     </template>
   </basic-section-detail>
 </template>
 
@@ -40,6 +46,8 @@
           let organisation = extraData.second;
           let myMap = new Map();
           let count = 0;
+          this.nodes = [];
+          this.links = [];
           let uniqueSubmission = Array.from(new Set(result.map(r => r[submission])));
           let uniqueOrganisation = Array.from(new Set(result.map(r => r[organisation])));
           uniqueOrganisation.forEach(s => {
