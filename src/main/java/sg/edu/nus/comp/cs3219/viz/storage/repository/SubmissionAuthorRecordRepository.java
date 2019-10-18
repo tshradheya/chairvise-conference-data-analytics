@@ -10,4 +10,6 @@ public interface SubmissionAuthorRecordRepository extends JpaRepository<Submissi
     SubmissionAuthorRecord findFirstByNameEqualsAndDataSetEquals(String name, String dataSet);
 
     void deleteAllByDataSetEquals(String dataSet);
+
+    void deleteAllByDataSetEqualsAndConferenceNameEquals(String dataSet, String conferenceName);
 }

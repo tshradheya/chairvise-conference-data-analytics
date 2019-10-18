@@ -16,7 +16,8 @@
             "submissionTime": "2018-10-12 10:04:02",
             "title": "Quantitative Approach for Coffee Rust, Production and Futures",
             "trackId": "3",
-            "trackName": "Posters and Demos"
+            "trackName": "Posters and Demos",
+            "conferenceName": "defaultConf"
         }
     },
     "authorRecords": {
@@ -31,7 +32,8 @@
             "organisation": "Indiana University Bloomington",
             "personId": "465",
             "submissionId": "2",
-            "webPage": "https://thedxxxxxxxxxxx"
+            "webPage": "https://thedxxxxxxxxxxx",
+            "conferenceName": "defaultConf"
         }
     },
     "reviewRecords": {
@@ -47,7 +49,8 @@
             "reviewId": "1",
             "reviewSubmissionTime": "2018-10-12 10:04:02",
             "reviewerName": "Juxxxx Bruxxxx",
-            "submissionId": "2"
+            "submissionId": "2",
+            "conferenceName": "defaultConf"
         }
     }
 }

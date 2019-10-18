@@ -117,6 +117,7 @@ public class AnalysisControllerTest extends BaseTestREST {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record record = new PresentationSection.Record();
         record.setName("submission_record");

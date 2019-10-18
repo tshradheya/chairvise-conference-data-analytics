@@ -24,6 +24,7 @@
                 "XP"
             ],
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "isAccepted": "no",
             "isNotified": "yes",
             "isReviewsSent": "yes",
@@ -42,6 +43,7 @@
             "id": 1,
             "country": "United States",
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "email": "xxxxxxxxdiana.edu",
             "firstName": "Laxxx",
             "isCorresponding": "yes",
@@ -56,6 +58,7 @@
         "review1S1": {
             "id": 1,
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "expertiseLevel": 1,
             "hasRecommendedForBestPaper": "no",
             "numReviewAssignment": 48,

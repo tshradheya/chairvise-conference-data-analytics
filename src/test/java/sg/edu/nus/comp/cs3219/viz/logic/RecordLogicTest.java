@@ -31,7 +31,7 @@ public class RecordLogicTest extends BaseTestWithDBAccess {
         typicalSubmissionRecord2.setAuthors(Arrays.asList("XP", "HY"));
 
         recordLogic.removeAndPersistSubmissionRecordForDataSet("test",
-                Arrays.asList(typicalSubmissionRecord, typicalSubmissionRecord2));
+                Arrays.asList(typicalSubmissionRecord, typicalSubmissionRecord2), "testConf");
 
         List<SubmissionAuthorRecord> submissionAuthorRecordList =
                 submissionAuthorRecordRepository.findAll();

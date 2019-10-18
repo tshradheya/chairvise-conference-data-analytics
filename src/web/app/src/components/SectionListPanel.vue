@@ -9,6 +9,15 @@
     </el-row>
     <div v-loading="isLoadingDBMetaData || isLoadingSectionList" v-if="!isNewPresentation">
       <el-row class="addRowRightAlign" v-if="isLogin && isPresentationEditable">
+        <el-select v-model="selectedConferenceName" placeholder="Conference Name" style="width: 300px"
+                   filterable>
+          <el-option
+            v-for="item in conferenceNames"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <el-select v-model="selectedNewSection" placeholder="Please select a section to add" style="width: 300px"
                    filterable>
           <el-option-group
@@ -23,7 +32,7 @@
             </el-option>
           </el-option-group>
         </el-select>
-        <el-button class="addButtonLeft" type="success" @click="addNewSection" :disabled="!isNewSectionTypeSelected">Add New Section</el-button>
+        <el-button class="addButtonLeft" type="success" @click="addNewSection" :disabled="!isNewSectionTypeAddable">Add New Section</el-button>
       </el-row>
       <br/>
       <el-alert
@@ -52,6 +61,7 @@
     data() {
       return {
         selectedNewSection: '',
+        selectedConferenceName: ''
       }
     },
     computed: {
@@ -94,6 +104,18 @@
         return sectionOptions;
       },
 
+      conferenceNames() {
+        let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
+        
+        conferenceNames = conferenceNames.map(res => {
+          return { 
+            value: res,
+            label: res,
+          }
+        });
+        return conferenceNames;
+      },
+ 
       isNewPresentation() {
         return this.presentationId === ID_NEW_PRESENTATION
       },
@@ -113,8 +135,9 @@
       isLoadingDBMetaData() {
         return this.$store.state.dbMetaData.entitiesStatus.isLoading
       },
-      isNewSectionTypeSelected() {
+      isNewSectionTypeAddable() {
         return this.selectedNewSection.length !== 0
+          && this.selectedConferenceName.length > 0;
       }
     },
     components: {
@@ -123,6 +146,7 @@
     mounted() {
       this.fetchSectionList();
       this.$store.dispatch('fetchDBMetaDataEntities');
+      this.$store.dispatch('fetchUniqueConferenceNames');
     },
     methods: {
       fetchSectionList() {
@@ -134,15 +158,17 @@
       },
 
       addNewSection() {
-        if (this.selectedNewSection.length === 0) {
+        if (this.selectedNewSection.length === 0 && this.selectedConferenceName.length === 0) {
           return;
         }
         this.$store.dispatch('addSectionDetail', {
           presentationId: this.presentationId,
           selectedNewSection: this.selectedNewSection,
           dataSet: this.$store.state.userInfo.userEmail,
+          conferenceName: this.selectedConferenceName,
         }).then(() => {
           this.selectedNewSection = ''
+          this.selectedConferenceName = ''
         })
       }
     }

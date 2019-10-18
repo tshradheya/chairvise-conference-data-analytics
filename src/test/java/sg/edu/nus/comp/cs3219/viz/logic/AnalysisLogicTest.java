@@ -28,6 +28,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -45,6 +46,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -71,6 +73,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -102,6 +105,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test1@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("author_record");
@@ -119,6 +123,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("review_record");
@@ -136,6 +141,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test1@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -165,6 +171,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("review_record");
@@ -196,6 +203,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("review_record");
@@ -229,6 +237,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -261,6 +270,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test1@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record submissionRecord = new PresentationSection.Record();
         submissionRecord.setName("submission_record");
@@ -285,6 +295,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record reviewRecord = new PresentationSection.Record();
         reviewRecord.setName("review_record");
@@ -306,6 +317,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record reviewRecord = new PresentationSection.Record();
         reviewRecord.setName("review_record");
@@ -339,6 +351,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record reviewRecord = new PresentationSection.Record();
         reviewRecord.setName("(SELECT * FROM review_record WHERE review_record.data_set = 'test@example.com') AS `tmp`");
@@ -360,6 +373,7 @@ public class AnalysisLogicTest extends BaseTestWithDBAccess {
         AnalysisRequest analysisRequest = new AnalysisRequest();
 
         analysisRequest.setDataSet("test@example.com");
+        analysisRequest.setConferenceName("testConference");
 
         PresentationSection.Record reviewRecord = new PresentationSection.Record();
         reviewRecord.setName("(SELECT * FROM review_record WHERE review_record.data_set = 'test@example.com') AS `tmp`");
