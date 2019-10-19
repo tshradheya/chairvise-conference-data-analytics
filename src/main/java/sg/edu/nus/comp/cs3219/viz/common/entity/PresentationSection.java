@@ -49,6 +49,8 @@ public class PresentationSection {
 
     private String conferenceName;
 
+    private Integer sectionIndex;
+
     // The following field does not worth to be stored as relation in RDBMS
     // we store them as serialized json string
 
@@ -238,6 +240,14 @@ public class PresentationSection {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getSectionIndex() {
+        return sectionIndex;
+    }
+
+    public void setSectionIndex(Integer sectionIndex) {
+        this.sectionIndex = sectionIndex;
     }
 
     public String getType() {

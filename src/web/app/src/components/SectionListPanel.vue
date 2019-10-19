@@ -40,8 +40,9 @@
         :title="sectionListApiErrorMsg"
         type="error" show-icon>
       </el-alert>
-      <abstract-section-detail class="presentation-section" v-for="section in sectionList" :sectionDetail="section"
-                               :key="section.id" :presentationId="presentationId"/>
+      <abstract-section-detail class="presentation-section" v-for="section in orderedSectionList" :sectionDetail="section"
+                               :key="section.id" :presentationId="presentationId" :moveSection="changeSectionOrder"
+                               :isLastIndex="section.sectionIndex === orderedSectionList.length - 1"/>
     </div>
   </div>
 </template>
@@ -119,9 +120,8 @@
       isNewPresentation() {
         return this.presentationId === ID_NEW_PRESENTATION
       },
-
-      sectionList() {
-        return this.$store.state.section.sectionList
+      orderedSectionList() {
+        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
       },
       isLoadingSectionList() {
         return this.$store.state.section.sectionListStatus.isLoading
@@ -166,9 +166,32 @@
           selectedNewSection: this.selectedNewSection,
           dataSet: this.$store.state.userInfo.userEmail,
           conferenceName: this.selectedConferenceName,
+          sectionListSize: this.orderedSectionList.length
         }).then(() => {
           this.selectedNewSection = ''
           this.selectedConferenceName = ''
+        })
+      },
+
+      changeSectionOrder(sectionId, sectionIndex, direction) {
+        var indexToSwap;
+
+        if (direction === 'up') {
+          // Get ID of section that is one index smaller
+          indexToSwap = sectionIndex > 0 ? sectionIndex - 1 : sectionIndex
+        } else {
+          // Get ID of section that is one index greater
+          indexToSwap = sectionIndex < this.orderedSectionList.length - 1 ? sectionIndex + 1 : sectionIndex
+        }
+        // Don't bother trying to swap if they are not swap-able
+        if (indexToSwap == sectionIndex) {
+          return
+        }
+        var sectionToSwap = this.orderedSectionList[indexToSwap]
+        this.$store.dispatch('updateSectionIndex', {
+          id: sectionId,
+          presentationId: this.presentationId,
+          sectionToSwap: sectionToSwap
         })
       }
     }

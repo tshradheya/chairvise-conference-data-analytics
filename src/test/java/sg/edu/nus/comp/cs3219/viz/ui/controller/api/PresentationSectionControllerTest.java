@@ -1,16 +1,22 @@
 package sg.edu.nus.comp.cs3219.viz.ui.controller.api;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+
 import sg.edu.nus.comp.cs3219.viz.BaseTestREST;
 import sg.edu.nus.comp.cs3219.viz.common.entity.PresentationSection;
-
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PresentationSectionControllerTest extends BaseTestREST {
 
@@ -210,6 +216,53 @@ public class PresentationSectionControllerTest extends BaseTestREST {
 
         Assert.assertEquals(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(updatedPresentationSection),
                 objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(presentationSectionUsedToUpdate));
+    }
+
+    @Test
+    public void testUpdatePresentationSectionIndex_notLogin_shouldThrowUnauthorized() throws Exception {
+        gaeSimulation.logoutUser();
+
+        mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testUpdatePresentationSectionIndex_nonExistentPresentationSection_shouldThrowNotFound()
+            throws Exception {
+        gaeSimulation.loginUser("test1@viz.test");
+
+        mvc.perform(patch("/api/presentations/1/sections/1000").contentType(MediaType.APPLICATION_JSON)
+                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testUpdatePresentationSectionIndex_noWriteAccess_shouldThrowUnauthorized() throws Exception {
+        gaeSimulation.loginUser("test1@viz.test");
+
+        mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                .content(objectToJson(dataBundle.presentationSections.get("presentationSection2"))))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testUpdatePresentationSectionIndex_withWriteAccess_shouldUpdateCorrectly() throws Exception {
+        gaeSimulation.loginUser("test2@viz.test");
+
+        PresentationSection presentationSectionUsedToUpdate = dataBundle.presentationSections
+                .get("presentationSection2");
+
+        mvc.perform(patch("/api/presentations/1/sections/1").contentType(MediaType.APPLICATION_JSON)
+                .content(objectToJson(presentationSectionUsedToUpdate)))
+                .andExpect(status().isAccepted());
+
+        PresentationSection updatedPresentationSection1 = presentationSectionRepository.findById(1L)
+                .orElseThrow(AssertionError::new);
+        PresentationSection updatedPresentationSection2 = presentationSectionRepository.findById(2L)
+                .orElseThrow(AssertionError::new);
+        Assert.assertEquals(updatedPresentationSection1.getSectionIndex(), new Integer(1));
+        Assert.assertEquals(updatedPresentationSection2.getSectionIndex(), new Integer(0));
     }
 
     @Test

@@ -4,7 +4,9 @@
                         :edit-form-involved-records-rule="editFormInvolvedRecordsRule"
                         :edit-form-filters-rule="editFormFiltersRule"
                         :extraFormItemsRules="extraFormItemsRules"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <word-cloud
       :data="words">
     </word-cloud>
@@ -38,6 +40,12 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

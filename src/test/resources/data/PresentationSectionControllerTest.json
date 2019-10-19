@@ -42,6 +42,7 @@
             "presentation": {
                 "id": "1"
             },
+            "sectionIndex": "0",
             "title": "my section title",
             "description": "my section description",
             "type": "word_cloud",
@@ -105,6 +106,7 @@
             "presentation": {
                 "id": "1"
             },
+            "sectionIndex": "1",
             "title": "my section title UPDATED",
             "description": "my section description UPDATED",
             "type": "word_cloud_UPDATED",
