@@ -14,23 +14,29 @@
             type: Array,
             required: true
             },
+        dataSet: {
+            type: Object,
+            required: true
+            },
      },
-     data () {
+
+     data(){
       return {
-          force:1000,
+          force:this.dataSet.force,
           fX:1,
           fY:1,
           fMb:true,
           fC:false,
-          nNodes:500,
           nodeSize:5,
-          canvas:true
+          canvas:true,
+          nodeLabels: this.dataSet.nodeLabels
       }
     },
+
     computed:{
       options(){
         return{
-        force: this.force,
+        force: this.dataSet.force,
         forces:{
              X:this.fX,
              Y:this.fY,
@@ -39,12 +45,13 @@
          },
          size:{w:1300, h:480},
          nodeSize: this.nodeSize,
-         nodeLabels: true,
+         nodeLabels:this.dataSet.nodeLabels,
          linkLabels:true,
          canvas: true
         }
       }
     },
+
     components: {
         D3Network
     },

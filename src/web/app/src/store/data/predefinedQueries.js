@@ -4,7 +4,7 @@ export default {
     group: 'Author Record',
     data: {
       type: 'network_chart',
-      title: 'Word Cloud for All Submissions',
+      title: 'Network of Countries',
       dataSet: '${PLACEHOLDER_DATA_SET}',
       description: 'This network graph shows the countries linked based on submission ',
       selections: [
@@ -35,7 +35,12 @@ export default {
       joiners: [],
       groupers: [],
       sorters: [],
-      extraData: {first: 'submission_id', second:'country'}
+      extraData: {
+      first: 'submission_id',
+      second:'country',
+      nodeLabels: true,
+      force: 1000
+      }
     }
   },
   "review_overview": {

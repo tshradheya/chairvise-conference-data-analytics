@@ -2,12 +2,24 @@
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation">
-    <network-chart :nodes="nodes" :links="links"></network-chart>
+    <network-chart :nodes="nodes" :links="links" :dataSet="dataSet" ></network-chart>
      <template slot="extraFormItems" slot-scope="slotProps">
-          <el-form-item v-if="slotProps.isInAdvancedMode" :label="Type">
+          <el-form-item label="Links by" v-if="slotProps.isInAdvancedMode">
             <el-input v-model="slotProps.extraData.first" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
+          </el-form-item>
+          <el-form-item label="Nodes" v-if="slotProps.isInAdvancedMode">
             <el-input v-model="slotProps.extraData.second" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
           </el-form-item>
+          <el-form-item label="Force" prop="extraData.force" v-if="slotProps.isInAdvancedMode">
+            <el-slider v-model="slotProps.extraData.force" :min="500" :max="3000"></el-slider>
+          </el-form-item>
+         <el-form-item label="Labels" prop="extraData.nodeLabels" v-if="slotProps.isInAdvancedMode">
+              <el-switch
+                v-model="slotProps.extraData.nodeLabels"
+                active-text="Labels on"
+                inactive-text="Labels off">
+              </el-switch>
+         </el-form-item>
      </template>
   </basic-section-detail>
 </template>
@@ -30,18 +42,22 @@
     data() {
       return {
             nodes:[],
-            links:[]
+            links:[],
+            dataSet:{},
         }
     },
 
     computed: {
       hasData() {
-      return true;
+      return this.nodes.length!= 0;
       }
     },
 
     methods: {
-      updateVisualisation({result, selections, extraData}) {
+      updateVisualisation({result, extraData}) {
+          this.dataSet = {};
+          this.dataSet.nodeLabels = extraData.nodeLabels;
+          this.dataSet.force = extraData.force;
           let submission = extraData.first;
           let organisation = extraData.second;
           let myMap = new Map();
