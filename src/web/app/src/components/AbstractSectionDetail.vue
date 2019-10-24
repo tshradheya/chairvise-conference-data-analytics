@@ -1,19 +1,19 @@
 <template>
   <el-row class="sectionDetail">
     <div v-if="sectionDetail.type === WORD_CLOUD">
-      <word-cloud-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <word-cloud-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === BAR_CHART">
-      <bar-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <bar-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === PIE_CHART">
-      <pie-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <pie-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === LINE_CHART">
-      <line-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <line-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === STATS">
-      <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === OVERVIEW">
       <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
@@ -57,6 +57,12 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
     data() {

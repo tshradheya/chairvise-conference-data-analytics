@@ -1,0 +1,1 @@
+ALTER TABLE presentation_section ADD COLUMN section_index INT AFTER joiners;

@@ -195,6 +195,8 @@
         this.$store.commit("clearHasHeader");
         this.$store.commit("clearMapping");
         this.$store.commit("clearPredefinedMapping");
+        this.$store.commit("clearConferenceName");
+
       },
       uploadClicked: function () {
         let map = deepCopy(this.mappedPairs);
@@ -217,6 +219,7 @@
         this.$store.commit("clearMapping");
         this.$store.commit("clearError");
         this.$store.commit("clearPredefinedMapping");
+        this.$store.commit("clearConferenceName");
       }
     },
     mounted() {

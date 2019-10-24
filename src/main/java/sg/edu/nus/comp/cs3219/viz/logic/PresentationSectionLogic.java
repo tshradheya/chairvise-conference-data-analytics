@@ -29,11 +29,13 @@ public class PresentationSectionLogic {
         newPresentationSection.setDescription(presentationSection.getDescription());
         newPresentationSection.setType(presentationSection.getType());
         newPresentationSection.setDataSet(presentationSection.getDataSet());
+        newPresentationSection.setConferenceName(presentationSection.getConferenceName());
         newPresentationSection.setSelections(presentationSection.getSelections());
         newPresentationSection.setInvolvedRecords(presentationSection.getInvolvedRecords());
         newPresentationSection.setFilters(presentationSection.getFilters());
         newPresentationSection.setJoiners(presentationSection.getJoiners());
         newPresentationSection.setGroupers(presentationSection.getGroupers());
+        newPresentationSection.setSectionIndex(presentationSection.getSectionIndex());
         newPresentationSection.setSorters(presentationSection.getSorters());
         newPresentationSection.setExtraData(presentationSection.getExtraData());
 
@@ -48,15 +50,28 @@ public class PresentationSectionLogic {
         oldPresentationSection.setTitle(newPresentationSection.getTitle());
         oldPresentationSection.setDescription(newPresentationSection.getDescription());
         oldPresentationSection.setDataSet(newPresentationSection.getDataSet());
+        oldPresentationSection.setConferenceName(newPresentationSection.getConferenceName());
         oldPresentationSection.setSelections(newPresentationSection.getSelections());
         oldPresentationSection.setInvolvedRecords(newPresentationSection.getInvolvedRecords());
         oldPresentationSection.setFilters(newPresentationSection.getFilters());
         oldPresentationSection.setJoiners(newPresentationSection.getJoiners());
         oldPresentationSection.setGroupers(newPresentationSection.getGroupers());
+        oldPresentationSection.setSectionIndex(newPresentationSection.getSectionIndex());
         oldPresentationSection.setSorters(newPresentationSection.getSorters());
         oldPresentationSection.setExtraData(newPresentationSection.getExtraData());
 
         return presentationSectionRepository.save(oldPresentationSection);
+    }
+
+    public PresentationSection[] swapSectionIndices(PresentationSection presentationSectionOne, PresentationSection presentationSectionTwo) {
+        Integer indexToSwap = presentationSectionOne.getSectionIndex();
+        presentationSectionOne.setSectionIndex(presentationSectionTwo.getSectionIndex());
+        presentationSectionTwo.setSectionIndex(indexToSwap);
+    
+        PresentationSection[] returnArray = {presentationSectionRepository.save(presentationSectionOne),
+                                             presentationSectionRepository.save(presentationSectionTwo)};
+
+        return returnArray;
     }
 
     public void deleteById(Long id) {

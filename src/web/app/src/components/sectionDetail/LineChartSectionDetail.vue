@@ -1,7 +1,9 @@
 <template>
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <line-chart :chart-data="chartData" :options="options"></line-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -48,6 +50,12 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

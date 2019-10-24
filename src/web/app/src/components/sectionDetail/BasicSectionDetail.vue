@@ -3,7 +3,12 @@
     <el-form status-icon ref="editForm" label-position="left" :model="editForm" label-width="170px"
              :rules="editFormRule">
       <div class="title" v-if="!isEditing">
+      <el-button-group v-if="isPresentationEditable" class="toggleIndex">
+        <el-button type="primary" :disabled="isFirstIndex" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'up')" icon="el-icon-arrow-up"></el-button>
+        <el-button type="primary" :disabled="isLastIndex" @click="moveSection(sectionDetail.id, sectionDetail.sectionIndex, 'down')" icon="el-icon-arrow-down"></el-button>
+      </el-button-group>
         {{ sectionDetail.title }}
+        <div v-if="!isEditing" class="conferenceName">Conference: {{ editForm.conferenceName }}</div>
         <el-button type="primary" plain @click="changeEditMode(true)" v-if="isPresentationEditable">Edit</el-button>
         <delete-modal
           v-if="isPresentationEditable"
@@ -129,6 +134,18 @@
           </el-input>
         </el-form-item>
 
+        <el-form-item label="Conference Name">
+            <el-select v-model="editForm.conferenceName" placeholder="Conference Name" style="width: 300px"
+                filterable>
+              <el-option
+                v-for="item in conferenceNames"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
         <el-form-item label="Group (Aggregation)" prop="groupers" v-if="isInAdvancedMode" key="groupers">
           <el-select placeholder="Groupers" v-model="editForm.groupers"
                      style="width: 100%"
@@ -229,7 +246,12 @@
         required: false,
         default: () => ([])
       },
-
+      moveSection: {
+        type: Function
+      },
+      isLastIndex: {
+        type: Boolean
+      }
     },
 
     created() {
@@ -246,11 +268,13 @@
           title: '',
           description: '',
           dataSet: '',
+          conferenceName: '',
           selections: [],
           involvedRecords: [],
           filters: [],
           joiners: [],
           groupers: [],
+          sectionIndex: null,
           sorters: [],
           extraData: {}
         },
@@ -296,6 +320,20 @@
       },
       isPresentationEditable() {
         return this.$store.state.presentation.isPresentationEditable;
+      },
+      conferenceNames() {
+        let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
+        
+        conferenceNames = conferenceNames.map(res => {
+          return { 
+            value: res,
+            label: res,
+          }
+        });
+        return conferenceNames;
+      },
+      isFirstIndex() {
+        return this.sectionDetail.sectionIndex === 0;
       }
     },
 
@@ -314,11 +352,13 @@
         this.editForm.title = this.sectionDetail.title;
         this.editForm.description = this.sectionDetail.description;
         this.editForm.dataSet = this.sectionDetail.dataSet;
+        this.editForm.conferenceName = this.sectionDetail.conferenceName;
         this.editForm.selections = deepCopy(this.sectionDetail.selections); // deep copy
         this.editForm.involvedRecords = this.sectionDetail.involvedRecords.map(r => r.name);
         this.editForm.filters = this.sectionDetail.filters.map(f => Object.assign({}, f));
         this.editForm.joiners = this.sectionDetail.joiners.map(f => Object.assign({}, f));
         this.editForm.groupers = this.sectionDetail.groupers.map(r => r.field);
+        this.editForm.sectionIndex = this.sectionDetail.sectionIndex;
         this.editForm.sorters = deepCopy(this.sectionDetail.sorters); // deep copy
         this.editForm.extraData = deepCopy(this.sectionDetail.extraData) // deep copy
       },
@@ -372,6 +412,10 @@
         this.editForm.sorters.splice(index, 1)
       },
 
+      changeSectionOrder(direction) {
+        this.$emit('changeSectionOrder', direction)
+      },
+
       saveSectionDetail(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -381,11 +425,13 @@
               title: this.editForm.title,
               description: this.editForm.description,
               dataSet: this.sectionDetail.dataSet,
+              conferenceName: this.editForm.conferenceName,
               selections: this.editForm.selections,
               involvedRecords: deepCopy(this.editFormInvolvedRecords),
               filters: this.editForm.filters.map(f => Object.assign({}, f)),
               joiners: this.editForm.joiners.map(j => Object.assign({}, j)),
               groupers: this.editForm.groupers.map(g => ({field: g})),
+              sectionIndex: this.sectionDetail.sectionIndex,
               sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
               extraData: this.editForm.extraData
             })
@@ -420,6 +466,7 @@
             presentationId: this.presentationId,
             id: this.sectionDetail.id,
             dataSet: this.sectionDetail.dataSet,
+            conferenceName: this.editForm.conferenceName,
             selections: this.editForm.selections,
             involvedRecords: this.editFormInvolvedRecords,
             filters: this.editForm.filters,
@@ -473,6 +520,10 @@
     margin-top: 10px;
   }
 
+  .toggleIndex {
+    float: left;
+  }
+
   .description {
     margin-top: 20px;
     padding-left: 50px;
@@ -486,5 +537,12 @@
 
   .errorMessage {
     margin-top: 10px;
+  }
+
+  .conferenceName {
+    margin-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    align-content: center;
   }
 </style>

@@ -9,6 +9,15 @@
     </el-row>
     <div v-loading="isLoadingDBMetaData || isLoadingSectionList" v-if="!isNewPresentation">
       <el-row class="addRowRightAlign" v-if="isLogin && isPresentationEditable">
+        <el-select v-model="selectedConferenceName" placeholder="Conference Name" style="width: 300px"
+                   filterable>
+          <el-option
+            v-for="item in conferenceNames"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
         <el-select v-model="selectedNewSection" placeholder="Please select a section to add" style="width: 300px"
                    filterable>
           <el-option-group
@@ -23,7 +32,7 @@
             </el-option>
           </el-option-group>
         </el-select>
-        <el-button class="addButtonLeft" type="success" @click="addNewSection" :disabled="!isNewSectionTypeSelected">Add New Section</el-button>
+        <el-button class="addButtonLeft" type="success" @click="addNewSection" :disabled="!isNewSectionTypeAddable">Add New Section</el-button>
       </el-row>
       <br/>
       <el-alert
@@ -31,8 +40,9 @@
         :title="sectionListApiErrorMsg"
         type="error" show-icon>
       </el-alert>
-      <abstract-section-detail class="presentation-section" v-for="section in sectionList" :sectionDetail="section"
-                               :key="section.id" :presentationId="presentationId"/>
+      <abstract-section-detail class="presentation-section" v-for="section in orderedSectionList" :sectionDetail="section"
+                               :key="section.id" :presentationId="presentationId" :moveSection="changeSectionOrder"
+                               :isLastIndex="section.sectionIndex === orderedSectionList.length - 1"/>
     </div>
   </div>
 </template>
@@ -52,6 +62,7 @@
     data() {
       return {
         selectedNewSection: '',
+        selectedConferenceName: ''
       }
     },
     computed: {
@@ -94,12 +105,23 @@
         return sectionOptions;
       },
 
+      conferenceNames() {
+        let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
+        
+        conferenceNames = conferenceNames.map(res => {
+          return { 
+            value: res,
+            label: res,
+          }
+        });
+        return conferenceNames;
+      },
+ 
       isNewPresentation() {
         return this.presentationId === ID_NEW_PRESENTATION
       },
-
-      sectionList() {
-        return this.$store.state.section.sectionList
+      orderedSectionList() {
+        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
       },
       isLoadingSectionList() {
         return this.$store.state.section.sectionListStatus.isLoading
@@ -113,8 +135,9 @@
       isLoadingDBMetaData() {
         return this.$store.state.dbMetaData.entitiesStatus.isLoading
       },
-      isNewSectionTypeSelected() {
+      isNewSectionTypeAddable() {
         return this.selectedNewSection.length !== 0
+          && this.selectedConferenceName.length > 0;
       }
     },
     components: {
@@ -123,6 +146,7 @@
     mounted() {
       this.fetchSectionList();
       this.$store.dispatch('fetchDBMetaDataEntities');
+      this.$store.dispatch('fetchUniqueConferenceNames');
     },
     methods: {
       fetchSectionList() {
@@ -134,15 +158,40 @@
       },
 
       addNewSection() {
-        if (this.selectedNewSection.length === 0) {
+        if (this.selectedNewSection.length === 0 && this.selectedConferenceName.length === 0) {
           return;
         }
         this.$store.dispatch('addSectionDetail', {
           presentationId: this.presentationId,
           selectedNewSection: this.selectedNewSection,
           dataSet: this.$store.state.userInfo.userEmail,
+          conferenceName: this.selectedConferenceName,
+          sectionListSize: this.orderedSectionList.length
         }).then(() => {
           this.selectedNewSection = ''
+          this.selectedConferenceName = ''
+        })
+      },
+
+      changeSectionOrder(sectionId, sectionIndex, direction) {
+        var indexToSwap;
+
+        if (direction === 'up') {
+          // Get ID of section that is one index smaller
+          indexToSwap = sectionIndex > 0 ? sectionIndex - 1 : sectionIndex
+        } else {
+          // Get ID of section that is one index greater
+          indexToSwap = sectionIndex < this.orderedSectionList.length - 1 ? sectionIndex + 1 : sectionIndex
+        }
+        // Don't bother trying to swap if they are not swap-able
+        if (indexToSwap == sectionIndex) {
+          return
+        }
+        var sectionToSwap = this.orderedSectionList[indexToSwap]
+        this.$store.dispatch('updateSectionIndex', {
+          id: sectionId,
+          presentationId: this.presentationId,
+          sectionToSwap: sectionToSwap
         })
       }
     }

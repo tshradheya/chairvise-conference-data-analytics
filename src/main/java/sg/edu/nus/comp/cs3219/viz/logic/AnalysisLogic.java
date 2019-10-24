@@ -77,6 +77,11 @@ public class AnalysisLogic {
                 .map(t -> String.format("%s.data_set = '%s'", t.getName(), analysisRequest.getDataSet()))
                 .collect(Collectors.joining(" AND "));
 
+        String conferenceNameFilter = analysisRequest.getInvolvedRecords().stream()
+                .filter(r -> !r.isCustomized())
+                .map(t -> String.format("%s.conference_name = '%s'", t.getName(), analysisRequest.getConferenceName()))
+                .collect(Collectors.joining(" AND "));
+
         String groupersStr = analysisRequest.getGroupers().stream()
                 .map(PresentationSection.Grouper::getField)
                 .collect(Collectors.joining(","));
@@ -91,6 +96,10 @@ public class AnalysisLogic {
             baseSQL += String.format(" WHERE %s", dataSetFilter);
         } else {
             baseSQL += " WHERE true";
+        }
+
+        if (!conferenceNameFilter.isEmpty()) {
+            baseSQL += String.format(" AND %s", conferenceNameFilter);
         }
 
         if (!joinersStr.isEmpty()) {
@@ -108,6 +117,7 @@ public class AnalysisLogic {
         if (!sortersStr.isEmpty()) {
             baseSQL += String.format(" ORDER BY %s", sortersStr);
         }
+
         return baseSQL;
     }
 

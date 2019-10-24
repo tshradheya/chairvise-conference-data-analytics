@@ -1,6 +1,8 @@
 package sg.edu.nus.comp.cs3219.viz.ui.controller.api;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,30 +29,37 @@ public class RecordController extends BaseRestController {
         this.recordLogic = recordLogic;
     }
 
-    @PostMapping("/record/author")
-    public ResponseEntity<?> importAuthorRecord(@RequestBody List<AuthorRecord> authorRecordList) throws URISyntaxException {
+    @PostMapping("/record/author/{confName}")
+    public ResponseEntity<?> importAuthorRecord(@RequestBody List<AuthorRecord> authorRecordList, @PathVariable String confName) throws URISyntaxException {
         UserInfo userInfo = gateKeeper.verifyLoginAccess();
 
-        this.recordLogic.removeAndPersistAuthorRecordForDataSet(userInfo.getUserEmail(), authorRecordList);
+        this.recordLogic.removeAndPersistAuthorRecordForDataSet(userInfo.getUserEmail(), authorRecordList, confName);
 
         return ResponseEntity.created(new URI("/record/author")).build();
     }
 
-    @PostMapping("/record/review")
-    public ResponseEntity<?> importReviewRecord(@RequestBody List<ReviewRecord> reviewRecordList) throws URISyntaxException {
+    @PostMapping("/record/review/{confName}")
+    public ResponseEntity<?> importReviewRecord(@RequestBody List<ReviewRecord> reviewRecordList, @PathVariable String confName) throws URISyntaxException {
         UserInfo userInfo = gateKeeper.verifyLoginAccess();
 
-        this.recordLogic.removeAndPersistReviewRecordForDataSet(userInfo.getUserEmail(), reviewRecordList);
+        this.recordLogic.removeAndPersistReviewRecordForDataSet(userInfo.getUserEmail(), reviewRecordList, confName);
 
         return ResponseEntity.created(new URI("/record/review")).build();
     }
 
-    @PostMapping("/record/submission")
-    public ResponseEntity<?> importSubmissionRecord(@RequestBody List<SubmissionRecord> submissionRecords) throws URISyntaxException {
+    @PostMapping("/record/submission/{confName}")
+    public ResponseEntity<?> importSubmissionRecord(@RequestBody List<SubmissionRecord> submissionRecords, @PathVariable String confName) throws URISyntaxException {
         UserInfo userInfo = gateKeeper.verifyLoginAccess();
 
-        this.recordLogic.removeAndPersistSubmissionRecordForDataSet(userInfo.getUserEmail(), submissionRecords);
+        this.recordLogic.removeAndPersistSubmissionRecordForDataSet(userInfo.getUserEmail(), submissionRecords, confName);
 
         return ResponseEntity.created(new URI("/record/review")).build();
+    }
+
+    @GetMapping("/allConferenceNames")
+    public List<String> getAllConferenceNames() {
+        UserInfo userInfo = gateKeeper.verifyLoginAccess();
+
+        return this.recordLogic.getAllConferenceNames(userInfo.getUserEmail());
     }
 }

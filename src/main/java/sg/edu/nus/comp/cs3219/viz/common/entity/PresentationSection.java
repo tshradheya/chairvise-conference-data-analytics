@@ -47,6 +47,10 @@ public class PresentationSection {
 
     private String dataSet;
 
+    private String conferenceName;
+
+    private Integer sectionIndex;
+
     // The following field does not worth to be stored as relation in RDBMS
     // we store them as serialized json string
 
@@ -238,6 +242,14 @@ public class PresentationSection {
         this.description = description;
     }
 
+    public Integer getSectionIndex() {
+        return sectionIndex;
+    }
+
+    public void setSectionIndex(Integer sectionIndex) {
+        this.sectionIndex = sectionIndex;
+    }
+
     public String getType() {
         return type;
     }
@@ -252,6 +264,14 @@ public class PresentationSection {
 
     public void setDataSet(String dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
     }
 
     public List<Selection> getSelections() {

@@ -21,6 +21,8 @@ public class SubmissionAuthorRecord {
 
     private String dataSet;
 
+    private String conferenceName;
+
     @Column(name = "s_author_name")
     private String name;
 
@@ -38,6 +40,14 @@ public class SubmissionAuthorRecord {
 
     public void setDataSet(String dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
     }
 
     public String getName() {

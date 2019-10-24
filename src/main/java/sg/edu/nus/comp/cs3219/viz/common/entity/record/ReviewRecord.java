@@ -25,6 +25,8 @@ public class ReviewRecord {
     // each record will be imported by each user, dataSet is used to distinguished records submitted by different user
     private String dataSet;
 
+    private String conferenceName;
+
     @Exportable(name = "Submission Id", nameInDB = "r_submission_id")
     @Column(name = "r_submission_id")
     private String submissionId;
@@ -83,6 +85,14 @@ public class ReviewRecord {
 
     public void setDataSet(String dataSet) {
         this.dataSet = dataSet;
+    }
+
+    public String getConferenceName() {
+        return conferenceName;
+    }
+
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
     }
 
     public String getSubmissionId() {

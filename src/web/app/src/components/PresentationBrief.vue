@@ -26,18 +26,18 @@
     <el-form-item>
       <el-button type="primary" @click="downloadPDF(false)" v-if="!isInEditMode && !isNewPresentation">Download as PDF
       </el-button>
-      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format <Form:get></Form:get>
+      <el-button type="primary" @click="downloadPDF(true)" v-if="!isInEditMode && !isNewPresentation">Download in Presentation Format
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
       <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
-      <DeleteModal
+      <delete-modal
         v-if="!isNewPresentation && isLogin && isPresentationEditable"
         typeOfDelete="presentation"
         :deleteFunction="this.deletePresentation">
-      </DeleteModal>
+      </delete-modal>
     </el-form-item>
   </el-form>
 </template>

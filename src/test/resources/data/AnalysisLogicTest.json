@@ -6,6 +6,7 @@
                 "Laxxx Kaxx"
             ],
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "isAccepted": "no",
             "isNotified": "yes",
             "isReviewsSent": "yes",
@@ -24,6 +25,7 @@
                 "Laxxx Kaxx"
             ],
             "dataSet": "test1@example.com",
+            "conferenceName": "testConference",
             "isAccepted": "no",
             "isNotified": "yes",
             "isReviewsSent": "yes",
@@ -42,6 +44,7 @@
                 "test"
             ],
             "dataSet": "test1@example.com",
+            "conferenceName": "testConference",
             "isAccepted": "yes",
             "isNotified": "no",
             "isReviewsSent": "yes",
@@ -60,6 +63,7 @@
             "id": 1,
             "country": "United States",
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "email": "xxxxxxxxdiana.edu",
             "firstName": "Laxxx",
             "isCorresponding": "yes",
@@ -73,6 +77,7 @@
             "id": 2,
             "country": "United States11",
             "dataSet": "test1@example.com",
+            "conferenceName": "testConference",
             "email": "xxxxxxxxdiana.edu",
             "firstName": "Laxxx",
             "isCorresponding": "yes",
@@ -86,6 +91,7 @@
             "id": 3,
             "country": "United States22",
             "dataSet": "test1@example.com",
+            "conferenceName": "testConference",
             "email": "xxxxxxxxdiana.edu",
             "firstName": "Laxxx",
             "isCorresponding": "yes",
@@ -100,6 +106,7 @@
         "review1S1": {
             "id": 1,
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "expertiseLevel": 1,
             "confidenceLevel": 1,
             "hasRecommendedForBestPaper": "no",
@@ -114,6 +121,7 @@
         "review2S1": {
             "id": 2,
             "dataSet": "test@example.com",
+            "conferenceName": "testConference",
             "expertiseLevel": 1,
             "confidenceLevel": 1,
             "hasRecommendedForBestPaper": "no",
@@ -128,6 +136,7 @@
         "review1S1ByDifferentUser": {
             "id": 3,
             "dataSet": "test1@example.com",
+            "conferenceName": "testConference",
             "expertiseLevel": 1,
             "confidenceLevel": 1,
             "hasRecommendedForBestPaper": "no",

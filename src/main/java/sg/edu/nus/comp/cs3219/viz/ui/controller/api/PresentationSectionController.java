@@ -1,5 +1,9 @@
 package sg.edu.nus.comp.cs3219.viz.ui.controller.api;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sg.edu.nus.comp.cs3219.viz.common.datatransfer.AccessLevel;
@@ -10,10 +14,6 @@ import sg.edu.nus.comp.cs3219.viz.common.exception.PresentationSectionNotFoundEx
 import sg.edu.nus.comp.cs3219.viz.logic.GateKeeper;
 import sg.edu.nus.comp.cs3219.viz.logic.PresentationLogic;
 import sg.edu.nus.comp.cs3219.viz.logic.PresentationSectionLogic;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 
 @RestController
 public class PresentationSectionController extends BaseRestController {
@@ -45,7 +45,6 @@ public class PresentationSectionController extends BaseRestController {
         Presentation presentation = presentationLogic.findById(presentationId)
                 .orElseThrow(() -> new PresentationNotFoundException(presentationId));
         gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_WRITE);
-
         PresentationSection newPresentationSection = presentationSectionLogic.saveForPresentation(presentation, presentationSection);
 
         return ResponseEntity
@@ -68,6 +67,26 @@ public class PresentationSectionController extends BaseRestController {
         return ResponseEntity
                 .created(new URI("/presentations/" + presentationId + "/section/" + updatedPresentationSection.getId()))
                 .body(updatedPresentationSection);
+    }
+
+    @PatchMapping("/presentations/{presentationId}/sections/{sectionId}")
+    public ResponseEntity<?> updatePresentationSectionIndex(@PathVariable Long presentationId, @PathVariable Long sectionId,
+                                                            @RequestBody PresentationSection sectionToSwap) throws URISyntaxException {
+		PresentationSection presentationSectionOne = presentationSectionLogic.findById(sectionId)
+			    .orElseThrow(() -> new PresentationSectionNotFoundException(presentationId, sectionId));
+		Presentation presentation = presentationSectionOne.getPresentation();
+                 gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_WRITE);
+
+		PresentationSection presentationSectionTwo = presentationSectionLogic.findById(sectionToSwap.getId())
+			    .orElseThrow(() -> new PresentationSectionNotFoundException(presentationId, sectionToSwap.getId()));
+
+
+		PresentationSection[] newPresentationSections =
+                presentationSectionLogic.swapSectionIndices(presentationSectionOne, presentationSectionTwo);
+
+		return ResponseEntity
+                .accepted()
+                .body(newPresentationSections);													
     }
 
     @DeleteMapping("/presentations/{presentationId}/sections/{sectionId}")
