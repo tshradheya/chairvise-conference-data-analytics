@@ -43,7 +43,7 @@
              ManyBody:this.fMb,
              Center: this.fC,
          },
-         size:{w:1300, h:480},
+         size:{w:1300, h:this.dataSet.canvasSize},
          nodeSize: this.nodeSize,
          nodeLabels:this.dataSet.nodeLabels,
          linkLabels:true,

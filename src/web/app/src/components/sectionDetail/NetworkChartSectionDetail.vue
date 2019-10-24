@@ -11,8 +11,11 @@
             <el-input v-model="slotProps.extraData.second" placeholder="Expression" style="width: 300px"></el-input>&nbsp;
           </el-form-item>
           <el-form-item label="Force" prop="extraData.force" v-if="slotProps.isInAdvancedMode">
-            <el-slider v-model="slotProps.extraData.force" :min="500" :max="3000"></el-slider>
+            <el-slider v-model="slotProps.extraData.force" :min="400" :max="3000"></el-slider>
           </el-form-item>
+           <el-form-item label="Canvas Height" prop="extraData.canvasSize" v-if="slotProps.isInAdvancedMode">
+             <el-slider v-model="slotProps.extraData.canvasSize" :min="400" :max="3000"></el-slider>
+           </el-form-item>
          <el-form-item label="Labels" prop="extraData.nodeLabels" v-if="slotProps.isInAdvancedMode">
               <el-switch
                 v-model="slotProps.extraData.nodeLabels"
@@ -58,6 +61,7 @@
           this.dataSet = {};
           this.dataSet.nodeLabels = extraData.nodeLabels;
           this.dataSet.force = extraData.force;
+          this.dataSet.canvasSize = extraData.canvasSize;
           let submission = extraData.first;
           let organisation = extraData.second;
           let myMap = new Map();
