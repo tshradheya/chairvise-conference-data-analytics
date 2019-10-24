@@ -41,7 +41,8 @@ export default {
       second:'country',
       nodeLabels: true,
       force: 1000,
-      canvasSize: 480
+      canvasSize: 480,
+      nodeSize: 5,
       }
     }
   },
@@ -87,7 +88,8 @@ export default {
         second:'organisation',
         nodeLabels: true,
         force: 800,
-        canvasSize: 1000
+        canvasSize: 1000,
+        nodeSize: 5,
         }
       }
     },

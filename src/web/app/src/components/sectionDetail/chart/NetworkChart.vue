@@ -27,7 +27,7 @@
           fY:1,
           fMb:true,
           fC:false,
-          nodeSize:5,
+          nodeSize:this.dataSet.nodeSize,
           canvas:true,
           nodeLabels: this.dataSet.nodeLabels
       }
@@ -44,7 +44,7 @@
              Center: this.fC,
          },
          size:{w:1300, h:this.dataSet.canvasSize},
-         nodeSize: this.nodeSize,
+         nodeSize: this.dataSet.nodeSize,
          nodeLabels:this.dataSet.nodeLabels,
          linkLabels:true,
          canvas: true
