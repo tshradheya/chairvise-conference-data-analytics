@@ -6,6 +6,7 @@ export default {
       type: 'network_chart',
       title: 'Network of Countries',
       dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
       description: 'This network graph shows the countries linked based on submission ',
       selections: [
         {
