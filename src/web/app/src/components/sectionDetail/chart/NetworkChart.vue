@@ -29,7 +29,8 @@
           fC:false,
           nodeSize:this.dataSet.nodeSize,
           canvas:true,
-          nodeLabels: this.dataSet.nodeLabels
+          nodeLabels: this.dataSet.nodeLabels,
+          fontSize: this.dataSet.fontSize
       }
     },
 
@@ -45,7 +46,8 @@
          },
          size:{w:1300, h:this.dataSet.canvasSize},
          nodeSize: this.dataSet.nodeSize,
-         nodeLabels:this.dataSet.nodeLabels,
+         nodeLabels: this.dataSet.nodeLabels,
+         fontSize: this.dataSet.fontSize,
          linkLabels:true,
          canvas: true
         }

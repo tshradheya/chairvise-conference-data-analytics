@@ -19,6 +19,9 @@
           <el-form-item label="Node Size" prop="extraData.nodeSize" v-if="slotProps.isInAdvancedMode">
               <el-slider v-model="slotProps.extraData.nodeSize" :min="5" :max="50"></el-slider>
           </el-form-item>
+          <el-form-item label="Font Size" prop="extraData.fontSize" v-if="slotProps.isInAdvancedMode">
+              <el-slider v-model="slotProps.extraData.fontSize" :min="5" :max="50"></el-slider>
+          </el-form-item>
          <el-form-item label="Labels" prop="extraData.nodeLabels" v-if="slotProps.isInAdvancedMode">
               <el-switch
                 v-model="slotProps.extraData.nodeLabels"
@@ -66,6 +69,7 @@
           this.dataSet.force = extraData.force;
           this.dataSet.canvasSize = extraData.canvasSize;
           this.dataSet.nodeSize = extraData.nodeSize;
+          this.dataSet.fontSize = extraData.fontSize;
           let submission = extraData.first;
           let organisation = extraData.second;
           let myMap = new Map();

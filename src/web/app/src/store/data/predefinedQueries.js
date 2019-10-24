@@ -43,6 +43,7 @@ export default {
       force: 1000,
       canvasSize: 480,
       nodeSize: 5,
+      fontSize: 15
       }
     }
   },
@@ -90,6 +91,7 @@ export default {
         force: 800,
         canvasSize: 1000,
         nodeSize: 5,
+        fontSize: 10
         }
       }
     },
