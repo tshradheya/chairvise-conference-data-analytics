@@ -192,6 +192,7 @@
       </div>
     </el-form>
   </el-row>
+
 </template>
 
 <script>
@@ -259,6 +260,11 @@
       this.sendAnalysisRequest();
     },
 
+    mounted() {
+      this.syncDataWithProps();
+      this.sendAnalysisRequest();
+    },
+
     data() {
       return {
         isInAdvancedMode: false,
@@ -276,7 +282,8 @@
           groupers: [],
           sectionIndex: null,
           sorters: [],
-          extraData: {}
+          extraData: {},
+          hasData: this.hasData
         },
 
         editFormRule: {
@@ -360,7 +367,8 @@
         this.editForm.groupers = this.sectionDetail.groupers.map(r => r.field);
         this.editForm.sectionIndex = this.sectionDetail.sectionIndex;
         this.editForm.sorters = deepCopy(this.sectionDetail.sorters); // deep copy
-        this.editForm.extraData = deepCopy(this.sectionDetail.extraData) // deep copy
+        this.editForm.extraData = deepCopy(this.sectionDetail.extraData); // deep copy
+        this.editForm.hasData = this.hasData;
       },
 
       addSelection() {
@@ -417,6 +425,7 @@
       },
 
       saveSectionDetail(formName) {
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$store.dispatch('saveSectionDetail', {
@@ -433,7 +442,8 @@
               groupers: this.editForm.groupers.map(g => ({field: g})),
               sectionIndex: this.sectionDetail.sectionIndex,
               sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
-              extraData: this.editForm.extraData
+              extraData: this.editForm.extraData,
+              hasData: this.hasData
             })
               .then(() => {
                 // only update when there is no error in saving
@@ -473,6 +483,7 @@
             joiners: this.editForm.joiners.map(j => Object.assign({}, j)),
             groupers: this.editForm.groupers.map(g => ({field: g})),
             sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
+            hasData: this.hasData,
           })
             .then(() => {
               this.$emit('update-visualisation', {
@@ -483,7 +494,8 @@
                 groupers: this.editForm.groupers.map(g => ({field: g})),
                 sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
                 result: this.sectionDetail.previewResult,
-                extraData: this.editForm.extraData
+                extraData: this.editForm.extraData,
+                hasData: this.hasData,
               });
             })
         });
@@ -501,7 +513,8 @@
               result: this.sectionDetail.result,
               groupers: this.sectionDetail.groupers,
               sorters: this.sectionDetail.sorters,
-              extraData: this.sectionDetail.extraData
+              extraData: this.sectionDetail.extraData,
+              hasData: this.hasData,
             });
           })
       },

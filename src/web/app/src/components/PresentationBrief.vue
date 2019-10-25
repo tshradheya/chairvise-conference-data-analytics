@@ -30,6 +30,8 @@
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
+      <el-button type="primary" @click="deleteSectionsWithoutData()" v-if="!isInEditMode && isPresentationEditable">Remove Sections without data
+      </el-button>
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
       <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
@@ -242,6 +244,21 @@
           });
         });
       },
+      deleteSectionsWithoutData() {
+       let section_list = this.$store.state.section.sectionList;
+          for (let p in section_list) {
+          if (!section_list[p].hasData) {
+              console.log("Hello Javascript");
+              console.log(section_list[p]);
+              console.log(this.id);
+                console.log(section_list[p].hasData);
+              this.$store.dispatch('deleteSectionDetail', {
+                  id: section_list[p].id,
+                  presentationId: this.id
+              })
+          }
+        }
+      }
     },
 
     components: {

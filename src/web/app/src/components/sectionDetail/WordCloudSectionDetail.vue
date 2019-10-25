@@ -6,7 +6,8 @@
                         :extraFormItemsRules="extraFormItemsRules"
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
-                        :isLastIndex="isLastIndex">
+                        :isLastIndex="isLastIndex"
+                        ref = "basicSectionDetail">
     <word-cloud
       :data="words">
     </word-cloud>
@@ -98,6 +99,16 @@
       }
     },
 
+    var: {
+        firstRefresh: false
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     computed: {
       hasData() {
         return this.words.length !== 0;

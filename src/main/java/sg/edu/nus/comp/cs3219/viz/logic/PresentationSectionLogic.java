@@ -38,6 +38,8 @@ public class PresentationSectionLogic {
         newPresentationSection.setSectionIndex(presentationSection.getSectionIndex());
         newPresentationSection.setSorters(presentationSection.getSorters());
         newPresentationSection.setExtraData(presentationSection.getExtraData());
+        newPresentationSection.setHasData(presentationSection.getHasData());
+
 
         return presentationSectionRepository.save(newPresentationSection);
     }
@@ -59,6 +61,7 @@ public class PresentationSectionLogic {
         oldPresentationSection.setSectionIndex(newPresentationSection.getSectionIndex());
         oldPresentationSection.setSorters(newPresentationSection.getSorters());
         oldPresentationSection.setExtraData(newPresentationSection.getExtraData());
+        oldPresentationSection.setHasData(newPresentationSection.getHasData());
 
         return presentationSectionRepository.save(oldPresentationSection);
     }

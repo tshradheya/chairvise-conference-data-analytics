@@ -1,7 +1,8 @@
 <template>
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        ref = "basicSectionDetail">>
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -61,7 +62,16 @@
         tableData: []
       }
     },
-
+    var: {
+        firstRefresh: false
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     computed: {
       hasData() {
         return this.tableData.length !== 0;

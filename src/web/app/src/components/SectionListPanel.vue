@@ -6,6 +6,8 @@
         type="info"
         show-icon>
       </el-alert>
+      <el-alert v-if="hasDuplicateName" :title="noDataInSectionErrorMsg" type="error" show-icon class="errorMsg"/>
+
     </el-row>
     <div v-loading="isLoadingDBMetaData || isLoadingSectionList" v-if="!isNewPresentation">
       <el-row class="addRowRightAlign" v-if="isLogin && isPresentationEditable">
@@ -121,7 +123,7 @@
         return this.presentationId === ID_NEW_PRESENTATION
       },
       orderedSectionList() {
-        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
+        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex');
       },
       isLoadingSectionList() {
         return this.$store.state.section.sectionListStatus.isLoading
@@ -138,7 +140,13 @@
       isNewSectionTypeAddable() {
         return this.selectedNewSection.length !== 0
           && this.selectedConferenceName.length > 0;
-      }
+      },
+      noDatainSectionErrorMsg() {
+        return 'No data to show for that section'
+      },
+      hasDuplicateName() {
+          return true;
+      },
     },
     components: {
       AbstractSectionDetail
@@ -171,6 +179,7 @@
           this.selectedNewSection = ''
           this.selectedConferenceName = ''
         })
+
       },
 
       changeSectionOrder(sectionId, sectionIndex, direction) {

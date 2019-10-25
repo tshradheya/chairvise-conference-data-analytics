@@ -47,6 +47,7 @@ public class PresentationSectionController extends BaseRestController {
         gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_WRITE);
         PresentationSection newPresentationSection = presentationSectionLogic.saveForPresentation(presentation, presentationSection);
 
+
         return ResponseEntity
                 .created(new URI("/presentations/" + presentationId + "/section/" + newPresentationSection.getId()))
                 .body(newPresentationSection);

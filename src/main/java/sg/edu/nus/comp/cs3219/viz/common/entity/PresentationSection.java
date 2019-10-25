@@ -51,6 +51,7 @@ public class PresentationSection {
 
     private Integer sectionIndex;
 
+    private boolean hasData;
     // The following field does not worth to be stored as relation in RDBMS
     // we store them as serialized json string
 
@@ -80,6 +81,8 @@ public class PresentationSection {
 
     @Column(columnDefinition = "TEXT")
     private String extraData;
+
+
 
     public static class Selection {
         private String expression;
@@ -399,4 +402,13 @@ public class PresentationSection {
             log.severe(e.getMessage());
         }
     }
+
+    public boolean getHasData() {
+        return this.hasData;
+    }
+
+    public void setHasData(boolean hasData) {
+        this.hasData = hasData;
+    }
+
 }
