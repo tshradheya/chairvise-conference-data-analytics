@@ -48,26 +48,26 @@
 </template>
 
 <script>
-  import AbstractSectionDetail from "@/components/AbstractSectionDetail.vue"
-  import {ID_NEW_PRESENTATION} from "@/common/const";
-  import PredefinedQueries from "@/store/data/predefinedQueries"
+  import AbstractSectionDetail from '@/components/AbstractSectionDetail.vue';
+  import {ID_NEW_PRESENTATION} from '@/common/const';
+  import PredefinedQueries from '@/store/data/predefinedQueries';
 
   export default {
     props: {
       presentationId: String,
     },
     watch: {
-      presentationId: 'fetchSectionList'
+      presentationId: 'fetchSectionList',
     },
     data() {
       return {
         selectedNewSection: '',
-        selectedConferenceName: ''
-      }
+        selectedConferenceName: '',
+      };
     },
     computed: {
       isLogin() {
-        return this.$store.state.userInfo.isLogin
+        return this.$store.state.userInfo.isLogin;
       },
 
       isPresentationEditable() {
@@ -75,73 +75,73 @@
       },
 
       predefinedSections() {
-        let sectionOptionsGroup = {};
+        const sectionOptionsGroup = {};
         // grouping the predefined queries
-        for (let key in PredefinedQueries) {
+        for (const key in PredefinedQueries) {
           if (!PredefinedQueries.hasOwnProperty(key)) {
             continue;
           }
-          let groupName = PredefinedQueries[key].group;
+          const groupName = PredefinedQueries[key].group;
           if (sectionOptionsGroup[groupName] === undefined) {
             sectionOptionsGroup[groupName] = [];
           }
           sectionOptionsGroup[groupName].push({
             value: key,
             label: PredefinedQueries[key].name,
-          })
+          });
         }
 
         // generate to format that element ui requires
-        let sectionOptions = [];
-        for (let groupName in sectionOptionsGroup) {
+        const sectionOptions = [];
+        for (const groupName in sectionOptionsGroup) {
           if (!sectionOptionsGroup.hasOwnProperty(groupName)) {
             continue;
           }
           sectionOptions.push({
             label: groupName,
-            options: sectionOptionsGroup[groupName]
-          })
+            options: sectionOptionsGroup[groupName],
+          });
         }
         return sectionOptions;
       },
 
       conferenceNames() {
         let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
-        
+
         conferenceNames = conferenceNames.map(res => {
-          return { 
+          return {
             value: res,
             label: res,
-          }
+          };
         });
         return conferenceNames;
       },
- 
+
       isNewPresentation() {
-        return this.presentationId === ID_NEW_PRESENTATION
+        return this.presentationId === ID_NEW_PRESENTATION;
       },
       orderedSectionList() {
-        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
+        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex');
       },
       isLoadingSectionList() {
-        return this.$store.state.section.sectionListStatus.isLoading
+        return this.$store.state.section.sectionListStatus.isLoading;
       },
       isSectionListApiError() {
-        return this.$store.state.section.sectionListStatus.isApiError
+        return this.$store.state.section.sectionListStatus.isApiError;
       },
       sectionListApiErrorMsg() {
-        return this.$store.state.section.sectionListStatus.apiErrorMsg
+        return this.$store.state.section.sectionListStatus.apiErrorMsg;
       },
       isLoadingDBMetaData() {
-        return this.$store.state.dbMetaData.entitiesStatus.isLoading
+        return this.$store.state.dbMetaData.entitiesStatus.isLoading;
       },
       isNewSectionTypeAddable() {
         return this.selectedNewSection.length !== 0
           && this.selectedConferenceName.length > 0;
-      }
+      },
     },
     components: {
-      AbstractSectionDetail
+      AbstractSectionDetail,
     },
     mounted() {
       this.fetchSectionList();
@@ -153,7 +153,7 @@
         if (this.isNewPresentation) {
           this.$store.commit('clearSectionList');
         } else {
-          this.$store.dispatch('fetchSectionList', this.presentationId)
+          this.$store.dispatch('fetchSectionList', this.presentationId);
         }
       },
 
@@ -166,11 +166,11 @@
           selectedNewSection: this.selectedNewSection,
           dataSet: this.$store.state.userInfo.userEmail,
           conferenceName: this.selectedConferenceName,
-          sectionListSize: this.orderedSectionList.length
+          sectionListSize: this.orderedSectionList.length,
         }).then(() => {
-          this.selectedNewSection = ''
-          this.selectedConferenceName = ''
-        })
+          this.selectedNewSection = '';
+          this.selectedConferenceName = '';
+        });
       },
 
       changeSectionOrder(sectionId, sectionIndex, direction) {
@@ -178,24 +178,24 @@
 
         if (direction === 'up') {
           // Get ID of section that is one index smaller
-          indexToSwap = sectionIndex > 0 ? sectionIndex - 1 : sectionIndex
+          indexToSwap = sectionIndex > 0 ? sectionIndex - 1 : sectionIndex;
         } else {
           // Get ID of section that is one index greater
-          indexToSwap = sectionIndex < this.orderedSectionList.length - 1 ? sectionIndex + 1 : sectionIndex
+          indexToSwap = sectionIndex < this.orderedSectionList.length - 1 ? sectionIndex + 1 : sectionIndex;
         }
         // Don't bother trying to swap if they are not swap-able
         if (indexToSwap == sectionIndex) {
-          return
+          return;
         }
-        var sectionToSwap = this.orderedSectionList[indexToSwap]
+        var sectionToSwap = this.orderedSectionList[indexToSwap];
         this.$store.dispatch('updateSectionIndex', {
           id: sectionId,
           presentationId: this.presentationId,
-          sectionToSwap: sectionToSwap
-        })
-      }
-    }
-  }
+          sectionToSwap: sectionToSwap,
+        });
+      },
+    },
+  };
 </script>
 
 <style scoped>

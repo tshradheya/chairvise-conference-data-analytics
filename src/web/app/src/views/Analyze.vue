@@ -17,10 +17,10 @@
 
 <script>
   import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
-  import ListOfPresentation from '@/components/ListOfPresentation.vue'
-  import ListOfSharedPresentation from '@/components/ListOfSharedPresentation.vue'
-  import PresentationBrief from "@/components/PresentationBrief.vue";
-  import SectionListPanel from "@/components/SectionListPanel.vue";
+  import ListOfPresentation from '@/components/ListOfPresentation.vue';
+  import ListOfSharedPresentation from '@/components/ListOfSharedPresentation.vue';
+  import PresentationBrief from '@/components/PresentationBrief.vue';
+  import SectionListPanel from '@/components/SectionListPanel.vue';
 
   export default {
     name: 'Analyze',
@@ -29,18 +29,18 @@
     },
     computed: {
       isLogin() {
-        return this.$store.state.userInfo.isLogin
+        return this.$store.state.userInfo.isLogin;
       },
       isAppLoading() {
-        return this.$store.state.isPageLoading
-      }
+        return this.$store.state.isPageLoading;
+      },
     },
     components: {
       PresentationBrief,
       ListOfPresentation,
       ListOfSharedPresentation,
       SectionListPanel,
-      ChartJsPluginDataLabels
-    }
-  }
+      ChartJsPluginDataLabels,
+    },
+  };
 </script>

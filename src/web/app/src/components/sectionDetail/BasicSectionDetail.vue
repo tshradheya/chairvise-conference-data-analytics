@@ -195,63 +195,63 @@
 </template>
 
 <script>
-  import {deepCopy} from "@/common/utility"
-  import DeleteModal from '@/components/common/DeleteModal'
+  import {deepCopy} from '@/common/utility';
+  import DeleteModal from '@/components/common/DeleteModal';
 
   export default {
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       hasData: {
         type: Boolean,
-        required: true
+        required: true,
       },
       extraFormItemsRules: {
         type: Object,
-        required: false
+        required: false,
       },
       editFormSelectionsRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       editFormInvolvedRecordsRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       editFormFiltersRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       editFormJoinersRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       editFormGroupersRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       editFormSortersRule: {
         type: Array,
         required: false,
-        default: () => ([])
+        default: () => ([]),
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     created() {
@@ -276,30 +276,30 @@
           groupers: [],
           sectionIndex: null,
           sorters: [],
-          extraData: {}
+          extraData: {},
         },
 
         editFormRule: {
           involvedRecords: this.editFormInvolvedRecordsRule,
           groupers: this.editFormGroupersRule,
-          extraData: this.extraFormItemsRules
+          extraData: this.extraFormItemsRules,
         },
 
-      }
+      };
     },
 
     computed: {
       involvedRecordsOptions() {
         return this.$store.state.dbMetaData.entities.map(entity => ({
           label: entity.name,
-          value: entity.tableName
-        }))
+          value: entity.tableName,
+        }));
       },
       editFormInvolvedRecords() {
         return this.editForm.involvedRecords.map(r => ({
           name: r,
-          customized: !this.$store.state.dbMetaData.entities.some(e => e.tableName === r)
-        }))
+          customized: !this.$store.state.dbMetaData.entities.some(e => e.tableName === r),
+        }));
       },
       filtersFieldOptions() {
         return this.$store.state.dbMetaData.entities
@@ -308,9 +308,9 @@
             label: entity.name,
             options: entity.fieldMetaDataList.map(field => ({
               label: field.name,
-              value: field.fieldName
-            }))
-          }))
+              value: field.fieldName,
+            })),
+          }));
       },
       joinersFieldOptions() {
         return this.filtersFieldOptions;
@@ -323,18 +323,18 @@
       },
       conferenceNames() {
         let conferenceNames = this.$store.state.dbMetaData.uniqueConferenceNames;
-        
+
         conferenceNames = conferenceNames.map(res => {
-          return { 
+          return {
             value: res,
             label: res,
-          }
+          };
         });
         return conferenceNames;
       },
       isFirstIndex() {
         return this.sectionDetail.sectionIndex === 0;
-      }
+      },
     },
 
     methods: {
@@ -360,31 +360,31 @@
         this.editForm.groupers = this.sectionDetail.groupers.map(r => r.field);
         this.editForm.sectionIndex = this.sectionDetail.sectionIndex;
         this.editForm.sorters = deepCopy(this.sectionDetail.sorters); // deep copy
-        this.editForm.extraData = deepCopy(this.sectionDetail.extraData) // deep copy
+        this.editForm.extraData = deepCopy(this.sectionDetail.extraData); // deep copy
       },
 
       addSelection() {
         this.editForm.selections.push({
           expression: '',
           rename: '',
-        })
+        });
       },
 
       removeSelection(selection) {
-        let index = this.editForm.selections.indexOf(selection);
-        this.editForm.selections.splice(index, 1)
+        const index = this.editForm.selections.indexOf(selection);
+        this.editForm.selections.splice(index, 1);
       },
 
       addJoiner() {
         this.editForm.joiners.push({
           left: '',
           right: '',
-        })
+        });
       },
 
       removeJoiner(joiner) {
-        let index = this.editForm.joiners.indexOf(joiner);
-        this.editForm.joiners.splice(index, 1)
+        const index = this.editForm.joiners.indexOf(joiner);
+        this.editForm.joiners.splice(index, 1);
       },
 
       addFilter() {
@@ -392,28 +392,28 @@
           field: '',
           comparator: '=',
           value: '',
-        })
+        });
       },
 
       removeFilter(filter) {
-        let index = this.editForm.filters.indexOf(filter);
-        this.editForm.filters.splice(index, 1)
+        const index = this.editForm.filters.indexOf(filter);
+        this.editForm.filters.splice(index, 1);
       },
 
       addSorter() {
         this.editForm.sorters.push({
           field: '',
           order: '',
-        })
+        });
       },
 
       removeSorter(sorter) {
-        let index = this.editForm.sorters.indexOf(sorter);
-        this.editForm.sorters.splice(index, 1)
+        const index = this.editForm.sorters.indexOf(sorter);
+        this.editForm.sorters.splice(index, 1);
       },
 
       changeSectionOrder(direction) {
-        this.$emit('changeSectionOrder', direction)
+        this.$emit('changeSectionOrder', direction);
       },
 
       saveSectionDetail(formName) {
@@ -433,12 +433,12 @@
               groupers: this.editForm.groupers.map(g => ({field: g})),
               sectionIndex: this.sectionDetail.sectionIndex,
               sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
-              extraData: this.editForm.extraData
+              extraData: this.editForm.extraData,
             })
               .then(() => {
                 // only update when there is no error in saving
                 if (this.sectionDetail.status.isApiError) {
-                  return
+                  return;
                 }
                 this.isEditing = false;
                 this.sendAnalysisRequest();
@@ -452,7 +452,7 @@
       deleteSectionDetail() {
         this.$store.dispatch('deleteSectionDetail', {
           presentationId: this.presentationId,
-          id: this.sectionDetail.id
+          id: this.sectionDetail.id,
         });
       },
 
@@ -483,9 +483,9 @@
                 groupers: this.editForm.groupers.map(g => ({field: g})),
                 sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
                 result: this.sectionDetail.previewResult,
-                extraData: this.editForm.extraData
+                extraData: this.editForm.extraData,
               });
-            })
+            });
         });
       },
 
@@ -501,15 +501,15 @@
               result: this.sectionDetail.result,
               groupers: this.sectionDetail.groupers,
               sorters: this.sectionDetail.sorters,
-              extraData: this.sectionDetail.extraData
+              extraData: this.sectionDetail.extraData,
             });
-          })
+          });
       },
     },
     components: {
-      DeleteModal
-    }
-  }
+      DeleteModal,
+    },
+  };
 </script>
 
 <style scoped>

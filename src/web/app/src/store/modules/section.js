@@ -1,5 +1,5 @@
-import axios from 'axios'
-import PredefinedQueries from "@/store/data/predefinedQueries"
+import axios from 'axios';
+import PredefinedQueries from '@/store/data/predefinedQueries';
 
 export default {
   state: {
@@ -8,7 +8,7 @@ export default {
       isLoading: false,
       isApiError: false,
       apiErrorMsg: '',
-    }
+    },
   },
   mutations: {
     setSectionListLoading(state, isLoading) {
@@ -24,7 +24,7 @@ export default {
     },
 
     clearSectionList(state) {
-      state.sectionList = []
+      state.sectionList = [];
     },
 
     addSectionDetail(state, payload) {
@@ -36,17 +36,17 @@ export default {
           isApiError: false,
           apiErrorMsg: '',
           apiErrorMsgDetail: '',
-        }
-      }, payload))
+        },
+      }, payload));
     },
 
     deleteSectionDetail(state, payload) {
-      let index = state.sectionList.findIndex(s => s.id === payload);
-      state.sectionList.splice(index, 1)
+      const index = state.sectionList.findIndex(s => s.id === payload);
+      state.sectionList.splice(index, 1);
     },
 
     updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
-      let section = findSectionDetailById(state.sectionList, id);
+      const section = findSectionDetailById(state.sectionList, id);
 
       section.title = title;
       section.description = description;
@@ -65,13 +65,13 @@ export default {
     updateSectionIndices(state, {sections}) {
       // Update each section that has been swapped with new index.
       sections.forEach((section) => {
-        let sectionToUpdate = findSectionDetailById(state.sectionList, section.id);
+        const sectionToUpdate = findSectionDetailById(state.sectionList, section.id);
         sectionToUpdate.sectionIndex = section.sectionIndex;
-      })
+      });
     },
 
     setSectionDetailLoading(state, {id, isLoading}) {
-      let section = findSectionDetailById(state.sectionList, id);
+      const section = findSectionDetailById(state.sectionList, id);
       if (isLoading) {
         section.status.isApiError = false;
       }
@@ -79,21 +79,21 @@ export default {
     },
 
     setSectionDetailApiError(state, {id, msg, msgDetail}) {
-      let section = findSectionDetailById(state.sectionList, id);
+      const section = findSectionDetailById(state.sectionList, id);
       section.status.isApiError = true;
       section.status.apiErrorMsg = msg;
       section.status.apiErrorMsgDetail = msgDetail;
     },
 
     updateSectionAnalysisResult(state, {id, result}) {
-      let section = findSectionDetailById(state.sectionList, id);
+      const section = findSectionDetailById(state.sectionList, id);
       section.result = result;
     },
 
     updateSectionAnalysisPreviewResult(state, {id, result}) {
-      let section = findSectionDetailById(state.sectionList, id);
+      const section = findSectionDetailById(state.sectionList, id);
       section.previewResult = result;
-    }
+    },
   },
   actions: {
     async fetchSectionList({commit}, presentationId) {
@@ -103,15 +103,15 @@ export default {
         .then(response => {
           commit('clearSectionList');
           response.data.forEach(s => {
-            commit('addSectionDetail', s)
+            commit('addSectionDetail', s);
           });
         })
         .catch(e => {
-          commit('setSectionListApiError', e.toString())
+          commit('setSectionListApiError', e.toString());
         })
         .finally(() => {
           commit('setSectionListLoading', false);
-        })
+        });
     },
 
     async addSectionDetail({commit}, {presentationId, selectedNewSection, dataSet, conferenceName, sectionListSize}) {
@@ -122,18 +122,18 @@ export default {
 
       // Assign the new section its length as index
       // as that would give an index one higher than the current list's indices.
-      newSection['sectionIndex'] = sectionListSize
+      newSection['sectionIndex'] = sectionListSize;
 
       await axios.post(`/api/presentations/${presentationId}/sections`, newSection)
         .then(response => {
-          commit('addSectionDetail', response.data)
+          commit('addSectionDetail', response.data);
         })
         .catch(e => {
-          commit('setSectionListApiError', e.toString())
+          commit('setSectionListApiError', e.toString());
         })
         .finally(() => {
           commit('setSectionListLoading', false);
-        })
+        });
     },
 
     async saveSectionDetail({commit}, {id, presentationId, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
@@ -151,10 +151,10 @@ export default {
         groupers,
         sectionIndex,
         sorters,
-        extraData
+        extraData,
       })
         .then(response => {
-          let section = response.data;
+          const section = response.data;
           commit('updateSectionDetail', {
             id: section.id,
             title: section.title,
@@ -168,33 +168,33 @@ export default {
             groupers: section.groupers,
             sectionIndex: section.sectionIndex,
             sorters: section.sorters,
-            extraData: section.extraData
-          })
+            extraData: section.extraData,
+          });
         })
         .catch(e => {
           commit('setSectionDetailApiError', {id, msg: e.toString(), msgDetail: JSON.stringify(e.response)});
         })
         .finally(() => {
           commit('setSectionDetailLoading', {id, isLoading: false});
-        })
+        });
     },
 
     async updateSectionIndex({commit}, {id, presentationId, sectionToSwap}) {
       commit('setSectionDetailLoading', {id, isLoading: true});
-      
+
       await axios.patch(`/api/presentations/${presentationId}/sections/${id}`, sectionToSwap)
       .then(response => {
-        let sections = response.data;
+        const sections = response.data;
         commit('updateSectionIndices', {
-          sections: sections
-        })
+          sections: sections,
+        });
       })
       .catch(e => {
         commit('setSectionDetailApiError', {id, msg: e.toString(), msgDetail: JSON.stringify(e.response)});
       })
       .finally(() => {
         commit('setSectionDetailLoading', {id, isLoading: false});
-      })
+      });
     },
 
     async deleteSectionDetail({commit}, {id, presentationId}) {
@@ -202,12 +202,12 @@ export default {
 
       await axios.delete(`/api/presentations/${presentationId}/sections/${id}`)
         .then(() => {
-          commit('deleteSectionDetail', id)
+          commit('deleteSectionDetail', id);
         })
         .catch(e => {
           commit('setSectionDetailApiError', {id, msg: e.toString(), msgDetail: JSON.stringify(e.response)});
           commit('setSectionDetailLoading', {id, isLoading: false});
-        })
+        });
     },
 
     async sendPreviewAnalysisRequest({commit}, {presentationId, id, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sorters}) {
@@ -221,7 +221,7 @@ export default {
         filters,
         joiners,
         groupers,
-        sorters
+        sorters,
       })
         .then(response => {
           commit('updateSectionAnalysisPreviewResult', {id, result: response.data});
@@ -231,11 +231,11 @@ export default {
         })
         .finally(() => {
           commit('setSectionDetailLoading', {id, isLoading: false});
-        })
+        });
     },
 
     async sendAnalysisRequest({state, commit}, {id, presentationId}) {
-      let sectionToAnalysis = findSectionDetailById(state.sectionList, id);
+      const sectionToAnalysis = findSectionDetailById(state.sectionList, id);
       commit('setSectionDetailLoading', {id: sectionToAnalysis.id, isLoading: true});
 
       await axios.post(`/api/presentations/${presentationId}/analysis`, {
@@ -246,7 +246,7 @@ export default {
         filters: sectionToAnalysis.filters,
         joiners: sectionToAnalysis.joiners,
         groupers: sectionToAnalysis.groupers,
-        sorters: sectionToAnalysis.sorters
+        sorters: sectionToAnalysis.sorters,
       })
         .then(response => {
           commit('updateSectionAnalysisResult', {id: sectionToAnalysis.id, result: response.data});
@@ -257,10 +257,10 @@ export default {
         })
         .finally(() => {
           commit('setSectionDetailLoading', {id: sectionToAnalysis.id, isLoading: false});
-        })
-    }
-  }
-}
+        });
+    },
+  },
+};
 
 function findSectionDetailById(sectionList, id) {
   return sectionList.find(element => element.id === id);

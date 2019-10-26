@@ -5,6 +5,6 @@ module.exports = {
   outputDir: '../../main/webapp/dist',
   assetsDir: isProduction ? '../assets' : '.',
   devServer: {
-    proxy: 'http://localhost:8080'
-  }
+    proxy: 'http://localhost:8080',
+  },
 };

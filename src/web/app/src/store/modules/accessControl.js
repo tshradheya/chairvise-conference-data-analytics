@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default {
   state: {
@@ -46,11 +46,11 @@ export default {
     },
 
     clearAccessControlList(state) {
-      state.accessControlList = []
+      state.accessControlList = [];
     },
 
     setAccessControlFormField(state, {field, value}) {
-      state.accessControlForm[field] = value
+      state.accessControlForm[field] = value;
     },
 
     addAccessControl(state, payload) {
@@ -58,14 +58,14 @@ export default {
     },
 
     deleteAccessControl(state, payload) {
-      let index = state.accessControlList.findIndex(s => s.id === payload);
-      state.accessControlList.splice(index, 1)
+      const index = state.accessControlList.findIndex(s => s.id === payload);
+      state.accessControlList.splice(index, 1);
     },
 
     updateAccessControl(state, {id, accessLevel}) {
-      let accessControl = state.accessControlList.find(element => element.id === id);
+      const accessControl = state.accessControlList.find(element => element.id === id);
       accessControl.accessLevel = accessLevel;
-    }
+    },
   },
 
   actions: {
@@ -76,22 +76,22 @@ export default {
         .then(response => {
           commit('clearAccessControlList');
           response.data.forEach(ele => {
-            commit('addAccessControl', ele)
+            commit('addAccessControl', ele);
           });
         })
         .catch(e => {
-          commit('setAccessControlListApiError', e.toString())
+          commit('setAccessControlListApiError', e.toString());
         })
         .finally(() => {
           commit('setAccessControlListLoading', false);
-        })
+        });
     },
 
     async addAccessControl({commit}, {presentationId, userIdentifier, accessLevel}) {
       commit('setAccessControlFormLoading', true);
       await axios.post(`/api/presentations/${presentationId}/accessControl`, {
         userIdentifier,
-        accessLevel
+        accessLevel,
       })
         .then(response => {
           commit('addAccessControl', response.data);
@@ -101,7 +101,7 @@ export default {
         })
         .finally(() => {
           commit('setAccessControlFormLoading', false);
-        })
+        });
     },
 
     async deleteAccessControl({commit}, {id, presentationId}) {
@@ -115,19 +115,19 @@ export default {
         })
         .finally(() => {
           commit('setAccessControlListLoading', false);
-        })
+        });
     },
 
     async updateAccessControl({commit}, {id, presentationId, accessLevel}) {
       commit('setAccessControlListLoading', true);
       await axios.put(`/api/presentations/${presentationId}/accessControl/${id}`, {
-        accessLevel
+        accessLevel,
       })
         .then(response => {
-          let accessControl = response.data;
+          const accessControl = response.data;
           commit('updateAccessControl', {
             id: accessControl.id,
-            accessLevel: accessControl.accessLevel
+            accessLevel: accessControl.accessLevel,
           });
         })
         .catch(e => {
@@ -135,7 +135,7 @@ export default {
         })
         .finally(() => {
           commit('setAccessControlListLoading', false);
-        })
+        });
     },
-  }
-}
+  },
+};

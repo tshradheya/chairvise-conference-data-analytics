@@ -3,7 +3,7 @@ export const deepCopy = (obj) => {
 };
 
 export const filterPredefinedMap = (mappedIdArray, originalArray) => {
-  let result = [];
+  const result = [];
   for (let i = 0; i < mappedIdArray.length; i++) {
     if (mappedIdArray[i] < originalArray.length) {
       result.push(mappedIdArray[i]);

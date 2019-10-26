@@ -11,37 +11,37 @@
     props: {
       typeOfDelete: String,
       deleteFunction: {
-        type: Function
-      }
+        type: Function,
+      },
     },
     computed: {
       isPresentation () {
-        return this.typeOfDelete == "presentation"
+        return this.typeOfDelete == 'presentation';
       },
     },
     methods: {
       openDeleteModal() {
-        const message = 'This will permanently delete the ' + this.typeOfDelete + ' . Continue?'
+        const message = `This will permanently delete the ${  this.typeOfDelete  } . Continue?`;
         this.$confirm(message, 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning',
-          center: true
+          center: true,
         }).then(() => {
-          this.deleteFunction()
+          this.deleteFunction();
           this.$message({
             type: 'success',
-            message: 'Delete completed'
-          })
+            message: 'Delete completed',
+          });
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: 'Delete canceled'
-          })
-        })
-      }
-    }
-  }
+            message: 'Delete canceled',
+          });
+        });
+      },
+    },
+  };
 </script>
 
 <style scoped>

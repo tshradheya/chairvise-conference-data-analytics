@@ -1,5 +1,5 @@
-import axios from 'axios'
-import {deepCopy} from "@/common/utility"
+import axios from 'axios';
+import {deepCopy} from '@/common/utility';
 
 export default {
   state: {
@@ -26,7 +26,7 @@ export default {
       isApiError: false,
       apiErrorMsg: '',
     },
-    isPresentationEditable: false
+    isPresentationEditable: false,
   },
   mutations: {
     setPresentationListLoading(state, payload) {
@@ -51,15 +51,15 @@ export default {
 
     deleteFromPresentationList(state, payload) {
       const index = state.presentationList.findIndex(presentation => presentation.id === payload);
-      state.presentationList.splice(index, 1)
+      state.presentationList.splice(index, 1);
     },
 
     updatePresentationListWith(state, payload) {
       state.presentationList = state.presentationList.map(presentation => {
         if (presentation.id === payload.id) {
-          return payload
+          return payload;
         }
-        return presentation
+        return presentation;
       });
     },
 
@@ -85,15 +85,15 @@ export default {
 
     deleteFromSharedPresentationList(state, payload) {
       const index = state.sharedPresentationList.findIndex(presentation => presentation.id === payload);
-      state.sharedPresentationList.splice(index, 1)
+      state.sharedPresentationList.splice(index, 1);
     },
 
     updateSharedPresentationListWith(state, payload) {
       state.sharedPresentationList = state.sharedPresentationList.map(presentation => {
         if (presentation.id === payload.id) {
-          return payload
+          return payload;
         }
-        return presentation
+        return presentation;
       });
     },
 
@@ -121,47 +121,47 @@ export default {
     },
 
     setPresentationFormField(state, {field, value}) {
-      state.presentationForm[field] = value
+      state.presentationForm[field] = value;
     },
 
     setIsPresentationEditable(state, isPresentationEditable) {
       state.isPresentationEditable = isPresentationEditable;
-    }
+    },
   },
   actions: {
     async getPresentationList({commit}) {
       commit('setPresentationListLoading', true);
       axios.get('/api/presentations')
         .then(response => {
-          commit('setPresentationList', response.data)
+          commit('setPresentationList', response.data);
         })
         .catch(e => {
           commit('setPresentationListApiError', e.toString());
         })
         .finally(() => {
           commit('setPresentationListLoading', false);
-        })
+        });
     },
 
     async getSharedPresentationList({commit}) {
        commit('setPresentationListLoading', true);
        axios.get('/api/presentations/sharedPresentations')
           .then(response => {
-            commit('setSharedPresentationList', response.data)
+            commit('setSharedPresentationList', response.data);
           })
           .catch(e => {
             commit('setSharedPresentationListApiError', e.toString());
           })
           .finally(() => {
             commit('setSharedPresentationListLoading', false);
-          })
+          });
     },
 
     async getPresentation({commit}, presentationId) {
       commit('setPresentationFormLoading', true);
       await axios.get(`/api/presentations/${presentationId}`)
         .then(response => {
-          commit('setPresentationForm', response.data)
+          commit('setPresentationForm', response.data);
         })
         .catch(e => {
           commit('setPresentationFormApiError', e.toString());
@@ -176,43 +176,43 @@ export default {
       await axios.post('/api/presentations', state.presentationForm)
         .then(response => {
           commit('addToPresentationList', deepCopy(response.data));
-          commit('setPresentationForm', deepCopy(response.data))
+          commit('setPresentationForm', deepCopy(response.data));
         })
         .catch(e => {
           commit('setPresentationFormApiError', e.toString());
         })
         .finally(() => {
           commit('setPresentationFormLoading', false);
-        })
+        });
     },
 
     async updatePresentation({commit, state}) {
       commit('setPresentationFormLoading', true);
-      await axios.put('/api/presentations/' + state.presentationForm.id, state.presentationForm)
+      await axios.put(`/api/presentations/${  state.presentationForm.id}`, state.presentationForm)
         .then(response => {
-          commit('updatePresentationListWith', response.data)
+          commit('updatePresentationListWith', response.data);
         })
         .catch(e => {
           commit('setPresentationFormApiError', e.toString());
         })
         .finally(() => {
           commit('setPresentationFormLoading', false);
-        })
+        });
     },
 
     async deletePresentation({commit}, payload) {
       commit('setPresentationFormLoading', true);
-      await axios.delete('/api/presentations/' + payload)
+      await axios.delete(`/api/presentations/${  payload}`)
         .then(() => {
           commit('deleteFromPresentationList', payload);
-          commit('resetPresentationForm')
+          commit('resetPresentationForm');
         })
         .catch(e => {
           commit('setPresentationFormApiError', e.toString());
         })
         .finally(() => {
           commit('setPresentationFormLoading', false);
-        })
-    }
-  }
+        });
+    },
+  },
 };

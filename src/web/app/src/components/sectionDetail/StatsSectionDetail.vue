@@ -32,48 +32,48 @@
 </template>
 
 <script>
-  import {max, mean, median, min, standardDeviation, sum} from 'simple-statistics'
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
+  import {max, mean, median, min, standardDeviation, sum} from 'simple-statistics';
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
 
   export default {
-    name: "StatsSectionDetail",
+    name: 'StatsSectionDetail',
 
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     data() {
       return {
-        tableData: []
-      }
+        tableData: [],
+      };
     },
 
     computed: {
       hasData() {
         return this.tableData.length !== 0;
-      }
+      },
     },
 
     methods: {
       updateVisualisation({result, selections, extraData}) {
         this.tableData = [];
         if (result.length === 0) {
-          return
+          return;
         }
-        let data = result.map(r => r[selections[0].rename]);
+        const data = result.map(r => r[selections[0].rename]);
 
         extraData.types.forEach(t => {
           switch (t) {
@@ -114,14 +114,14 @@
               });
               break;
           }
-        })
-      }
+        });
+      },
     },
 
     components: {
       BasicSectionDetail,
-    }
-  }
+    },
+  };
 </script>
 
 <style scoped>

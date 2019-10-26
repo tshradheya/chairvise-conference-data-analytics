@@ -28,25 +28,25 @@
 </template>
 
 <script>
-  import WordCloud from '@/components/sectionDetail/chart/WordCloud.vue'
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
+  import WordCloud from '@/components/sectionDetail/chart/WordCloud.vue';
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
 
   export default {
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     data() {
@@ -54,7 +54,7 @@
         editFormSelectionsRule: [{
           validator: (rule, value, callback) => {
             if (value.expression.length === 0 || value.expression.rename === 0) {
-              return callback(new Error('Please specify all fields'))
+              return callback(new Error('Please specify all fields'));
             }
             callback();
           },
@@ -63,7 +63,7 @@
         editFormInvolvedRecordsRule: [{
           validator: (rule, value, callback) => {
             if (value.length >= 2 || value.length < 1) {
-              return callback(new Error('There must be only one record involved'))
+              return callback(new Error('There must be only one record involved'));
             }
             return callback();
           },
@@ -72,7 +72,7 @@
         editFormFiltersRule: [{
           validator: (rule, value, callback) => {
             if (value.field.length === 0 || value.comparator.length === 0 || value.value.length === 0) {
-              return callback(new Error('Please specify all fields'))
+              return callback(new Error('Please specify all fields'));
             }
             callback();
           },
@@ -84,31 +84,31 @@
             {
               validator: (rule, value, callback) => {
                 if (value.length === 0) {
-                  return callback(new Error('Please specify at least one delimiter'))
+                  return callback(new Error('Please specify at least one delimiter'));
                 }
                 callback();
               },
               trigger: 'blur',
-            }
+            },
           ],
         },
 
         // word cloud related field
         words: [],
-      }
+      };
     },
 
     computed: {
       hasData() {
         return this.words.length !== 0;
-      }
+      },
     },
 
     methods: {
       updateVisualisation({result, selections, extraData}) {
-        let fieldName = selections[0].rename;
-        let wordsCount = {};
-        let delimiterRegex = new RegExp(extraData.delimiters.join('|'), 'g');
+        const fieldName = selections[0].rename;
+        const wordsCount = {};
+        const delimiterRegex = new RegExp(extraData.delimiters.join('|'), 'g');
         // will only require at least one selection
         // count the occurrence of word
         result.forEach(r => {
@@ -117,28 +117,28 @@
             .forEach(w => {
               // skip empty string
               if (w.length === 0) {
-                return
+                return;
               }
               // normalized word e.g. 'digital world' -> `Digital World`
-              let normalizedW = this.capitalizeFirstWord(w);
+              const normalizedW = this.capitalizeFirstWord(w);
               // put in the count map
               if (wordsCount.hasOwnProperty(normalizedW)) {
-                wordsCount[normalizedW]++
+                wordsCount[normalizedW]++;
               } else {
                 wordsCount[normalizedW] = 1;
               }
-            })
+            });
         });
         // generate format as VueWordCloud required
         let words = [];
-        for (let word in wordsCount) {
+        for (const word in wordsCount) {
           if (wordsCount.hasOwnProperty(word)) {
-            words.push([word, wordsCount[word]])
+            words.push([word, wordsCount[word]]);
           }
         }
         // sort and keep the first twenty words
         words.sort((a, b) => {
-          return b[1] - a[1]
+          return b[1] - a[1];
         });
         words = words.slice(0, 20);
         this.words = words;
@@ -146,12 +146,12 @@
 
       capitalizeFirstWord(str) {
         return str.replace(/\b\w/g, l => l.toUpperCase());
-      }
+      },
     },
 
     components: {
       WordCloud,
-      BasicSectionDetail
-    }
-  }
+      BasicSectionDetail,
+    },
+  };
 </script>
