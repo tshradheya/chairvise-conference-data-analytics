@@ -16,7 +16,7 @@
       <stats-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === OVERVIEW">
-      <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
+      <overview-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId" :moveSection="moveSection" :isLastIndex="isLastIndex"/>
     </div>
     <div v-else-if="sectionDetail.type === NETWORK_CHART">
       <network-chart-section-detail :sectionDetail="sectionDetail" :presentationId="presentationId"/>
