@@ -1,7 +1,9 @@
 <template>
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
-                        @update-visualisation="updateVisualisation">
+                        @update-visualisation="updateVisualisation"
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <network-chart :nodes="nodes" :links="links" :dataSet="dataSet" ></network-chart>
      <template slot="extraFormItems" slot-scope="slotProps">
           <el-form-item label="Links by" v-if="slotProps.isInAdvancedMode">
@@ -45,6 +47,12 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+       type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 
