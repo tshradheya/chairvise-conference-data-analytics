@@ -13,6 +13,7 @@ export const SECTION_TYPE_PIE_CHART = 'pie_chart';
 export const SECTION_TYPE_LINE_CHART = 'line_chart';
 export const SECTION_TYPE_STATS = 'stats';
 export const SECTION_TYPE_OVERVIEW = 'overview';
+export const SECTION_TYPE_NETWORK_CHART = 'network_chart';
 
 export const REVIEW_TABLE_ID = 1;
 
