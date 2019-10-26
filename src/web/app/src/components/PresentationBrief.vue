@@ -248,10 +248,6 @@
        let section_list = this.$store.state.section.sectionList;
           for (let p in section_list) {
           if (!section_list[p].hasData) {
-              console.log("Hello Javascript");
-              console.log(section_list[p]);
-              console.log(this.id);
-                console.log(section_list[p].hasData);
               this.$store.dispatch('deleteSectionDetail', {
                   id: section_list[p].id,
                   presentationId: this.id
