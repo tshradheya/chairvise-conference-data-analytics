@@ -1,5 +1,52 @@
 export default {
-"network_of_countries": {
+  "top_country_coauthors": {
+    name: "Inter-Country Co-Author Submissions",
+    group: 'Author Record',
+    data: {
+      type: 'bar_chart',
+      title: 'Inter-Country Co-Author Submissions',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This chart shows the number of submissions by country co-author pairs.',
+      selections: [
+        {
+          expression: 'submission_count',
+          rename: 'submission_count'
+        },
+        {
+          expression: "country_group",
+          rename: 'country_group'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: "(SELECT `country_group`, COUNT(a_submission_id) as `submission_count` " +
+            "FROM " +
+              "(SELECT a_submission_id, max(a_country) as `country_max`, min(a_country) as `country_min`, " +
+              "GROUP_CONCAT(DISTINCT a_country ORDER BY a_country SEPARATOR '-') AS `country_group` " +
+              "FROM author_record " +
+              "WHERE conference_name = '${PLACEHOLDER_CONFERENCE_NAME}' " +
+              "GROUP BY a_submission_id) as `country_group_records` " +
+            "WHERE `country_max` != `country_min` " +
+            "GROUP BY `country_group`) as `tmp` ",
+          customized: true,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        dataSetLabel: 'Submission Counts',
+        fieldsShownInToolTips: [],
+        xAxisFieldName: 'country_group',
+        yAxisFieldName: 'submission_count',
+        numOfResultToDisplay: 10,
+        isColorfulBar: true
+      }
+    }
+  },
+  "network_of_countries": {
     name: "Network of Countries",
     group: 'Author Record',
     data: {
@@ -37,64 +84,64 @@ export default {
       groupers: [],
       sorters: [],
       extraData: {
-      first: 'submission_id',
-      second:'country',
-      nodeLabels: true,
-      force: 1000,
-      canvasSize: 480,
-      nodeSize: 5,
-      fontSize: 15
+        first: 'submission_id',
+        second: 'country',
+        nodeLabels: true,
+        force: 1000,
+        canvasSize: 480,
+        nodeSize: 5,
+        fontSize: 15
       }
     }
   },
   "network_of_organisations": {
-      name: "Network of Organisations",
-      group: 'Author Record',
-      data: {
-        type: 'network_chart',
-        title: 'Network of Countries',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This network graph shows the organisation linked based on submission ',
-        selections: [
-          {
-            expression: 'a_organisation',
-            rename: 'organisation'
-          },
-          {
-            expression: 'a_person_id',
-            rename: 'person_id'
-          },
-          {
-            expression: 'a_submission_id',
-            rename: 'submission_id'
-          },
-          {
-            expression: 'a_country',
-            rename: 'country'
-          }
-        ],
-        involvedRecords: [
-          {
-            name: 'author_record',
-            customized: false,
-          }
-        ],
-        filters: [],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
+    name: "Network of Organisations",
+    group: 'Author Record',
+    data: {
+      type: 'network_chart',
+      title: 'Network of Organisations',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This network graph shows the organisation linked based on submission ',
+      selections: [
+        {
+          expression: 'a_organisation',
+          rename: 'organisation'
+        },
+        {
+          expression: 'a_person_id',
+          rename: 'person_id'
+        },
+        {
+          expression: 'a_submission_id',
+          rename: 'submission_id'
+        },
+        {
+          expression: 'a_country',
+          rename: 'country'
+        }
+      ],
+      involvedRecords: [
+        {
+          name: 'author_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
         first: 'submission_id',
-        second:'organisation',
+        second: 'organisation',
         nodeLabels: true,
         force: 800,
         canvasSize: 1000,
         nodeSize: 5,
         fontSize: 10
-        }
       }
-    },
+    }
+  },
   "review_overview": {
     name: "Review Overview",
     group: 'Review Record',
@@ -105,15 +152,15 @@ export default {
       conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
       description: 'This table gives the overview of reviews.',
       selections: [
-         {
+        {
           expression: 'r_id',
           rename: 'reviews'
         },
-         {
+        {
           expression: 'r_confidence_level',
           rename: 'confidence level'
         },
-         {
+        {
           expression: 'r_overall_evaluation_score',
           rename: 'overall evaluation score'
         },
@@ -129,109 +176,109 @@ export default {
       groupers: [],
       sorters: [],
       extraData: {
-         types: [
-            {name:'reviews',find: 'count'},
-            {name:'confidence level',find: 'avg'},
-            {name:'overall evaluation score',find: 'avg'},
-            {name:'overall evaluation score',find: 'mod'},
-            ]
-        }
+        types: [
+          { name: 'reviews', find: 'count' },
+          { name: 'confidence level', find: 'avg' },
+          { name: 'overall evaluation score', find: 'avg' },
+          { name: 'overall evaluation score', find: 'mod' },
+        ]
+      }
     }
   },
   "submission_overview": {
-      name: "Submission Overview",
-      group: 'Submission Record',
-      data: {
-        type: 'overview',
-        title: 'Submission Overview',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This table gives the overview of submissions.',
-        selections: [
-           {
-            expression: 's_id',
-            rename: 'submissions'
-          },
-           {
-            expression: 's_is_accepted',
-            rename: 'acceptance outcome'
-          },
-          {
-           expression: 's_is_notified',
-           rename: 'notified'
-          },
-          {
-           expression: 's_is_reviews_sent',
-           rename: 'reviews sent'
-          },
-          {
-           expression: 's_track_name',
-           rename: 'track'
-          },
-        ],
-        involvedRecords: [
-          {
-            name: 'submission_record',
-            customized: false,
-          }
-        ],
-        filters: [],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
-           types: [
-              {name:'submissions',find: 'count'},
-              {name:'acceptance outcome',find: 'breakDown'},
-              {name:'notified',find: 'breakDown'},
-              {name:'reviews sent',find: 'breakDown'},
-              {name:'track',find: 'breakDown'},
-             ]
-          }
+    name: "Submission Overview",
+    group: 'Submission Record',
+    data: {
+      type: 'overview',
+      title: 'Submission Overview',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This table gives the overview of submissions.',
+      selections: [
+        {
+          expression: 's_id',
+          rename: 'submissions'
+        },
+        {
+          expression: 's_is_accepted',
+          rename: 'acceptance outcome'
+        },
+        {
+          expression: 's_is_notified',
+          rename: 'notified'
+        },
+        {
+          expression: 's_is_reviews_sent',
+          rename: 'reviews sent'
+        },
+        {
+          expression: 's_track_name',
+          rename: 'track'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: 'submission_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        types: [
+          { name: 'submissions', find: 'count' },
+          { name: 'acceptance outcome', find: 'breakDown' },
+          { name: 'notified', find: 'breakDown' },
+          { name: 'reviews sent', find: 'breakDown' },
+          { name: 'track', find: 'breakDown' },
+        ]
       }
-    },
-    "author_overview": {
-      name: "Author Overview",
-      group: 'Author Record',
-      data: {
-        type: 'overview',
-        title: 'Author Overview',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This table gives the overview of authors.',
-        selections: [
-          {
-           expression: 'a_person_id',
-           rename: 'person'
-          },
-          {
-           expression: 'a_organisation',
-           rename: 'organisation'
-          },
-          {
-           expression: 'a_country',
-           rename: 'country'
-          },
-        ],
-        involvedRecords: [
-          {
-           name: 'author_record',
-           customized: false,
-          }
-        ],
-        filters: [],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
-           types: [
-              {name:'organisation',find: 'uniqueCount'},
-              {name:'person',find: 'uniqueCount'},
-              {name:'country',find: 'uniqueCount'},
-             ]
-          }
+    }
+  },
+  "author_overview": {
+    name: "Author Overview",
+    group: 'Author Record',
+    data: {
+      type: 'overview',
+      title: 'Author Overview',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This table gives the overview of authors.',
+      selections: [
+        {
+          expression: 'a_person_id',
+          rename: 'person'
+        },
+        {
+          expression: 'a_organisation',
+          rename: 'organisation'
+        },
+        {
+          expression: 'a_country',
+          rename: 'country'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: 'author_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        types: [
+          { name: 'organisation', find: 'uniqueCount' },
+          { name: 'person', find: 'uniqueCount' },
+          { name: 'country', find: 'uniqueCount' },
+        ]
       }
-    },
+    }
+  },
   "word_cloud_keywords_all_submission": {
     name: "Word Cloud for All Submissions Keywords",
     group: 'Submission Record',
@@ -300,43 +347,43 @@ export default {
       }
     }
   },
-    "word_cloud_keywords_rejected_submission": {
-      name: "Word Cloud for Rejected Submissions Keywords",
-      group: 'Submission Record',
-      data: {
-        type: 'word_cloud',
-        title: 'Word Cloud for Rejected Submissions Keywords',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This word cloud shows a list of key words found under the abstract section for all the rejected papers.',
-        selections: [
-          {
-            expression: 's_keywords',
-            rename: 's_keywords'
-          }
-        ],
-        involvedRecords: [
-          {
-            name: 'submission_record',
-            customized: false,
-          }
-        ],
-        filters: [
-          {
-            field: 's_is_accepted',
-            comparator: '=',
-            value: 'reject'
-          }
-        ],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
-          delimiters: ['\\r', '\\n'],
-          ignoreWords: [],
+  "word_cloud_keywords_rejected_submission": {
+    name: "Word Cloud for Rejected Submissions Keywords",
+    group: 'Submission Record',
+    data: {
+      type: 'word_cloud',
+      title: 'Word Cloud for Rejected Submissions Keywords',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This word cloud shows a list of key words found under the abstract section for all the rejected papers.',
+      selections: [
+        {
+          expression: 's_keywords',
+          rename: 's_keywords'
         }
+      ],
+      involvedRecords: [
+        {
+          name: 'submission_record',
+          customized: false,
+        }
+      ],
+      filters: [
+        {
+          field: 's_is_accepted',
+          comparator: '=',
+          value: 'reject'
+        }
+      ],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        delimiters: ['\\r', '\\n'],
+        ignoreWords: [],
       }
-    },
+    }
+  },
   "word_cloud_keywords_submission_in_full_papers": {
     name: "Word Cloud for All Full Papers Submissions Keywords",
     group: 'Submission Record',
@@ -374,43 +421,43 @@ export default {
       }
     }
   },
-    "word_cloud_keywords_submission_in_posters_amd_demos": {
-      name: "Word Cloud for All Posters and Demos Submissions Keywords",
-      group: 'Submission Record',
-      data: {
-        type: 'word_cloud',
-        title: 'Word Cloud for All Posters and Demos Submissions Keywords',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers in Posters and Demos Track.',
-        selections: [
-          {
-            expression: 's_keywords',
-            rename: 's_keywords'
-          }
-        ],
-        involvedRecords: [
-          {
-            name: 'submission_record',
-            customized: false,
-          }
-        ],
-        filters: [
-          {
-            field: 's_track_name',
-            comparator: '=',
-            value: 'Posters and Demos'
-          }
-        ],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
-          delimiters: ['\\r', '\\n'],
-          ignoreWords: [],
+  "word_cloud_keywords_submission_in_posters_amd_demos": {
+    name: "Word Cloud for All Posters and Demos Submissions Keywords",
+    group: 'Submission Record',
+    data: {
+      type: 'word_cloud',
+      title: 'Word Cloud for All Posters and Demos Submissions Keywords',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers in Posters and Demos Track.',
+      selections: [
+        {
+          expression: 's_keywords',
+          rename: 's_keywords'
         }
+      ],
+      involvedRecords: [
+        {
+          name: 'submission_record',
+          customized: false,
+        }
+      ],
+      filters: [
+        {
+          field: 's_track_name',
+          comparator: '=',
+          value: 'Posters and Demos'
+        }
+      ],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        delimiters: ['\\r', '\\n'],
+        ignoreWords: [],
       }
-    },
+    }
+  },
   "word_cloud_keywords_submission_in_short_papers": {
     name: "Word Cloud for All Short Papers Submissions Keywords",
     group: 'Submission Record',
@@ -448,43 +495,43 @@ export default {
       }
     }
   },
-    "word_cloud_keywords_submission_in_workshops": {
-      name: "Word Cloud for All Workshop Submissions Keywords",
-      group: 'Submission Record',
-      data: {
-        type: 'word_cloud',
-        title: 'Word Cloud for All Workshop Submissions Keywords',
-        dataSet: '${PLACEHOLDER_DATA_SET}',
-        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-        description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers in Workshop Track.',
-        selections: [
-          {
-            expression: 's_keywords',
-            rename: 's_keywords'
-          }
-        ],
-        involvedRecords: [
-          {
-            name: 'submission_record',
-            customized: false,
-          }
-        ],
-        filters: [
-          {
-            field: 's_track_name',
-            comparator: '=',
-            value: 'JCDL 2018 - Workshops'
-          }
-        ],
-        joiners: [],
-        groupers: [],
-        sorters: [],
-        extraData: {
-          delimiters: ['\\r', '\\n'],
-          ignoreWords: [],
+  "word_cloud_keywords_submission_in_workshops": {
+    name: "Word Cloud for All Workshop Submissions Keywords",
+    group: 'Submission Record',
+    data: {
+      type: 'word_cloud',
+      title: 'Word Cloud for All Workshop Submissions Keywords',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This word cloud shows a list of key words found under the abstract section for all the submitted papers in Workshop Track.',
+      selections: [
+        {
+          expression: 's_keywords',
+          rename: 's_keywords'
         }
+      ],
+      involvedRecords: [
+        {
+          name: 'submission_record',
+          customized: false,
+        }
+      ],
+      filters: [
+        {
+          field: 's_track_name',
+          comparator: '=',
+          value: 'JCDL 2018 - Workshops'
+        }
+      ],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+        delimiters: ['\\r', '\\n'],
+        ignoreWords: [],
       }
-    },
+    }
+  },
   "word_cloud_keywords_reviewer_comment": {
     name: "Word Cloud for Reviewer Comment",
     group: 'Review Record',
@@ -572,7 +619,7 @@ export default {
       ],
       extraData: {
         dataSetLabel: 'Submission Counts',
-        fieldsShownInToolTips: [{label: 'Email', field: 'author_email'}],
+        fieldsShownInToolTips: [{ label: 'Email', field: 'author_email' }],
         xAxisFieldName: 'author_name',
         yAxisFieldName: 'submission_count',
         numOfResultToDisplay: 10,
@@ -580,14 +627,14 @@ export default {
       }
     },
     options: {
-        scales: {
-           xAxes: [{
-              stacked: true // this should be set to make the bars stacked
-           }],
-           yAxes: [{
-              stacked: true // this also..
-           }]
-        }
+      scales: {
+        xAxes: [{
+          stacked: true // this should be set to make the bars stacked
+        }],
+        yAxes: [{
+          stacked: true // this also..
+        }]
+      }
     }
   },
   /*
@@ -739,8 +786,8 @@ export default {
             "COUNT(*) AS `submitted`, " +
             "ROUND(SUM(CASE WHEN s_is_accepted = 'accept' THEN 1 ELSE 0 END)/COUNT(*), 2) AS `acceptance_rate`, " +
             "s_author_name FROM " +
-              "(SELECT s_author_name, s_is_accepted FROM submission_record, submission_record_author_set, submission_author_record " +
-              "WHERE s_id = submission_record_s_id AND author_set_s_author_id = s_author_id AND submission_record.data_set = '${PLACEHOLDER_DATA_SET}' AND submission_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') AS `tmp1` " +
+            "(SELECT s_author_name, s_is_accepted FROM submission_record, submission_record_author_set, submission_author_record " +
+            "WHERE s_id = submission_record_s_id AND author_set_s_author_id = s_author_id AND submission_record.data_set = '${PLACEHOLDER_DATA_SET}' AND submission_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') AS `tmp1` " +
             "GROUP BY s_author_name) AS `tmp2`",
           customized: true,
         }
@@ -1440,7 +1487,7 @@ export default {
       ],
       extraData: {
         dataSetLabel: 'Submission Counts',
-        fieldsShownInToolTips: [{label: 'Email', field: 'author_email'}],
+        fieldsShownInToolTips: [{ label: 'Email', field: 'author_email' }],
         xAxisFieldName: 'author_name',
         yAxisFieldName: 'submission_count',
         numOfResultToDisplay: 10,
@@ -3494,128 +3541,128 @@ export default {
     }
   },
 
-/*
-// visualization for gender distribution.  
-  "author_gender_ratio": {
-        name: "Author Gender Distribution", // define the name of the chart
-        group: 'Author Record', // classify the group of record (author/submission/review)
-        data: {
-          // set the variables for bar chart
-          type: 'bar_chart',
-          title: 'Author Gender Distribution',
-          dataSet: '${PLACEHOLDER_DATA_SET}',
-          conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-          description: 'This bar chart shows the number of male and female authors. This tells us about the gender distribution of the authors.',
-          //determine the selections for select query
-          selections: [
-            {
-              expression: "COUNT(*)",
-              rename: 'a_gender_count'
-            },
-            {
-              expression: "CASE When a_first_name LIKE 'A%' then 'male' else 'female' end",
-              rename: "a_gender"
+  /*
+  // visualization for gender distribution.  
+    "author_gender_ratio": {
+          name: "Author Gender Distribution", // define the name of the chart
+          group: 'Author Record', // classify the group of record (author/submission/review)
+          data: {
+            // set the variables for bar chart
+            type: 'bar_chart',
+            title: 'Author Gender Distribution',
+            dataSet: '${PLACEHOLDER_DATA_SET}',
+            conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+            description: 'This bar chart shows the number of male and female authors. This tells us about the gender distribution of the authors.',
+            //determine the selections for select query
+            selections: [
+              {
+                expression: "COUNT(*)",
+                rename: 'a_gender_count'
+              },
+              {
+                expression: "CASE When a_first_name LIKE 'A%' then 'male' else 'female' end",
+                rename: "a_gender"
+              }
+            ],
+            //determine the table name for query
+            involvedRecords: [
+              {
+                name: 'author_record',
+                customized: true,
+              }
+            ],
+            filters: [],
+            joiners: [],
+            //determine the field for group by clause
+            groupers: [
+              {
+               field:'a_gender'
+              }
+            ],
+            sorters: [
+  
+            ],
+            // set the labels, x and y axis, and modify chart style
+            extraData: {
+              dataSetLabel: 'Gender Distribution',
+              xAxisFieldName: 'a_gender',
+              yAxisFieldName: 'a_gender_count',
+              numOfResultToDisplay: 10,
+              isColorfulBar: true,
             }
-          ],
-          //determine the table name for query
-          involvedRecords: [
-            {
-              name: 'author_record',
-              customized: true,
-            }
-          ],
-          filters: [],
-          joiners: [],
-          //determine the field for group by clause
-          groupers: [
-            {
-             field:'a_gender'
-            }
-          ],
-          sorters: [
-
-          ],
-          // set the labels, x and y axis, and modify chart style
-          extraData: {
-            dataSetLabel: 'Gender Distribution',
-            xAxisFieldName: 'a_gender',
-            yAxisFieldName: 'a_gender_count',
-            numOfResultToDisplay: 10,
-            isColorfulBar: true,
           }
-        }
-      },
-*/
+        },
+  */
 
-// visualization for conf score test
+  // visualization for conf score test
   "all_conf_all_scores_test": {
-        name: "Reviewer Confidence vs Score", // define the name of the chart
-        group: 'Review Record', // classify the group of record (author/submission/review)
-        data: {
-          // set the variables for bar chart
-          type: 'bar_chart',
-          title: 'Reviewer Confidence vs Score',
-          dataSet: '${PLACEHOLDER_DATA_SET}',
-          conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
-          description: 'This bar chart shows percentage of high/low scores for all confidence values. By default, it shows the percentage of high scores per confidence. You may toggle to high score percentage using advanced features',
-          //determine the selections for select query
-          selections: [
-            {
-              expression: "r_confidence_level",
-              rename: 'r_confidence_level'
-            },
-            {
-              //expression: "CASE When r_overall_evaluation_score <3 then 'low' else 'high' end",
-              expression: '(r_score_low/(r_score_low+r_score_high)*100)',
-              rename: 'r_score_low_per'
-            },
-            {
-              //expression: "CASE When r_overall_evaluation_score <3 then 'low' else 'high' end",
-              expression: '(r_score_high/(r_score_low+r_score_high)*100)',
-              rename: 'r_score_high_per'
-            }
-          ],
-          //determine the table name for query
-          //change min-max logic once we revamp db supporting two datasets simultaneously(softconf,easychair)
-          involvedRecords: [
-            {
-              name: "(select A.r_confidence_level as r_confidence_level, IFNULL(A.tot_score,0) AS r_score_low, IFNULL(B.tot_score,0) AS r_score_high" +
-                     " from (select r_confidence_level, r_low_or_high, count(*) as tot_score"+
-                     " from (select r_confidence_level,case when r_overall_evaluation_score<"+
-                     "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}')  then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'low' group by r_confidence_level,r_low_or_high) as A" +
-                     " LEFT JOIN (select r_confidence_level, r_low_or_high, count(*) as tot_score"+
-                     " from (select r_confidence_level,case when r_overall_evaluation_score<"+
-                     "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'high' group by r_confidence_level,r_low_or_high) as B" +
-                     " ON A.r_confidence_level=B.r_confidence_level" +
-                     " union" +
-                     " select B.r_confidence_level as r_confidence_level, IFNULL(A.tot_score,0) AS r_score_low, IFNULL(B.tot_score,0) AS r_score_high" +
-                     " from (select r_confidence_level, r_low_or_high, count(*) as tot_score"+
-                     " from (select r_confidence_level,case when r_overall_evaluation_score<"+
-                     "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'low' group by r_confidence_level,r_low_or_high) as A" +
-                     " RIGHT JOIN (select r_confidence_level, r_low_or_high, count(*) as tot_score"+
-                     " from (select r_confidence_level,case when r_overall_evaluation_score<"+
-                     "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'high' group by r_confidence_level,r_low_or_high) as B" +
-                     " ON A.r_confidence_level=B.r_confidence_level)as temp",
-              customized: true,
-            }
-          ],
-          filters: [
-          ],
-          joiners: [],
-          //determine the field for group by clause
-          groupers: [],
-          sorters: [
-
-          ],
-          // set the labels, x and y axis, and modify chart style
-          extraData: {
-            dataSetLabel: 'Percentage of High Scores',
-            xAxisFieldName:'r_confidence_level' ,
-            yAxisFieldName: 'r_score_high_per',
-            numOfResultToDisplay: 10,
-            isColorfulBar: false,
-          }
+    name: "Reviewer Confidence vs Score", // define the name of the chart
+    group: 'Review Record', // classify the group of record (author/submission/review)
+    data: {
+      // set the variables for bar chart
+      type: 'bar_chart',
+      title: 'Reviewer Confidence vs Score',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This bar chart shows percentage of high/low scores for all confidence values. By default, it shows the percentage of high scores per confidence. You may toggle to high score percentage using advanced features',
+      //determine the selections for select query
+      selections: [
+        {
+          expression: "r_confidence_level",
+          rename: 'r_confidence_level'
+        },
+        {
+          //expression: "CASE When r_overall_evaluation_score <3 then 'low' else 'high' end",
+          expression: '(r_score_low/(r_score_low+r_score_high)*100)',
+          rename: 'r_score_low_per'
+        },
+        {
+          //expression: "CASE When r_overall_evaluation_score <3 then 'low' else 'high' end",
+          expression: '(r_score_high/(r_score_low+r_score_high)*100)',
+          rename: 'r_score_high_per'
         }
+      ],
+      //determine the table name for query
+      //change min-max logic once we revamp db supporting two datasets simultaneously(softconf,easychair)
+      involvedRecords: [
+        {
+          name: "(select A.r_confidence_level as r_confidence_level, IFNULL(A.tot_score,0) AS r_score_low, IFNULL(B.tot_score,0) AS r_score_high" +
+            " from (select r_confidence_level, r_low_or_high, count(*) as tot_score" +
+            " from (select r_confidence_level,case when r_overall_evaluation_score<" +
+            "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}')  then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'low' group by r_confidence_level,r_low_or_high) as A" +
+            " LEFT JOIN (select r_confidence_level, r_low_or_high, count(*) as tot_score" +
+            " from (select r_confidence_level,case when r_overall_evaluation_score<" +
+            "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'high' group by r_confidence_level,r_low_or_high) as B" +
+            " ON A.r_confidence_level=B.r_confidence_level" +
+            " union" +
+            " select B.r_confidence_level as r_confidence_level, IFNULL(A.tot_score,0) AS r_score_low, IFNULL(B.tot_score,0) AS r_score_high" +
+            " from (select r_confidence_level, r_low_or_high, count(*) as tot_score" +
+            " from (select r_confidence_level,case when r_overall_evaluation_score<" +
+            "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'low' group by r_confidence_level,r_low_or_high) as A" +
+            " RIGHT JOIN (select r_confidence_level, r_low_or_high, count(*) as tot_score" +
+            " from (select r_confidence_level,case when r_overall_evaluation_score<" +
+            "(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}' AND review_record.conference_name = '${PLACEHOLDER_CONFERENCE_NAME}') then 'low' when r_overall_evaluation_score=(select case when ((MAX(r_overall_evaluation_score)-MIN(r_overall_evaluation_score))/2)<3 then 3 else 0 end as medium FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}') then 'medium' else 'high' end as r_low_or_high FROM review_record WHERE review_record.data_set = '${PLACEHOLDER_DATA_SET}')as temp1  where r_low_or_high like 'high' group by r_confidence_level,r_low_or_high) as B" +
+            " ON A.r_confidence_level=B.r_confidence_level)as temp",
+          customized: true,
+        }
+      ],
+      filters: [
+      ],
+      joiners: [],
+      //determine the field for group by clause
+      groupers: [],
+      sorters: [
+
+      ],
+      // set the labels, x and y axis, and modify chart style
+      extraData: {
+        dataSetLabel: 'Percentage of High Scores',
+        xAxisFieldName: 'r_confidence_level',
+        yAxisFieldName: 'r_score_high_per',
+        numOfResultToDisplay: 10,
+        isColorfulBar: false,
       }
+    }
+  }
 
 }
