@@ -27,11 +27,15 @@ export const REVIEW_DATE_TIME_FIELD = {
   type: "LocalTime"
 };
 
+export const DOWNLOAD_DATE_LABEL = "Date downloaded: "
+
 export const PDF_CHART_MARGIN_LEFT = 7 * 72 / 25.4;
 export const PDF_CHART_MARGIN_TOP = 15 * 72 / 25.4;
 export const PDF_CHART_WIDTH = 60 * 72 / 25.4;
-export const TITLE_MARGIN_LEFT = 7 * 72 / 25.4;
+export const TITLE_AND_DATE_MARGIN_LEFT = 7 * 72 / 25.4;
 export const TITLE_MARGIN_TOP = 20;
-export const DESCRIPTION_MARGIN_TOP = 25;
+export const DATE_MARGIN_TOP = 26;
+export const DESCRIPTION_MARGIN_TOP = 27;
 
 export const TITLE_FONT_SIZE = 22;
+export const DATE_FONT_SIZE = 10;
