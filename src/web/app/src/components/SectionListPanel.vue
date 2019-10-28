@@ -6,8 +6,6 @@
         type="info"
         show-icon>
       </el-alert>
-      <el-alert v-if="hasDuplicateName" :title="noDataInSectionErrorMsg" type="error" show-icon class="errorMsg"/>
-
     </el-row>
     <div v-loading="isLoadingDBMetaData || isLoadingSectionList" v-if="!isNewPresentation">
       <el-row class="addRowRightAlign" v-if="isLogin && isPresentationEditable">
@@ -140,13 +138,7 @@
       isNewSectionTypeAddable() {
         return this.selectedNewSection.length !== 0
           && this.selectedConferenceName.length > 0;
-      },
-      noDatainSectionErrorMsg() {
-        return 'No data to show for that section'
-      },
-      hasDuplicateName() {
-          return true;
-      },
+      }
     },
     components: {
       AbstractSectionDetail
