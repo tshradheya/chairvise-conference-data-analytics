@@ -35,7 +35,16 @@ export default {
       filters: [],
       joiners: [],
       groupers: [],
-      sorters: [],
+      sorters: [
+        {
+          field: 'submission_count',
+          order: 'DESC',
+        },
+        {
+          field: 'submission_count',
+          order: 'ASC',
+        },
+      ],
       extraData: {
         dataSetLabel: 'Submission Counts',
         fieldsShownInToolTips: [],
