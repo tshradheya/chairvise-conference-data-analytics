@@ -2,7 +2,8 @@
   <basic-section-detail :section-detail="sectionDetail" :presentation-id="presentationId" :has-data="hasData"
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation"
-                        ref = "basicSectionDetail">>
+                        :moveSection="moveSection"
+                        :isLastIndex="isLastIndex">
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -54,6 +55,12 @@
       presentationId: {
         type: String,
         required: true
+      },
+      moveSection: {
+        type: Function
+      },
+      isLastIndex: {
+        type: Boolean
       }
     },
 

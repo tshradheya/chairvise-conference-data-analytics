@@ -1,4 +1,100 @@
 export default {
+"network_of_countries": {
+    name: "Network of Countries",
+    group: 'Author Record',
+    data: {
+      type: 'network_chart',
+      title: 'Network of Countries',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This network graph shows the countries linked based on submission ',
+      selections: [
+        {
+          expression: 'a_organisation',
+          rename: 'organisation'
+        },
+        {
+          expression: 'a_person_id',
+          rename: 'person_id'
+        },
+        {
+          expression: 'a_submission_id',
+          rename: 'submission_id'
+        },
+        {
+          expression: 'a_country',
+          rename: 'country'
+        }
+      ],
+      involvedRecords: [
+        {
+          name: 'author_record',
+          customized: false,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [],
+      extraData: {
+      first: 'submission_id',
+      second:'country',
+      nodeLabels: true,
+      force: 1000,
+      canvasSize: 480,
+      nodeSize: 5,
+      fontSize: 15
+      }
+    }
+  },
+  "network_of_organisations": {
+      name: "Network of Organisations",
+      group: 'Author Record',
+      data: {
+        type: 'network_chart',
+        title: 'Network of Organisations',
+        dataSet: '${PLACEHOLDER_DATA_SET}',
+        conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+        description: 'This network graph shows the organisation linked based on submission ',
+        selections: [
+          {
+            expression: 'a_organisation',
+            rename: 'organisation'
+          },
+          {
+            expression: 'a_person_id',
+            rename: 'person_id'
+          },
+          {
+            expression: 'a_submission_id',
+            rename: 'submission_id'
+          },
+          {
+            expression: 'a_country',
+            rename: 'country'
+          }
+        ],
+        involvedRecords: [
+          {
+            name: 'author_record',
+            customized: false,
+          }
+        ],
+        filters: [],
+        joiners: [],
+        groupers: [],
+        sorters: [],
+        extraData: {
+        first: 'submission_id',
+        second:'organisation',
+        nodeLabels: true,
+        force: 800,
+        canvasSize: 1000,
+        nodeSize: 5,
+        fontSize: 10
+        }
+      }
+    },
   "review_overview": {
     name: "Review Overview",
     group: 'Review Record',

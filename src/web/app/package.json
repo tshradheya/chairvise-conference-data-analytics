@@ -23,6 +23,7 @@
     "vue": "^2.5.17",
     "vue-chartjs": "^3.4.0",
     "vue-lodash": "^2.0.2",
+    "vue-d3-network": "^0.1.28",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
     "wordcloud": "^1.1.0"
