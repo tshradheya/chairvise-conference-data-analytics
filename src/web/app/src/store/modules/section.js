@@ -40,9 +40,15 @@ export default {
       }, payload))
     },
 
-    deleteSectionDetail(state, payload) {
-      let index = state.sectionList.findIndex(s => s.id === payload);
+    deleteSectionDetail(state, {idToDelete, newSectionList}) {
+      let index = state.sectionList.findIndex(s => s.id === idToDelete);
       state.sectionList.splice(index, 1)
+
+      // update section indices
+      state.sectionList.forEach((section) => {
+        let newSection = findSectionDetailById(newSectionList, section.id)
+        section.sectionIndex = newSection.sectionIndex
+      })
     },
 
     updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
@@ -201,8 +207,12 @@ export default {
       commit('setSectionDetailLoading', {id, isLoading: true});
 
       await axios.delete(`/api/presentations/${presentationId}/sections/${id}`)
-        .then(() => {
-          commit('deleteSectionDetail', id)
+        .then((response) => {
+          let newSectionList = response.data;
+          commit('deleteSectionDetail', {
+            idToDelete: id,
+            newSectionList: newSectionList
+          })
         })
         .catch(e => {
           commit('setSectionDetailApiError', {id, msg: e.toString(), msgDetail: JSON.stringify(e.response)});

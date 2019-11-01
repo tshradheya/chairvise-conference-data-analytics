@@ -7,6 +7,8 @@ import sg.edu.nus.comp.cs3219.viz.storage.repository.PresentationSectionReposito
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Comparator;
+import java.util.Collections;
 
 @Component
 public class PresentationSectionLogic {
@@ -74,7 +76,16 @@ public class PresentationSectionLogic {
         return returnArray;
     }
 
-    public void deleteById(Long id) {
+    public List<PresentationSection> deleteById(Long id, Presentation presentation) {
         presentationSectionRepository.deleteById(id);
+
+        // Update all the sectionIndices, so that when the section is removed
+        // on the frontEnd, the sectionIndices for remaining sections will be correct.
+        List<PresentationSection> allSections = this.findAllByPresentation(presentation);
+        Collections.sort(allSections, Comparator.comparing(section -> section.getSectionIndex()));
+        for (int i = 0; i < allSections.size(); i++) {
+            allSections.get(i).setSectionIndex(i);
+        }
+        return allSections;
     }
 }

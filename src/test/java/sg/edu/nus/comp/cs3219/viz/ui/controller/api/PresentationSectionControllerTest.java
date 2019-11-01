@@ -294,7 +294,7 @@ public class PresentationSectionControllerTest extends BaseTestREST {
         gaeSimulation.loginUser("test2@viz.test");
 
         mvc.perform(delete("/api/presentations/1/sections/1"))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isAccepted());
 
         Assert.assertFalse(presentationSectionRepository.findById(1L).isPresent());
     }
