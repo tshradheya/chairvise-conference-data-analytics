@@ -56,27 +56,27 @@ public class PresentationSection {
 
     @Column(columnDefinition = "TEXT")
     private String selections;
-    // private List<Selection> selections = new ArrayList<>();
+    //private List<Selection> selections = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String involvedRecords;
-    // private List<Record> involvedRecords = new ArrayList<>();
+    //private List<Record> involvedRecords = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String filters;
-    // private List<Filter> filters = new ArrayList<>();
+    //private List<Filter> filters = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String joiners;
-    // private List<Joiner> joiners = new ArrayList<>();
+    //private List<Joiner> joiners = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String groupers;
-    // private List<Grouper> joiners = new ArrayList<>();
+    //private List<Grouper> joiners = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String sorters;
-    // private List<Sorter> joiners = new ArrayList<>();
+    //private List<Sorter> joiners = new ArrayList<>();
 
     @Column(columnDefinition = "TEXT")
     private String extraData;
