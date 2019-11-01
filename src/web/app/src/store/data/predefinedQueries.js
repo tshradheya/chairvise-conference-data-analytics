@@ -52,7 +52,7 @@ export default {
       group: 'Author Record',
       data: {
         type: 'network_chart',
-        title: 'Network of Countries',
+        title: 'Network of Organisations',
         dataSet: '${PLACEHOLDER_DATA_SET}',
         conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
         description: 'This network graph shows the organisation linked based on submission ',
