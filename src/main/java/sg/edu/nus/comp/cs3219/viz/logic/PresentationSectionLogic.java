@@ -85,7 +85,9 @@ public class PresentationSectionLogic {
         Collections.sort(allSections, Comparator.comparing(section -> section.getSectionIndex()));
         for (int i = 0; i < allSections.size(); i++) {
             allSections.get(i).setSectionIndex(i);
+            presentationSectionRepository.save(allSections.get(i));
         }
+
         return allSections;
     }
 }
