@@ -51,7 +51,7 @@ export default {
       })
     },
 
-    updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
+    updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData, hasData}) {
       let section = findSectionDetailById(state.sectionList, id);
 
       section.title = title;
@@ -66,6 +66,7 @@ export default {
       section.sectionIndex = sectionIndex;
       section.sorters = sorters;
       section.extraData = extraData;
+      section.hasData = hasData;
     },
 
     updateSectionIndices(state, {sections}) {
@@ -122,14 +123,12 @@ export default {
 
     async addSectionDetail({commit}, {presentationId, selectedNewSection, dataSet, conferenceName, sectionListSize}) {
       commit('setSectionListLoading', true);
-
       let newSection = PredefinedQueries[selectedNewSection].data;
       newSection = JSON.parse(JSON.stringify(newSection).replace(/\${PLACEHOLDER_DATA_SET}/g, dataSet).replace(/\${PLACEHOLDER_CONFERENCE_NAME}/g, conferenceName));
 
       // Assign the new section its length as index
       // as that would give an index one higher than the current list's indices.
       newSection['sectionIndex'] = sectionListSize
-
       await axios.post(`/api/presentations/${presentationId}/sections`, newSection)
         .then(response => {
           commit('addSectionDetail', response.data)
@@ -142,9 +141,8 @@ export default {
         })
     },
 
-    async saveSectionDetail({commit}, {id, presentationId, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
+    async saveSectionDetail({commit}, {id, presentationId, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData, hasData}) {
       commit('setSectionDetailLoading', {id, isLoading: true});
-
       await axios.put(`/api/presentations/${presentationId}/sections/${id}`, {
         title,
         description,
@@ -157,7 +155,8 @@ export default {
         groupers,
         sectionIndex,
         sorters,
-        extraData
+        extraData,
+        hasData
       })
         .then(response => {
           let section = response.data;
@@ -174,7 +173,8 @@ export default {
             groupers: section.groupers,
             sectionIndex: section.sectionIndex,
             sorters: section.sorters,
-            extraData: section.extraData
+            extraData: section.extraData,
+            hasData: section.hasData
           })
         })
         .catch(e => {

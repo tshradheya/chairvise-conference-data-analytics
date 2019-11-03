@@ -8,9 +8,9 @@
                         :extraFormItemsRules="extraFormItemsRules"
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
-                        :isLastIndex="isLastIndex">
+                        :isLastIndex="isLastIndex"
+                        ref = "basicSectionDetail">>
     <bar-chart :chart-data="chartData" :options="options"></bar-chart>
-
     <template slot="extraFormItems" slot-scope="slotProps">
       <el-form-item label="xAxis Field Name" prop="extraData.xAxisFieldName" v-if="slotProps.isInAdvancedMode">
         <el-select placeholder="xAxisFieldName" v-model="slotProps.extraData.xAxisFieldName">
@@ -153,7 +153,16 @@
         options: {},
       }
     },
-
+    var: {
+        firstRefresh: false
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     computed: {
       hasData() {
         return this.labels.length !== 0;

@@ -121,7 +121,7 @@
         return this.presentationId === ID_NEW_PRESENTATION
       },
       orderedSectionList() {
-        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex')
+        return this._.orderBy(this.$store.state.section.sectionList, 'sectionIndex');
       },
       isLoadingSectionList() {
         return this.$store.state.section.sectionListStatus.isLoading
@@ -171,6 +171,7 @@
           this.selectedNewSection = ''
           this.selectedConferenceName = ''
         })
+
       },
 
       changeSectionOrder(sectionId, sectionIndex, direction) {
