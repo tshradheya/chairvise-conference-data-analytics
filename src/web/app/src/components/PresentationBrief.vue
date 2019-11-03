@@ -138,13 +138,6 @@
                   }
               }
           }
-          else {
-              for (presentation of this.$store.state.presentation.sharedPresentationList) {
-                  if (presentation.name === this.presentationFormName && presentation.id != this.id) {
-                      return true;
-                  }
-              }
-          }
           return false;
       },
     },
