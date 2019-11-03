@@ -1,4 +1,60 @@
 export default {
+  "top_country_coauthors": {
+    name: "Inter-Country Co-Author Submissions",
+    group: 'Author Record',
+    data: {
+      type: 'bar_chart',
+      title: 'Inter-Country Co-Author Submissions',
+      dataSet: '${PLACEHOLDER_DATA_SET}',
+      conferenceName: '${PLACEHOLDER_CONFERENCE_NAME}',
+      description: 'This chart shows the number of submissions by country co-author pairs.',
+      selections: [
+        {
+          expression: 'submission_count',
+          rename: 'submission_count'
+        },
+        {
+          expression: "country_group",
+          rename: 'country_group'
+        },
+      ],
+      involvedRecords: [
+        {
+          name: "(SELECT `country_group`, COUNT(a_submission_id) as `submission_count` " +
+            "FROM " +
+              "(SELECT a_submission_id, max(a_country) as `country_max`, min(a_country) as `country_min`, " +
+              "GROUP_CONCAT(DISTINCT a_country ORDER BY a_country SEPARATOR '-') AS `country_group` " +
+              "FROM author_record " +
+              "WHERE conference_name = '${PLACEHOLDER_CONFERENCE_NAME}' " +
+              "GROUP BY a_submission_id) as `country_group_records` " +
+            "WHERE `country_max` != `country_min` " +
+            "GROUP BY `country_group`) as `tmp` ",
+          customized: true,
+        }
+      ],
+      filters: [],
+      joiners: [],
+      groupers: [],
+      sorters: [
+        {
+          field: 'submission_count',
+          order: 'DESC',
+        },
+        {
+          field: 'submission_count',
+          order: 'ASC',
+        },
+      ],
+      extraData: {
+        dataSetLabel: 'Submission Counts',
+        fieldsShownInToolTips: [],
+        xAxisFieldName: 'country_group',
+        yAxisFieldName: 'submission_count',
+        numOfResultToDisplay: 10,
+        isColorfulBar: true
+      }
+    }
+  },
 "network_of_countries": {
     name: "Network of Countries",
     group: 'Author Record',
