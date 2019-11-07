@@ -1,4 +1,7 @@
-# Chairvise
+# Chairvise 3.0
+
+[![Build Status](https://travis-ci.com/CS3219-SE-Principles-and-Patterns/chairvise3-0-2019-team-17.svg?token=CDywGEJ2yxNgpa1ch5ig&branch=master)](https://travis-ci.com/CS3219-SE-Principles-and-Patterns/chairvise3-0-2019-team-17)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Overview
 This project is a tool to analyze paper submission information for conferences. It is basically a visualization tool combined with a backend query service.
