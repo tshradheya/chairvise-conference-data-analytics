@@ -3,7 +3,8 @@
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
-                        :isLastIndex="isLastIndex">
+                        :isLastIndex="isLastIndex"
+                        ref = "basicSectionDetail">>
     <line-chart :chart-data="chartData" :options="options"></line-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -58,7 +59,16 @@
         type: Boolean,
       },
     },
-
+    var: {
+        firstRefresh: false,
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     data() {
       return {
         labels: [],

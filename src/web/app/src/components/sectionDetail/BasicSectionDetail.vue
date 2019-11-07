@@ -259,6 +259,11 @@
       this.sendAnalysisRequest();
     },
 
+    mounted() {
+      this.syncDataWithProps();
+      this.sendAnalysisRequest();
+    },
+
     data() {
       return {
         isInAdvancedMode: false,
@@ -277,6 +282,7 @@
           sectionIndex: null,
           sorters: [],
           extraData: {},
+          hasData: this.hasData,
         },
 
         editFormRule: {
@@ -361,6 +367,7 @@
         this.editForm.sectionIndex = this.sectionDetail.sectionIndex;
         this.editForm.sorters = deepCopy(this.sectionDetail.sorters); // deep copy
         this.editForm.extraData = deepCopy(this.sectionDetail.extraData); // deep copy
+        this.editForm.hasData = this.hasData;
       },
 
       addSelection() {
@@ -417,6 +424,7 @@
       },
 
       saveSectionDetail(formName) {
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.$store.dispatch('saveSectionDetail', {
@@ -434,6 +442,7 @@
               sectionIndex: this.sectionDetail.sectionIndex,
               sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
               extraData: this.editForm.extraData,
+              hasData: this.hasData,
             })
               .then(() => {
                 // only update when there is no error in saving
@@ -473,6 +482,7 @@
             joiners: this.editForm.joiners.map(j => Object.assign({}, j)),
             groupers: this.editForm.groupers.map(g => ({field: g})),
             sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
+            hasData: this.hasData,
           })
             .then(() => {
               this.$emit('update-visualisation', {
@@ -484,6 +494,7 @@
                 sorters: this.editForm.sorters.map(s => Object.assign({}, s)),
                 result: this.sectionDetail.previewResult,
                 extraData: this.editForm.extraData,
+                hasData: this.hasData,
               });
             });
         });
@@ -502,6 +513,7 @@
               groupers: this.sectionDetail.groupers,
               sorters: this.sectionDetail.sorters,
               extraData: this.sectionDetail.extraData,
+              hasData: this.hasData,
             });
           });
       },

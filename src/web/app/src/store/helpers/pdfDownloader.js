@@ -6,8 +6,11 @@ import {
   PDF_CHART_MARGIN_TOP,
   PDF_CHART_WIDTH,
   TITLE_FONT_SIZE,
-  TITLE_MARGIN_LEFT,
+  TITLE_AND_DATE_MARGIN_LEFT,
   TITLE_MARGIN_TOP,
+  DATE_FONT_SIZE,
+  DATE_MARGIN_TOP,
+  DOWNLOAD_DATE_LABEL,
 } from '@/common/const';
 
 let doc, marginTop;
@@ -16,7 +19,9 @@ export function downloadAsPresentation(presentationFormName) {
   doc = new JavascriptPDF('l', 'mm', 'a4');
   marginTop = PDF_CHART_MARGIN_TOP;
   doc.setFontSize(TITLE_FONT_SIZE);
-  doc.text(TITLE_MARGIN_LEFT, TITLE_MARGIN_TOP, presentationFormName);
+  doc.text(TITLE_AND_DATE_MARGIN_LEFT, TITLE_MARGIN_TOP, presentationFormName);
+  doc.setFontSize(DATE_FONT_SIZE);
+  doc.text(TITLE_AND_DATE_MARGIN_LEFT, DATE_MARGIN_TOP, DOWNLOAD_DATE_LABEL + (new Date()).toString());
 
   return createPresentablePDF(presentationFormName);
 }
@@ -25,7 +30,9 @@ export function download(presentationFormName) {
   doc = new JavascriptPDF('p', 'mm', 'a4');
   marginTop = PDF_CHART_MARGIN_TOP;
   doc.setFontSize(TITLE_FONT_SIZE);
-  doc.text(TITLE_MARGIN_LEFT, TITLE_MARGIN_TOP, presentationFormName);
+  doc.text(TITLE_AND_DATE_MARGIN_LEFT, TITLE_MARGIN_TOP, presentationFormName);
+  doc.setFontSize(DATE_FONT_SIZE);
+  doc.text(TITLE_AND_DATE_MARGIN_LEFT, DATE_MARGIN_TOP, DOWNLOAD_DATE_LABEL + (new Date()).toString());
 
   return createPDF(presentationFormName);
 }

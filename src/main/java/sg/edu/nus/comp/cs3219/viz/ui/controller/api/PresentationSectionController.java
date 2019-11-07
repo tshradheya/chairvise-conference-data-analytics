@@ -97,9 +97,11 @@ public class PresentationSectionController extends BaseRestController {
         Presentation presentation = presentationSection.getPresentation();
         gateKeeper.verifyAccessForPresentation(presentation, AccessLevel.CAN_WRITE);
 
-        presentationSectionLogic.deleteById(sectionId);
+        List<PresentationSection> newSectionsList = presentationSectionLogic.deleteById(sectionId, presentation);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity
+        .accepted()
+        .body(newSectionsList);
     }
 
 }

@@ -40,12 +40,18 @@ export default {
       }, payload));
     },
 
-    deleteSectionDetail(state, payload) {
-      const index = state.sectionList.findIndex(s => s.id === payload);
+    deleteSectionDetail(state, {idToDelete, newSectionList}) {
+      const index = state.sectionList.findIndex(s => s.id === idToDelete);
       state.sectionList.splice(index, 1);
+
+      // update section indices
+      state.sectionList.forEach((section) => {
+        const newSection = findSectionDetailById(newSectionList, section.id);
+        section.sectionIndex = newSection.sectionIndex;
+      });
     },
 
-    updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
+    updateSectionDetail(state, {id, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData, hasData}) {
       const section = findSectionDetailById(state.sectionList, id);
 
       section.title = title;
@@ -60,6 +66,7 @@ export default {
       section.sectionIndex = sectionIndex;
       section.sorters = sorters;
       section.extraData = extraData;
+      section.hasData = hasData;
     },
 
     updateSectionIndices(state, {sections}) {
@@ -116,7 +123,6 @@ export default {
 
     async addSectionDetail({commit}, {presentationId, selectedNewSection, dataSet, conferenceName, sectionListSize}) {
       commit('setSectionListLoading', true);
-
       let newSection = PredefinedQueries[selectedNewSection].data;
       newSection = JSON.parse(JSON.stringify(newSection).replace(/\${PLACEHOLDER_DATA_SET}/g, dataSet).replace(/\${PLACEHOLDER_CONFERENCE_NAME}/g, conferenceName));
 
@@ -136,9 +142,8 @@ export default {
         });
     },
 
-    async saveSectionDetail({commit}, {id, presentationId, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData}) {
+    async saveSectionDetail({commit}, {id, presentationId, title, description, dataSet, conferenceName, selections, involvedRecords, filters, joiners, groupers, sectionIndex, sorters, extraData, hasData}) {
       commit('setSectionDetailLoading', {id, isLoading: true});
-
       await axios.put(`/api/presentations/${presentationId}/sections/${id}`, {
         title,
         description,
@@ -152,6 +157,7 @@ export default {
         sectionIndex,
         sorters,
         extraData,
+        hasData,
       })
         .then(response => {
           const section = response.data;
@@ -169,6 +175,7 @@ export default {
             sectionIndex: section.sectionIndex,
             sorters: section.sorters,
             extraData: section.extraData,
+            hasData: section.hasData,
           });
         })
         .catch(e => {
@@ -201,8 +208,12 @@ export default {
       commit('setSectionDetailLoading', {id, isLoading: true});
 
       await axios.delete(`/api/presentations/${presentationId}/sections/${id}`)
-        .then(() => {
-          commit('deleteSectionDetail', id);
+        .then((response) => {
+          const newSectionList = response.data;
+          commit('deleteSectionDetail', {
+            idToDelete: id,
+            newSectionList: newSectionList,
+          });
         })
         .catch(e => {
           commit('setSectionDetailApiError', {id, msg: e.toString(), msgDetail: JSON.stringify(e.response)});

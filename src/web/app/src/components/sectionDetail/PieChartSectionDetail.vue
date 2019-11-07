@@ -3,7 +3,8 @@
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
-                        :isLastIndex="isLastIndex">
+                        :isLastIndex="isLastIndex"
+                        ref = "basicSectionDetail">>
     <pie-chart :chart-data="chartData" :options="options"></pie-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
@@ -68,7 +69,16 @@
         options: {},
       };
     },
-
+    var: {
+        firstRefresh: false,
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     computed: {
       hasData() {
         return this.labels.length !== 0;

@@ -3,7 +3,8 @@
                         :extraFormItemsRules="{}"
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
-                        :isLastIndex="isLastIndex">
+                        :isLastIndex="isLastIndex"
+                        ref = "basicSectionDetail">>
     <el-table
       :data="tableData"
       style="width: 100%">
@@ -60,7 +61,16 @@
         tableData: [],
       };
     },
-
+    var: {
+        firstRefresh: false,
+    },
+    updated() {
+      this.$refs['basicSectionDetail'].syncDataWithProps();
+      if (!this.firstRefresh) {
+         this.$refs['basicSectionDetail'].saveSectionDetail('editForm');
+         this.firstRefresh = true;
+      }
+    },
     computed: {
       hasData() {
         return this.tableData.length !== 0;

@@ -30,6 +30,8 @@
       </el-button>
       <el-button type="primary" @click="changeEditMode(true)" v-if="!isInEditMode && isPresentationEditable">Edit
       </el-button>
+      <el-button type="primary" @click="deleteSectionsWithoutData()" v-if="!isInEditMode && isPresentationEditable">Remove Sections without data
+      </el-button>
       <el-button type="primary" @click="addPresentation()" v-if="isInEditMode && !hasDuplicateName">Save</el-button>
       <el-button type="primary" plain disabled @click="addPresentation()" v-if="isInEditMode && hasDuplicateName">Save</el-button>
       <el-button type="info" @click="changeEditMode(false)" v-if="isInEditMode && !isNewPresentation">Cancel</el-button>
@@ -122,9 +124,18 @@
       },
       hasDuplicateName() {
           var presentation;
+          var whichList = 'shared';
           for (presentation of this.$store.state.presentation.presentationList) {
-              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
-                  return true;
+              if (presentation.name === this.presentationFormName && presentation.id == this.id) {
+                  //Mark which presentationList the current presentation is from
+                  whichList = 'local';
+              }
+          }
+          if (whichList === 'local') {
+              for (presentation of this.$store.state.presentation.presentationList) {
+                  if (presentation.name === this.presentationFormName && presentation.id != this.id) {
+                      return true;
+                  }
               }
           }
           return false;
@@ -241,6 +252,17 @@
             vm.$store.commit('setPageLoadingStatus', false);
           });
         });
+      },
+      deleteSectionsWithoutData() {
+       const section_list = this.$store.state.section.sectionList;
+          for (const p in section_list) {
+          if (!section_list[p].hasData) {
+              this.$store.dispatch('deleteSectionDetail', {
+                  id: section_list[p].id,
+                  presentationId: this.id,
+              });
+          }
+        }
       },
     },
 
