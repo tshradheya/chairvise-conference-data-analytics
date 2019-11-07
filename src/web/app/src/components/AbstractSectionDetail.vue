@@ -27,7 +27,6 @@
         type="error">
       </el-alert>
     </div>
-    <el-divider></el-divider>
   </el-row>
 </template>
 
