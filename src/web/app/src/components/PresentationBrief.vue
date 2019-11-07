@@ -45,28 +45,28 @@
 </template>
 
 <script>
-  import AccessControlPanel from '@/components/AccessControlPanel'
-  import DeleteModal from '@/components/common/DeleteModal'
-  import {download, downloadAsPresentation} from "@/store/helpers/pdfDownloader"
-  import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
-  import {deepCopy} from "@/common/utility";
+  import AccessControlPanel from '@/components/AccessControlPanel';
+  import DeleteModal from '@/components/common/DeleteModal';
+  import {download, downloadAsPresentation} from '@/store/helpers/pdfDownloader';
+  import {AccessLevel, ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from '@/common/const';
+  import {deepCopy} from '@/common/utility';
 
   export default {
     name: 'PresentationBrief',
     props: {
-      id: String
+      id: String,
     },
     mounted() {
-      this.updatePresentationForm()
+      this.updatePresentationForm();
     },
     watch: {
       'id'() {
-        this.updatePresentationForm()
+        this.updatePresentationForm();
       },
     },
     computed: {
       isLogin() {
-        return this.$store.state.userInfo.isLogin
+        return this.$store.state.userInfo.isLogin;
       },
       isPresentationEditable() {
         return this.$store.state.presentation.isPresentationEditable;
@@ -77,54 +77,54 @@
           name: this.presentationFormName,
           creatorIdentifier: this.presentationFormCreatorIdentifier,
           description: this.presentationFormDescription,
-        }
+        };
       },
       presentationFormName: {
         get() {
-          return this.$store.state.presentation.presentationForm.name
+          return this.$store.state.presentation.presentationForm.name;
         },
         set(value) {
           this.$store.commit('setPresentationFormField', {
             field: 'name',
-            value
-          })
+            value,
+          });
         },
       },
       presentationFormCreatorIdentifier() {
-        return this.$store.state.presentation.presentationForm.creatorIdentifier
+        return this.$store.state.presentation.presentationForm.creatorIdentifier;
       },
       presentationFormDescription: {
         get() {
-          return this.$store.state.presentation.presentationForm.description
+          return this.$store.state.presentation.presentationForm.description;
         },
         set(value) {
           this.$store.commit('setPresentationFormField', {
             field: 'description',
-            value
-          })
+            value,
+          });
         },
       },
       isNewPresentation() {
-        return this.id === ID_NEW_PRESENTATION
+        return this.id === ID_NEW_PRESENTATION;
       },
       isInEditMode() {
-        return this.isEditing || this.isNewPresentation
+        return this.isEditing || this.isNewPresentation;
       },
       isLoading() {
-        return this.$store.state.presentation.presentationFormStatus.isLoading
+        return this.$store.state.presentation.presentationFormStatus.isLoading;
       },
       isError() {
-        return this.$store.state.presentation.presentationFormStatus.isApiError
+        return this.$store.state.presentation.presentationFormStatus.isApiError;
       },
       apiErrorMsg() {
-        return this.$store.state.presentation.presentationFormStatus.apiErrorMsg
+        return this.$store.state.presentation.presentationFormStatus.apiErrorMsg;
       },
       duplicatePresentationErrorMsg() {
-        return 'Cannot have duplicate presentation names'
+        return 'Cannot have duplicate presentation names';
       },
       hasDuplicateName() {
-          var presentation
-          var whichList = 'shared'
+          var presentation;
+          var whichList = 'shared';
           for (presentation of this.$store.state.presentation.presentationList) {
               if (presentation.name === this.presentationFormName && presentation.id == this.id) {
                   //Mark which presentationList the current presentation is from
@@ -148,10 +148,10 @@
         rules: {
           name: [
             {required: true, message: 'Please enter presentation name', trigger: 'blur'},
-            {min: 3, message: 'The length should be more than 3 character', trigger: 'blur'}
-          ]
-        }
-      }
+            {min: 3, message: 'The length should be more than 3 character', trigger: 'blur'},
+          ],
+        },
+      };
     },
     methods: {
       changeEditMode(isEditing) {
@@ -168,7 +168,7 @@
       addPresentation() {
         this.$refs['presentationForm'].validate((valid) => {
           if (!valid) {
-            return
+            return;
           }
           this.$refs['presentationForm'].clearValidate();
           if (this.isNewPresentation) {
@@ -176,14 +176,14 @@
             this.$store.dispatch('savePresentation')
               .then(() => {
                 if (this.isError) {
-                  return
+                  return;
                 }
                 // redirect to the newly added presentation
                 this.$router.push({
                   name: 'analyze',
                   params: {
-                    id: this.$store.state.presentation.presentationForm.id
-                  }
+                    id: this.$store.state.presentation.presentationForm.id,
+                  },
                 });
               });
           } else {
@@ -191,10 +191,10 @@
             this.$store.dispatch('updatePresentation')
               .then(() => {
                 if (this.isError) {
-                  return
+                  return;
                 }
-                this.isEditing = false
-              })
+                this.isEditing = false;
+              });
           }
         });
       },
@@ -202,16 +202,16 @@
         this.$store.dispatch('deletePresentation', this.id)
           .then(() => {
             if (this.isError) {
-              return
+              return;
             }
             this.$router.replace({
               name: 'analyze',
               params: {
-                id: ID_NEW_PRESENTATION
-              }
+                id: ID_NEW_PRESENTATION,
+              },
             });
             this.isEditing = false;
-          })
+          });
       },
       updatePresentationForm() {
         if (this.$refs['presentationForm']) {
@@ -224,20 +224,20 @@
               // check writable or not
               this.$store.dispatch('fetchAccessControlList', this.id)
                 .then(() => {
-                  let currentUser = this.$store.state.userInfo.userEmail;
-                  let accessControlList = this.$store.state.accessControl.accessControlList;
-                  let isPresentationEditable =
+                  const currentUser = this.$store.state.userInfo.userEmail;
+                  const accessControlList = this.$store.state.accessControl.accessControlList;
+                  const isPresentationEditable =
                     currentUser === this.presentationFormCreatorIdentifier
                     || accessControlList.some(acl => acl.userIdentifier === currentUser && acl.accessLevel === AccessLevel.CAN_WRITE)
                     || accessControlList.some(acl => acl.userIdentifier === SPECIAL_IDENTIFIER_PUBLIC && acl.accessLevel === AccessLevel.CAN_WRITE);
-                  this.$store.commit('setIsPresentationEditable', isPresentationEditable)
-                })
-            })
+                  this.$store.commit('setIsPresentationEditable', isPresentationEditable);
+                });
+            });
         }
       },
       downloadPDF(asPresentation) {
-        let vm = this;
-        let wasPresentationEditable = deepCopy(vm.isPresentationEditable);
+        const vm = this;
+        const wasPresentationEditable = deepCopy(vm.isPresentationEditable);
         vm.$store.commit('setIsPresentationEditable', false);
         vm.$store.commit('setPageLoadingStatus', true);
 
@@ -254,23 +254,23 @@
         });
       },
       deleteSectionsWithoutData() {
-       let section_list = this.$store.state.section.sectionList;
-          for (let p in section_list) {
+       const section_list = this.$store.state.section.sectionList;
+          for (const p in section_list) {
           if (!section_list[p].hasData) {
               this.$store.dispatch('deleteSectionDetail', {
                   id: section_list[p].id,
-                  presentationId: this.id
-              })
+                  presentationId: this.id,
+              });
           }
         }
-      }
+      },
     },
 
     components: {
       AccessControlPanel,
-      DeleteModal
+      DeleteModal,
     },
-  }
+  };
 </script>
 
 <style scoped>

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import MenuBar from '@/components/MenuBar.vue'
+  import MenuBar from '@/components/MenuBar.vue';
 
   export default {
     watch: {
@@ -20,27 +20,27 @@
       },
       'isFetchUserInfoError'() {
         if (!this.isFetchUserInfoError) {
-          return
+          return;
         }
         this.$notify.error({
           title: 'Auth request fail',
           message: this.$store.state.userInfo.apiErrorMsg,
-          duration: 0
+          duration: 0,
         });
-      }
+      },
     },
     components: {
       'menu-bar': MenuBar,
     },
     computed: {
       isAppLoading() {
-        return this.$store.state.isPageLoading
+        return this.$store.state.isPageLoading;
       },
       isFetchUserInfoError() {
-        return this.$store.state.userInfo.isApiError
-      }
+        return this.$store.state.userInfo.isApiError;
+      },
     },
-  }
+  };
 </script>
 
 <style>

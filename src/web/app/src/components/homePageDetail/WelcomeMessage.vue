@@ -17,9 +17,9 @@
   export default {
     name: 'WelcomeMessage',
     props: {
-      msg: String
-    }
-  }
+      msg: String,
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

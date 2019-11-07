@@ -60,23 +60,23 @@
 </template>
 
 <script>
-  import {ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from "@/common/const";
+  import {ID_NEW_PRESENTATION, SPECIAL_IDENTIFIER_PUBLIC} from '@/common/const';
 
   export default {
-    name: "AccessControlPanel",
+    name: 'AccessControlPanel',
 
     props: {
       presentationId: {
         type: String,
-        required: true
-      }
+        required: true,
+      },
     },
 
     watch: {
       'presentationId': {
         immediate: true,
-        handler: 'fetchAccessControlList'
-      }
+        handler: 'fetchAccessControlList',
+      },
     },
 
     data() {
@@ -93,15 +93,15 @@
                   callback();
                 }
               },
-              trigger: 'blur'
-            }
+              trigger: 'blur',
+            },
           ],
           accessLevel: [
             {required: true, message: 'Please give an access level', trigger: 'blur'},
-          ]
+          ],
         },
         currentUrl: '',
-      }
+      };
     },
 
     beforeUpdate() {
@@ -112,75 +112,75 @@
 
       isAccessControlPanelLoading() {
         return this.$store.state.accessControl.accessControlListStatus.isLoading
-          || this.$store.state.accessControl.accessControlFormStatus.isLoading
+          || this.$store.state.accessControl.accessControlFormStatus.isLoading;
       },
 
       isAccessControlListApiError() {
-        return this.$store.state.accessControl.accessControlListStatus.isApiError
+        return this.$store.state.accessControl.accessControlListStatus.isApiError;
       },
 
       accessControlListApiErrorMsg() {
-        return this.$store.state.accessControl.accessControlListStatus.apiErrorMsg
+        return this.$store.state.accessControl.accessControlListStatus.apiErrorMsg;
       },
 
       isAccessControlFormApiError() {
-        return this.$store.state.accessControl.accessControlFormStatus.isApiError
+        return this.$store.state.accessControl.accessControlFormStatus.isApiError;
       },
 
       accessControlFormApiErrorMsg() {
-        return this.$store.state.accessControl.accessControlFormStatus.apiErrorMsg
+        return this.$store.state.accessControl.accessControlFormStatus.apiErrorMsg;
       },
 
 
       accessControlList() {
         // filter out public access control in the ACL
         return this.$store.state.accessControl.accessControlList
-          .filter(ac => ac.userIdentifier !== SPECIAL_IDENTIFIER_PUBLIC)
+          .filter(ac => ac.userIdentifier !== SPECIAL_IDENTIFIER_PUBLIC);
       },
 
       publicAccessLevel() {
-        let publicAccessLevelControl =
+        const publicAccessLevelControl =
           this.$store.state.accessControl.accessControlList.find(ac => ac.userIdentifier === SPECIAL_IDENTIFIER_PUBLIC);
         if (publicAccessLevelControl === undefined) {
-          return 'OFF'
+          return 'OFF';
         }
-        return publicAccessLevelControl.accessLevel
+        return publicAccessLevelControl.accessLevel;
       },
 
       accessControlForm() {
         return {
           userIdentifier: this.accessControlFormUserIdentifier,
           accessLevel: this.accessControlFormAccessLevel,
-        }
+        };
       },
 
       accessControlFormUserIdentifier: {
         get() {
-          return this.$store.state.accessControl.accessControlForm.userIdentifier
+          return this.$store.state.accessControl.accessControlForm.userIdentifier;
         },
         set(value) {
           this.$store.commit('setAccessControlFormField', {
             field: 'userIdentifier',
-            value
-          })
+            value,
+          });
         },
       },
       accessControlFormAccessLevel: {
         get() {
-          return this.$store.state.accessControl.accessControlForm.accessLevel
+          return this.$store.state.accessControl.accessControlForm.accessLevel;
         },
         set(value) {
           this.$store.commit('setAccessControlFormField', {
             field: 'accessLevel',
-            value
-          })
+            value,
+          });
         },
       },
     },
 
     methods: {
       modifyPublicAccessControl(accessLevel) {
-        let publicAccessControl =
+        const publicAccessControl =
           this.$store.state.accessControl.accessControlList.find(ac => ac.userIdentifier === SPECIAL_IDENTIFIER_PUBLIC);
 
         // delete
@@ -199,15 +199,15 @@
           this.$store.dispatch('addAccessControl', {
             presentationId: this.presentationId,
             userIdentifier: SPECIAL_IDENTIFIER_PUBLIC,
-            accessLevel
-          })
+            accessLevel,
+          });
         } else {
           // update if exist
           this.$store.dispatch('updateAccessControl',
             {
               presentationId: this.presentationId,
               id: publicAccessControl.id,
-              accessLevel
+              accessLevel,
             }
           );
         }
@@ -217,7 +217,7 @@
         if (this.presentationId === ID_NEW_PRESENTATION) {
           return;
         }
-        this.$store.dispatch('fetchAccessControlList', this.presentationId)
+        this.$store.dispatch('fetchAccessControlList', this.presentationId);
       },
 
       updateAccessControl({id}, $event) {
@@ -225,7 +225,7 @@
           {
             presentationId: this.presentationId,
             id,
-            accessLevel: $event
+            accessLevel: $event,
           }
         );
       },
@@ -240,12 +240,12 @@
       addAccessControl() {
         this.$refs['accessControlForm'].validate((valid) => {
           if (!valid) {
-            return
+            return;
           }
           this.$store.dispatch('addAccessControl', {
             presentationId: this.presentationId,
             userIdentifier: this.accessControlFormUserIdentifier,
-            accessLevel: this.accessControlFormAccessLevel
+            accessLevel: this.accessControlFormAccessLevel,
           })
             .then(() => {
               this.accessControlFormUserIdentifier = '';
@@ -254,8 +254,8 @@
             });
         });
       },
-    }
-  }
+    },
+  };
 </script>
 
 <style scoped>

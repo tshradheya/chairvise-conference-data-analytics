@@ -40,13 +40,13 @@
   export default {
     name: 'ListOfGuide',
     props: {
-      msg: String
+      msg: String,
     },
 
     methods: {
       scrollToId(id) {
         document.getElementById(id).scrollIntoView();
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

@@ -36,24 +36,24 @@
 </template>
 
 <script>
-  import NetworkChart from '@/components/sectionDetail/chart/NetworkChart.vue'
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
+  import NetworkChart from '@/components/sectionDetail/chart/NetworkChart.vue';
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
   export default {
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-       type: Function
+       type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     data() {
@@ -61,13 +61,13 @@
             nodes:[],
             links:[],
             dataSet:{},
-        }
+        };
     },
 
     computed: {
       hasData() {
       return this.nodes.length!= 0;
-      }
+      },
     },
 
     methods: {
@@ -78,14 +78,14 @@
           this.dataSet.canvasSize = extraData.canvasSize;
           this.dataSet.nodeSize = extraData.nodeSize;
           this.dataSet.fontSize = extraData.fontSize;
-          let submission = extraData.first;
-          let organisation = extraData.second;
-          let myMap = new Map();
+          const submission = extraData.first;
+          const organisation = extraData.second;
+          const myMap = new Map();
           let count = 0;
           this.nodes = [];
           this.links = [];
-          let uniqueSubmission = Array.from(new Set(result.map(r => r[submission])));
-          let uniqueOrganisation = Array.from(new Set(result.map(r => r[organisation])));
+          const uniqueSubmission = Array.from(new Set(result.map(r => r[submission])));
+          const uniqueOrganisation = Array.from(new Set(result.map(r => r[organisation])));
           uniqueOrganisation.forEach(s => {
             myMap.set(s,count);
             this.nodes.push({id: count, name: s});
@@ -103,7 +103,7 @@
 
     components: {
       NetworkChart,
-      BasicSectionDetail
-    }
-  }
+      BasicSectionDetail,
+    },
+  };
 </script>

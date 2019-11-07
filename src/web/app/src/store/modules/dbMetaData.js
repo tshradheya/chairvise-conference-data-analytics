@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   state: {
@@ -8,7 +8,7 @@ export default {
       isLoading: false,
       isApiError: false,
       apiErrorMsg: '',
-    }
+    },
   },
 
   mutations: {
@@ -28,7 +28,7 @@ export default {
 
     setUniqueConferenceNames(state, payload) {
       state.uniqueConferenceNames = payload;
-    }
+    },
 
   },
 
@@ -45,7 +45,7 @@ export default {
         })
         .finally(() => {
           commit('setDBMetaDataEntitiesLoading', false);
-        })
+        });
     },
 
     async fetchUniqueConferenceNames({commit}) {
@@ -53,10 +53,10 @@ export default {
 
       await axios.get('/api/allConferenceNames')
         .then(response => {
-          commit('setUniqueConferenceNames', response.data)
+          commit('setUniqueConferenceNames', response.data);
         }).finally(() => {
           commit('setDBMetaDataEntitiesLoading', false);
-        })
-    }
-  }
-}
+        });
+    },
+  },
+};

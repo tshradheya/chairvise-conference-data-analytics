@@ -1,9 +1,9 @@
 export const AccessLevel = Object.freeze({
-  CAN_READ: "CAN_READ",
-  CAN_WRITE: "CAN_WRITE"
+  CAN_READ: 'CAN_READ',
+  CAN_WRITE: 'CAN_WRITE',
 });
 
-export const ID_NEW_PRESENTATION = "__NEW__";
+export const ID_NEW_PRESENTATION = '__NEW__';
 
 export const SPECIAL_IDENTIFIER_PUBLIC = '%PUBLIC%';
 
@@ -18,16 +18,16 @@ export const SECTION_TYPE_NETWORK_CHART = 'network_chart';
 export const REVIEW_TABLE_ID = 1;
 
 export const REVIEW_DATE_DAY_FIELD = {
-  name: "Day of the Review Date",
-  type: "LocalDate"
+  name: 'Day of the Review Date',
+  type: 'LocalDate',
 };
 
 export const REVIEW_DATE_TIME_FIELD = {
-  name: "Time of the Review Date",
-  type: "LocalTime"
+  name: 'Time of the Review Date',
+  type: 'LocalTime',
 };
 
-export const DOWNLOAD_DATE_LABEL = "Date downloaded: "
+export const DOWNLOAD_DATE_LABEL = 'Date downloaded: ';
 
 export const PDF_CHART_MARGIN_LEFT = 7 * 72 / 25.4;
 export const PDF_CHART_MARGIN_TOP = 15 * 72 / 25.4;

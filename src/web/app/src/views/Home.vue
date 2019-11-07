@@ -18,10 +18,10 @@
 
 <script>
   // @ is an alias to /src
-  import WelcomeMessage from '@/components/homePageDetail/WelcomeMessage.vue'
-  import FeatureGuide from '@/components/homePageDetail/FeatureGuide.vue'
-  import DetailedFeatureGuide from '@/components/homePageDetail/DetailedFeatureGuide.vue'
-  import ListOfGuide from '@/components/homePageDetail/ListOfGuide.vue'
+  import WelcomeMessage from '@/components/homePageDetail/WelcomeMessage.vue';
+  import FeatureGuide from '@/components/homePageDetail/FeatureGuide.vue';
+  import DetailedFeatureGuide from '@/components/homePageDetail/DetailedFeatureGuide.vue';
+  import ListOfGuide from '@/components/homePageDetail/ListOfGuide.vue';
 
   export default {
     name: 'home',
@@ -29,9 +29,9 @@
       WelcomeMessage,
       FeatureGuide,
       DetailedFeatureGuide,
-      ListOfGuide
-    }
-  }
+      ListOfGuide,
+    },
+  };
 </script>
 <style scoped>
   .el-aside {

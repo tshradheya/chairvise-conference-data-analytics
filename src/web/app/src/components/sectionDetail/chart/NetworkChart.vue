@@ -4,19 +4,19 @@
 <script>
   import D3Network from 'vue-d3-network';
   export default {
-    name: "NetworkChart",
+    name: 'NetworkChart',
      props: {
         links: {
           type: Array,
-          required: true
+          required: true,
         },
         nodes: {
             type: Array,
-            required: true
+            required: true,
             },
         dataSet: {
             type: Object,
-            required: true
+            required: true,
             },
      },
 
@@ -30,8 +30,8 @@
           nodeSize:this.dataSet.nodeSize,
           canvas:true,
           nodeLabels: this.dataSet.nodeLabels,
-          fontSize: this.dataSet.fontSize
-      }
+          fontSize: this.dataSet.fontSize,
+      };
     },
 
     computed:{
@@ -49,15 +49,15 @@
          nodeLabels: this.dataSet.nodeLabels,
          fontSize: this.dataSet.fontSize,
          linkLabels:true,
-         canvas: true
-        }
-      }
+         canvas: true,
+        };
+      },
     },
 
     components: {
-        D3Network
+        D3Network,
     },
-  }
+  };
 </script>
 
 <style scoped>

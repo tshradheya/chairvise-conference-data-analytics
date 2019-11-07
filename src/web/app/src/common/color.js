@@ -1,5 +1,5 @@
 import Color from 'color';
-import palette from './open-color'
+import palette from './open-color';
 
 const colors = [
   palette['red'],
@@ -17,7 +17,7 @@ const colors = [
 ];
 
 const chooseColorSet = (size) => {
-  let colorSet = [];
+  const colorSet = [];
   for (let i = 0; i < size; i++) {
     colorSet.push(colors[i % colors.length][Math.floor(i / colors.length) % colors[0].length]);
   }
@@ -29,6 +29,6 @@ export const generateBorderColor = (size) => {
 };
 
 export const generateBackgroundColor = (size) => {
-  let colorSet = chooseColorSet(size);
+  const colorSet = chooseColorSet(size);
   return colorSet.map(hex => new Color(hex).alpha(0.5).string());
 };

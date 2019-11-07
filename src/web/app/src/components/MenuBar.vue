@@ -19,37 +19,37 @@
     data() {
       return {
         isFullscreenLoading: false,
-      }
+      };
     },
     computed: {
       menuDefaultActive() {
         // need to active the menu item if sub path is used. e.g. /analyze/new
         if (this.$route.path.includes('/analyze')) {
-          return '/analyze'
+          return '/analyze';
         }
-        return this.$route.path
+        return this.$route.path;
       },
       isLogin() {
-        return this.$store.state.userInfo.isLogin
+        return this.$store.state.userInfo.isLogin;
       },
       userNickname() {
-        return this.$store.state.userInfo.userNickname
+        return this.$store.state.userInfo.userNickname;
       },
       isApiError() {
-        return this.$store.state.userInfo.isApiError
-      }
+        return this.$store.state.userInfo.isApiError;
+      },
     },
     methods: {
       login() {
         // enter full screen loading and wait browser to redirect to google login page
         this.$data.isFullscreenLoading = true;
-        window.location.href = this.$store.state.userInfo.loginUrl
+        window.location.href = this.$store.state.userInfo.loginUrl;
       },
       logout() {
         // enter full screen loading and wait browser to redirect to google login page
         this.$data.isFullscreenLoading = true;
-        window.location.href = this.$store.state.userInfo.logoutUrl
-      }
-    }
-  }
+        window.location.href = this.$store.state.userInfo.logoutUrl;
+      },
+    },
+  };
 </script>

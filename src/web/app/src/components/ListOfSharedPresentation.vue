@@ -26,32 +26,32 @@
     data() {
       return {
       filter: '',
-      }
+      };
     },
     watch: {
       'isError'() {
         if (!this.isError) {
-          return
+          return;
         }
         this.$notify.error({
           title: 'Shared Presentation list API request fail',
           message: this.$store.state.presentation.sharedPresentationListStatus.apiErrorMsg,
-          duration: 0
+          duration: 0,
         });
-      }
+      },
     },
     computed: {
       isLoading() {
         return this.$store.state.presentation.presentationListStatus.isLoading
           || this.$store.state.presentation.presentationFormStatus.isLoading
           || this.$store.state.section.sectionListStatus.isLoading
-          || this.$store.state.section.sectionList.some(s => s.status.isLoading)
+          || this.$store.state.section.sectionList.some(s => s.status.isLoading);
       },
       sharedPresentations() {
-        var stringToFilter = this.filter
-        var sharedPresentationList = this.$store.state.presentation.sharedPresentationList
+        var stringToFilter = this.filter;
+        var sharedPresentationList = this.$store.state.presentation.sharedPresentationList;
           if (stringToFilter === '') {
-              return sharedPresentationList
+              return sharedPresentationList;
           }
           var filteredPresentations = sharedPresentationList.filter(function(presentation) {
             return presentation.name.includes(stringToFilter);
@@ -59,15 +59,15 @@
           return filteredPresentations;
       },
       isError() {
-        return this.$store.state.presentation.presentationListStatus.isApiError
+        return this.$store.state.presentation.presentationListStatus.isApiError;
       },
      listOfSharedPresentationForm() {
         return {
-        }
+        };
       },
     },
     mounted() {
-      this.$store.dispatch('getSharedPresentationList')
-    }
-  }
+      this.$store.dispatch('getSharedPresentationList');
+    },
+  };
 </script>

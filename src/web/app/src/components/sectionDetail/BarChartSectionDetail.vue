@@ -70,28 +70,28 @@
 </template>
 
 <script>
-  import BarChart from '@/components/sectionDetail/chart/BarChart.vue'
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
-  import {generateBorderColor, generateBackgroundColor} from '@/common/color'
+  import BarChart from '@/components/sectionDetail/chart/BarChart.vue';
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
+  import {generateBorderColor, generateBackgroundColor} from '@/common/color';
 
   export default {
-    name: "BarChartSectionDetail",
+    name: 'BarChartSectionDetail',
 
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     data() {
@@ -99,7 +99,7 @@
         editFormSelectionsRule: [{
           validator: (rule, value, callback) => {
             if (value.expression.length === 0 || value.expression.rename === 0) {
-              return callback(new Error('Please specify all field for the selection'))
+              return callback(new Error('Please specify all field for the selection'));
             }
             callback();
           },
@@ -108,7 +108,7 @@
         editFormInvolvedRecordsRule: [{
           validator: (rule, value, callback) => {
             if (value.length < 1) {
-              return callback(new Error('There must be one record involved'))
+              return callback(new Error('There must be one record involved'));
             }
             callback();
           },
@@ -117,7 +117,7 @@
         editFormFiltersRule: [{
           validator: (rule, value, callback) => {
             if (value.field.length === 0 || value.comparator.length === 0 || value.value.length === 0) {
-              return callback(new Error('Please specify all fields'))
+              return callback(new Error('Please specify all fields'));
             }
             callback();
           },
@@ -126,7 +126,7 @@
         editFormSortersRule: [{
           validator: (rule, value, callback) => {
             if (value.field.length === 0 || value.order.length === 0) {
-              return callback(new Error('Please specify all fields'))
+              return callback(new Error('Please specify all fields'));
             }
             callback();
           },
@@ -151,10 +151,10 @@
         dataset: {},
         partialResult: [],
         options: {},
-      }
+      };
     },
     var: {
-        firstRefresh: false
+        firstRefresh: false,
     },
     updated() {
       this.$refs['basicSectionDetail'].syncDataWithProps();
@@ -171,9 +171,9 @@
       chartData() {
         return {
           labels: this.labels,
-          datasets: [this.dataset]
-        }
-      }
+          datasets: [this.dataset],
+        };
+      },
     },
 
     methods: {
@@ -202,8 +202,8 @@
         }
 
         // to display more data
-        let toolTipFooterCallback = (tooltipItems) => {
-          let currentIndex = tooltipItems[0].index;
+        const toolTipFooterCallback = (tooltipItems) => {
+          const currentIndex = tooltipItems[0].index;
           return extraData.fieldsShownInToolTips.map(f => `${f.label}: ${this.partialResult[currentIndex][f.field]}`);
         };
 
@@ -212,64 +212,64 @@
           scales: {
             yAxes: [{
               ticks: {
-                beginAtZero: true
+                beginAtZero: true,
               },
               gridLines: {
-                display: true
-              }
+                display: true,
+              },
             }],
             xAxes: [{
               gridLines: {
-                display: false
+                display: false,
               },
               ticks: {
-                autoSkip: false
-              }
-            }]
+                autoSkip: false,
+              },
+            }],
           },
           legend: {
             display: true,
-            position: 'bottom'
+            position: 'bottom',
           },
           layout: {
             padding: {
               top: 30,
-            }
+            },
           },
           responsive: true,
           maintainAspectRatio: false,
           tooltips: {
             callbacks: {
-              footer: toolTipFooterCallback
-            }
+              footer: toolTipFooterCallback,
+            },
           },
           plugins: {
             datalabels: {
               anchor: 'end',
-              align: 'end'
-            }
-          }
-        }
+              align: 'end',
+            },
+          },
+        };
       },
 
       addTooltip(tooltips) {
         tooltips.push({
           label: '',
           field: '',
-        })
+        });
       },
 
       removeTooltip(tooltips, tooltipToRemove) {
-        let index = tooltips.indexOf(tooltipToRemove);
-        tooltips.splice(index, 1)
+        const index = tooltips.indexOf(tooltipToRemove);
+        tooltips.splice(index, 1);
       },
     },
 
     components: {
       BasicSectionDetail,
-      BarChart
-    }
-  }
+      BarChart,
+    },
+  };
 </script>
 
 <style scoped>
