@@ -124,9 +124,18 @@
       },
       hasDuplicateName() {
           var presentation
+          var whichList = 'shared'
           for (presentation of this.$store.state.presentation.presentationList) {
-              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
-                  return true;
+              if (presentation.name === this.presentationFormName && presentation.id == this.id) {
+                  //Mark which presentationList the current presentation is from
+                  whichList = 'local';
+              }
+          }
+          if (whichList === 'local') {
+              for (presentation of this.$store.state.presentation.presentationList) {
+                  if (presentation.name === this.presentationFormName && presentation.id != this.id) {
+                      return true;
+                  }
               }
           }
           return false;
