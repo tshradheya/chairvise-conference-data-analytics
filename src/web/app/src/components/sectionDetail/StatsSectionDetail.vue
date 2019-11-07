@@ -4,7 +4,7 @@
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
                         :isLastIndex="isLastIndex"
-                        ref = "basicSectionDetail">>
+                        ref = "basicSectionDetail">
     <el-table
       :data="tableData"
       style="width: 100%">

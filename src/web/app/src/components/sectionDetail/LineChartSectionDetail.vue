@@ -4,7 +4,7 @@
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
                         :isLastIndex="isLastIndex"
-                        ref = "basicSectionDetail">>
+                        ref = "basicSectionDetail">
     <line-chart :chart-data="chartData" :options="options"></line-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">

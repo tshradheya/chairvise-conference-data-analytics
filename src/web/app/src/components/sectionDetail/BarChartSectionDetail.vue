@@ -9,7 +9,7 @@
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
                         :isLastIndex="isLastIndex"
-                        ref = "basicSectionDetail">>
+                        ref = "basicSectionDetail">
     <bar-chart :chart-data="chartData" :options="options"></bar-chart>
     <template slot="extraFormItems" slot-scope="slotProps">
       <el-form-item label="xAxis Field Name" prop="extraData.xAxisFieldName" v-if="slotProps.isInAdvancedMode">

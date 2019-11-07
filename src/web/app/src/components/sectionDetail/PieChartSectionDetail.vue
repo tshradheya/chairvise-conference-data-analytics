@@ -4,7 +4,7 @@
                         @update-visualisation="updateVisualisation"
                         :moveSection="moveSection"
                         :isLastIndex="isLastIndex"
-                        ref = "basicSectionDetail">>
+                        ref = "basicSectionDetail">
     <pie-chart :chart-data="chartData" :options="options"></pie-chart>
 
     <template slot="extraFormItems" slot-scope="slotProps">
