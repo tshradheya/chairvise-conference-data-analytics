@@ -37,28 +37,28 @@
 </template>
 
 <script>
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
-  import PieChart from '@/components/sectionDetail/chart/PieChart.vue'
-  import {generateBorderColor, generateBackgroundColor} from '@/common/color'
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
+  import PieChart from '@/components/sectionDetail/chart/PieChart.vue';
+  import {generateBorderColor, generateBackgroundColor} from '@/common/color';
 
   export default {
-    name: "PieChartSectionDetail",
+    name: 'PieChartSectionDetail',
 
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
 
     data() {
@@ -67,10 +67,10 @@
         labels: [],
         dataset: {},
         options: {},
-      }
+      };
     },
     var: {
-        firstRefresh: false
+        firstRefresh: false,
     },
     updated() {
       this.$refs['basicSectionDetail'].syncDataWithProps();
@@ -87,24 +87,24 @@
       chartData() {
         return {
           labels: this.labels,
-          datasets: [this.dataset]
-        }
-      }
+          datasets: [this.dataset],
+        };
+      },
     },
 
     methods: {
       updateVisualisation({result, extraData}) {
-        let displayedResult = result.slice(0, extraData.numOfResultToDisplay);
-        let remainedResult = result.slice(extraData.numOfResultToDisplay, result.length);
+        const displayedResult = result.slice(0, extraData.numOfResultToDisplay);
+        const remainedResult = result.slice(extraData.numOfResultToDisplay, result.length);
 
         // process category
         this.labels = displayedResult.map(record => record[extraData.categoryFieldName]);
         if (remainedResult.length !== 0) {
-          this.labels.push("Other");
+          this.labels.push('Other');
         }
 
         // process value
-        let data = displayedResult.map(record => record[extraData.valueFieldName]);
+        const data = displayedResult.map(record => record[extraData.valueFieldName]);
         if (remainedResult.length !== 0) {
           // take sum of the rest
           data.push(remainedResult.map(record => record[extraData.valueFieldName]).reduce((a, b) => a + b, 0));
@@ -123,12 +123,12 @@
         this.options = {
           legend: {
             display: true,
-            position: 'bottom'
+            position: 'bottom',
           },
           layout: {
             padding: {
               top: 15,
-            }
+            },
           },
           responsive: true,
           maintainAspectRatio: false,
@@ -137,24 +137,24 @@
               // show both value and percentage
               formatter: (value, ctx) => {
                 let sum = 0;
-                let dataArr = ctx.chart.data.datasets[0].data;
+                const dataArr = ctx.chart.data.datasets[0].data;
                 dataArr.map(data => {
                   sum += data;
                 });
-                let percentage = (value * 100 / sum).toFixed(2) + "%";
+                const percentage = `${(value * 100 / sum).toFixed(2)  }%`;
                 return `${percentage} (${value})`;
               },
-            }
-          }
-        }
-      }
+            },
+          },
+        };
+      },
     },
 
     components: {
       BasicSectionDetail,
-      PieChart
-    }
-  }
+      PieChart,
+    },
+  };
 </script>
 
 <style scoped>

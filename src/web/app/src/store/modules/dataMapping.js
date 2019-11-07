@@ -1,5 +1,5 @@
-import axios from 'axios'
-import {processMapping} from '@/store/helpers/processor.js'
+import axios from 'axios';
+import {processMapping} from '@/store/helpers/processor.js';
 
 export default {
   state: {
@@ -25,7 +25,7 @@ export default {
       predefinedMapping: null,
       predefinedMappingId: null,
     },
-    error: []
+    error: [],
   },
 
   mutations: {
@@ -137,34 +137,34 @@ export default {
     clearConferenceName(state) {
       state.data.conferenceName = '';
       state.hasConferenceNameSpecified = false;
-    }
+    },
   },
 
   actions: {
     async persistMapping({commit, state}) {
-      commit("setPageLoadingStatus", true);
+      commit('setPageLoadingStatus', true);
       let endpoint;
       switch (state.data.tableType) {
         case 0:
-          endpoint = "author";
+          endpoint = 'author';
           break;
         case 1:
-          endpoint = "review";
+          endpoint = 'review';
           break;
         case 2:
-          endpoint = "submission";
+          endpoint = 'submission';
           break;
       }
-      await axios.post("/api/record/" + endpoint + `/${state.data.conferenceName}`, state.data.processedResult)
+      await axios.post(`/api/record/${  endpoint  }/${state.data.conferenceName}`, state.data.processedResult)
         .then(() => {
-          commit("setPageLoadingStatus", false);
-          commit("setUploadSuccess", true);
+          commit('setPageLoadingStatus', false);
+          commit('setUploadSuccess', true);
         })
         .catch(e => {
-          commit("setPageLoadingStatus", false);
-          commit("setUploadSuccess", false);
-          commit("setDataMappingError", e.toString());
+          commit('setPageLoadingStatus', false);
+          commit('setUploadSuccess', false);
+          commit('setDataMappingError', e.toString());
         });
-    }
-  }
-}
+    },
+  },
+};

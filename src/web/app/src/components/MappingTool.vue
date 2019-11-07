@@ -87,10 +87,10 @@
 </template>
 
 <script>
-  import {deepCopy, filterPredefinedMap} from "@/common/utility"
+  import {deepCopy, filterPredefinedMap} from '@/common/utility';
 
   export default {
-    name: "MappingTool",
+    name: 'MappingTool',
     data() {
       return {
         // currently selected database tag and imported tag
@@ -105,17 +105,17 @@
           this.$store.state.dataMapping.data.uploadedLabel),
 
         hasSubmitted: false,
-        tableType: ""
+        tableType: '',
       };
     },
     computed: {
       dbList: function () {
-        return this.$store.state.dataMapping.data.dbSchema
+        return this.$store.state.dataMapping.data.dbSchema;
       },
       // a list of size k * 2, k is the number of mapped pairs
       // the mapped pairs are indexes.
       mappedPairs: function () {
-        let temp = this.mappedImportTag;
+        const temp = this.mappedImportTag;
         return this.mappedDBTag.map(function (e, i) {
           return [e, temp[i]];
         });
@@ -127,9 +127,9 @@
         if (this.$store.state.dataMapping.data.hasHeader) {
           return this.$store.state.dataMapping.data.uploadedLabel;
         }
-        let lst = [];
+        const lst = [];
         for (let i = 0; i < this.$store.state.dataMapping.data.uploadedLabel.length; i++) {
-          lst.push("Column " + (i + 1));
+          lst.push(`Column ${  i + 1}`);
         }
         return lst;
       },
@@ -142,7 +142,7 @@
       // whether upload is successful
       uploadSuccess: function () {
         return this.$store.state.dataMapping.isUploadSuccess;
-      }
+      },
     },
 
     // display errors
@@ -151,10 +151,10 @@
         if (newValue.length > 0) {
           this.$notify.error({
             title: 'Error',
-            message: newValue.join("\n")
+            message: newValue.join('\n'),
           });
         }
-      }
+      },
     },
     methods: {
       dbTagClicked: function (idx) {
@@ -188,44 +188,44 @@
         this.mappedImportTag.splice(idx, 1);
       },
       backClicked: function () {
-        this.$store.commit("clearDBSchema");
-        this.$store.commit("clearUploadedFile");
-        this.$store.commit("clearFormatType");
-        this.$store.commit("clearTableType");
-        this.$store.commit("clearHasHeader");
-        this.$store.commit("clearMapping");
-        this.$store.commit("clearPredefinedMapping");
-        this.$store.commit("clearConferenceName");
+        this.$store.commit('clearDBSchema');
+        this.$store.commit('clearUploadedFile');
+        this.$store.commit('clearFormatType');
+        this.$store.commit('clearTableType');
+        this.$store.commit('clearHasHeader');
+        this.$store.commit('clearMapping');
+        this.$store.commit('clearPredefinedMapping');
+        this.$store.commit('clearConferenceName');
 
       },
       uploadClicked: function () {
-        let map = deepCopy(this.mappedPairs);
-        this.$store.commit("setMapping", {"map": map});
+        const map = deepCopy(this.mappedPairs);
+        this.$store.commit('setMapping', {'map': map});
         if (this.errors.length === 0) {
           this.hasSubmitted = true;
         }
       },
       submitMapping: function () {
         this.hasSubmitted = false;
-        this.$store.dispatch("persistMapping");
+        this.$store.dispatch('persistMapping');
       },
       closeSuccess: function () {
-        this.$store.commit("setUploadSuccess", false);
-        this.$store.commit("clearDBSchema");
-        this.$store.commit("clearUploadedFile");
-        this.$store.commit("clearFormatType");
-        this.$store.commit("clearTableType");
-        this.$store.commit("clearHasHeader");
-        this.$store.commit("clearMapping");
-        this.$store.commit("clearError");
-        this.$store.commit("clearPredefinedMapping");
-        this.$store.commit("clearConferenceName");
-      }
+        this.$store.commit('setUploadSuccess', false);
+        this.$store.commit('clearDBSchema');
+        this.$store.commit('clearUploadedFile');
+        this.$store.commit('clearFormatType');
+        this.$store.commit('clearTableType');
+        this.$store.commit('clearHasHeader');
+        this.$store.commit('clearMapping');
+        this.$store.commit('clearError');
+        this.$store.commit('clearPredefinedMapping');
+        this.$store.commit('clearConferenceName');
+      },
     },
     mounted() {
     },
     updated() {
-    }
+    },
   };
 </script>
 

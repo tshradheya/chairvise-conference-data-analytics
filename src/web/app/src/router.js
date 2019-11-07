@@ -1,6 +1,6 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import {ID_NEW_PRESENTATION} from "@/common/const";
+import Vue from 'vue';
+import Router from 'vue-router';
+import {ID_NEW_PRESENTATION} from '@/common/const';
 
 Vue.use(Router);
 
@@ -12,40 +12,40 @@ export default new Router({
       path: '/home',
       name: 'home',
       meta: {
-        title: 'Home Page'
+        title: 'Home Page',
       },
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue')
+      component: () => import(/* webpackChunkName: "home" */ './views/Home.vue'),
     },
     {
       path: '/analyze',
-      redirect: '/analyze/' + ID_NEW_PRESENTATION,
+      redirect: `/analyze/${  ID_NEW_PRESENTATION}`,
       meta: {
-        title: 'New Analyze Page'
+        title: 'New Analyze Page',
       },
     },
     {
       path: '/analyze/:id',
       name: 'analyze',
       meta: {
-        title: 'Analyze Detail Page'
+        title: 'Analyze Detail Page',
       },
       component: () => import(/* webpackChunkName: "analyze" */ './views/Analyze.vue'),
-      props: true
+      props: true,
     },
     {
       path: '/importData',
       name: 'importData',
       meta: {
-        title: 'Import Data Page'
+        title: 'Import Data Page',
       },
-      component: () => import(/* webpackChunkName: "importData" */ './views/ImportData.vue')
+      component: () => import(/* webpackChunkName: "importData" */ './views/ImportData.vue'),
     },
     {
       path: '/',
-      redirect: '/home'
-    }
-  ]
-})
+      redirect: '/home',
+    },
+  ],
+});

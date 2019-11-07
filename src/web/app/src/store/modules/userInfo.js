@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   state: {
@@ -25,22 +25,22 @@ export default {
         state.userEmail = payload.userInfo.userEmail;
         state.userNickname = payload.userInfo.userNickname;
       }
-    }
+    },
   },
   actions: {
     async getAuthInfo({commit}) {
       commit('setPageLoadingStatus', true);
       const urlToGetBack = encodeURI(window.location.href);
-      axios.get('/api/auth?redirectUrl=' + urlToGetBack)
+      axios.get(`/api/auth?redirectUrl=${  urlToGetBack}`)
         .then(response => {
-          commit('setAuthInfo', response.data)
+          commit('setAuthInfo', response.data);
         })
         .catch(e => {
           commit('setAuthInfoApiRequestFail', e.toString());
         })
         .finally(() => {
-          commit('setPageLoadingStatus', false)
-        })
-    }
-  }
+          commit('setPageLoadingStatus', false);
+        });
+    },
+  },
 };

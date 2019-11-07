@@ -4,36 +4,36 @@
 
 <script>
   import renderWordCloudNative from 'wordcloud';
-  import {deepCopy} from "@/common/utility"
+  import {deepCopy} from '@/common/utility';
 
   export default {
-    name: "WordCloud",
+    name: 'WordCloud',
 
     props: {
       data: {
         type: Array,
-        required: true
+        required: true,
       },
     },
     watch: {
       data() {
-        this.renderWordCloud()
+        this.renderWordCloud();
       },
     },
     mounted() {
-      this.renderWordCloud()
+      this.renderWordCloud();
     },
     updated() {
-      this.renderWordCloud()
+      this.renderWordCloud();
     },
 
     computed: {
       weightFactor() {
         // magic number
         return 100.0 / this.data.reduce((previous, current) => {
-          return Math.max(previous, current[1])
+          return Math.max(previous, current[1]);
         }, 0);
-      }
+      },
     },
 
     methods: {
@@ -41,11 +41,11 @@
         renderWordCloudNative(this.$el, {
           list: deepCopy(this.data),
           weightFactor: this.weightFactor,
-          rotateRatio: 0
-        })
-      }
-    }
-  }
+          rotateRatio: 0,
+        });
+      },
+    },
+  };
 </script>
 
 <style scoped>

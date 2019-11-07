@@ -31,13 +31,13 @@
 </template>
 
 <script>
-  import WordCloudSectionDetail from "@/components/sectionDetail/WordCloudSectionDetail.vue"
-  import BarChartSectionDetail from "@/components/sectionDetail/BarChartSectionDetail.vue"
-  import PieChartSectionDetail from "@/components/sectionDetail/PieChartSectionDetail.vue"
-  import LineChartSectionDetail from "@/components/sectionDetail/LineChartSectionDetail.vue"
-  import StatsSectionDetail from "@/components/sectionDetail/StatsSectionDetail.vue"
-  import OverviewSectionDetail from "@/components/sectionDetail/OverviewSectionDetail.vue"
-  import NetworkChartSectionDetail from "@/components/sectionDetail/NetworkChartSectionDetail.vue"
+  import WordCloudSectionDetail from '@/components/sectionDetail/WordCloudSectionDetail.vue';
+  import BarChartSectionDetail from '@/components/sectionDetail/BarChartSectionDetail.vue';
+  import PieChartSectionDetail from '@/components/sectionDetail/PieChartSectionDetail.vue';
+  import LineChartSectionDetail from '@/components/sectionDetail/LineChartSectionDetail.vue';
+  import StatsSectionDetail from '@/components/sectionDetail/StatsSectionDetail.vue';
+  import OverviewSectionDetail from '@/components/sectionDetail/OverviewSectionDetail.vue';
+  import NetworkChartSectionDetail from '@/components/sectionDetail/NetworkChartSectionDetail.vue';
   import {
     SECTION_TYPE_BAR_CHART,
     SECTION_TYPE_LINE_CHART,
@@ -45,25 +45,25 @@
     SECTION_TYPE_STATS,
     SECTION_TYPE_WORD_CLOUD,
     SECTION_TYPE_OVERVIEW,
-    SECTION_TYPE_NETWORK_CHART
-  } from "@/common/const";
+    SECTION_TYPE_NETWORK_CHART,
+  } from '@/common/const';
 
   export default {
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
     data() {
       return {
@@ -75,7 +75,7 @@
         STATS: SECTION_TYPE_STATS,
         OVERVIEW: SECTION_TYPE_OVERVIEW,
         NETWORK_CHART:SECTION_TYPE_NETWORK_CHART,
-      }
+      };
     },
     components: {
       WordCloudSectionDetail,
@@ -84,9 +84,9 @@
       LineChartSectionDetail,
       StatsSectionDetail,
       OverviewSectionDetail,
-      NetworkChartSectionDetail
-    }
-  }
+      NetworkChartSectionDetail,
+    },
+  };
 </script>
 
 <style scoped>

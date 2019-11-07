@@ -69,8 +69,8 @@
 
 <script>
   export default {
-    name: "DetailedFeatureGuide",
-  }
+    name: 'DetailedFeatureGuide',
+  };
 </script>
 
 <style scoped>

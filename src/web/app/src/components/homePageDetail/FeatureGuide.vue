@@ -26,8 +26,8 @@
 
 <script>
   export default {
-    name: "FeatureGuide",
-  }
+    name: 'FeatureGuide',
+  };
 </script>
 
 <style scoped>

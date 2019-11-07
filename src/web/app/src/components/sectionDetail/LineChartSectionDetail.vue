@@ -36,31 +36,31 @@
 </template>
 
 <script>
-  import LineChart from '@/components/sectionDetail/chart/LineChart.vue'
-  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue'
-  import {generateBorderColor, generateBackgroundColor} from '@/common/color'
+  import LineChart from '@/components/sectionDetail/chart/LineChart.vue';
+  import BasicSectionDetail from '@/components/sectionDetail/BasicSectionDetail.vue';
+  import {generateBorderColor, generateBackgroundColor} from '@/common/color';
 
   export default {
-    name: "LineChartSectionDetail",
+    name: 'LineChartSectionDetail',
 
     props: {
       sectionDetail: {
         type: Object,
-        required: true
+        required: true,
       },
       presentationId: {
         type: String,
-        required: true
+        required: true,
       },
       moveSection: {
-        type: Function
+        type: Function,
       },
       isLastIndex: {
-        type: Boolean
-      }
+        type: Boolean,
+      },
     },
     var: {
-        firstRefresh: false
+        firstRefresh: false,
     },
     updated() {
       this.$refs['basicSectionDetail'].syncDataWithProps();
@@ -74,7 +74,7 @@
         labels: [],
         dataset: {},
         options: {},
-      }
+      };
     },
 
     computed: {
@@ -85,9 +85,9 @@
       chartData() {
         return {
           labels: this.labels,
-          datasets: [this.dataset]
-        }
-      }
+          datasets: [this.dataset],
+        };
+      },
     },
 
     methods: {
@@ -111,44 +111,44 @@
                 beginAtZero: false,
               },
               gridLines: {
-                display: true
-              }
+                display: true,
+              },
             }],
             xAxes: [{
               ticks: {
-                autoSkip: false
+                autoSkip: false,
               },
               gridLines: {
-                display: false
+                display: false,
               },
-            }]
+            }],
           },
           legend: {
             display: true,
-            position: 'bottom'
+            position: 'bottom',
           },
           layout: {
             padding: {
               top: 30,
-            }
+            },
           },
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
             datalabels: {
               anchor: 'end',
-              align: 'end'
-            }
-          }
-        }
-      }
+              align: 'end',
+            },
+          },
+        };
+      },
     },
 
     components: {
       BasicSectionDetail,
-      LineChart
-    }
-  }
+      LineChart,
+    },
+  };
 </script>
 
 <style scoped>

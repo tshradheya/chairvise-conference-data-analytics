@@ -1,8 +1,8 @@
-import {createLocalVue, shallowMount} from '@vue/test-utils'
+import {createLocalVue, shallowMount} from '@vue/test-utils';
 import ElementUI from 'element-ui';
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
-import App from '../App'
+import VueRouter from 'vue-router';
+import Vuex from 'vuex';
+import App from '../App';
 
 const localVue = createLocalVue();
 
@@ -19,19 +19,19 @@ describe('App.vue', () => {
       state: {
         isPageLoading: false,
         userInfo: {
-          isApiError: false
+          isApiError: false,
         },
         dbMetaData: {
           entitiesStatus: {
-            isLoading: false
-          }
-        }
-      }
-    })
+            isLoading: false,
+          },
+        },
+      },
+    });
   });
 
   test('App is a vue instance and mounted correctly', () => {
     const wrapper = shallowMount(App, {store, localVue});
-    expect(wrapper.isVueInstance()).toBeTruthy()
-  })
+    expect(wrapper.isVueInstance()).toBeTruthy();
+  });
 });

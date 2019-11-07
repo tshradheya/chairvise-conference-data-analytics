@@ -1,5 +1,5 @@
 <script>
-  import {mixins, Pie} from 'vue-chartjs'
+  import {mixins, Pie} from 'vue-chartjs';
 
   const {reactiveProp} = mixins;
 
@@ -9,14 +9,14 @@
     props: {
       options: {
         type: Object,
-        required: true
+        required: true,
       },
     },
     mounted() {
       // this.chartData is created in the mixin
-      this.renderChart(this.chartData, this.options)
-    }
-  }
+      this.renderChart(this.chartData, this.options);
+    },
+  };
 </script>
 
 <style scoped>
