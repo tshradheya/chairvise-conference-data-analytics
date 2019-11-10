@@ -138,9 +138,6 @@
                   }
               }
           }
-          console.log(whichList)
-                                 console.log('false')
-
           return false;
       },
     },
