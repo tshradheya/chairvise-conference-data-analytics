@@ -27,7 +27,7 @@ set -o pipefail
 #dbPassword="$(jq '.dbPassword' <<<"$secretStr" | tr -d '"')"
 
 # gets the whole url
-url="jdbc:mysql://google/viz?cloudSqlInstance=$dbServer&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=$dbUsername&password=$dbPassword&useSSL=false"
+#url="jdbc:mysql://google/viz?cloudSqlInstance=$dbServer&socketFactory=com.google.cloud.sql.mysql.SocketFactory&user=$dbUsername&password=$dbPassword&useSSL=false"
 # render properties file
 template=`cat application-prod.properties.template`
 settedTemplate=${template//<datasourceURL>/$url}
@@ -36,7 +36,7 @@ settedTemplate=${template//<datasourceURL>/$url}
 printf "$settedTemplate" > ../src/main/resources/application-prod.properties
 
 # authorize google cloud sdk
-gcloud auth activate-service-account --key-file=viz-group1-b6c0e6443300.json
+gcloud auth activate-service-account --key-file=cs3219-1920-team17-182e6cd17033.json
 
 # deploy
 cd $TRAVIS_BUILD_DIR
