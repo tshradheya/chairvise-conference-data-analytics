@@ -1,11 +1,11 @@
 <template>
   <div>
     <h4>Presentations created by me</h4>
-    <el-form label-position="right" ref="listOfPresentationForm" label-width="60px"
+    <el-form label-position="right" ref="listOfPresentationForm" label-width="0px"
                :model="listOfPresentationForm">
-        <el-form-item label="Filter">
+        <el-form-item>
              <div>{{ listOfPresentationForm.filter }}</div>
-             <el-input v-model="filter"/>
+             <el-input placeholder="Filter" v-model="filter"/>
        </el-form-item>
     </el-form>
     <el-menu :default-active="$route.path" v-loading="isLoading" router>
