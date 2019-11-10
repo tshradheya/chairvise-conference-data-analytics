@@ -126,7 +126,7 @@
           var presentation;
           var whichList = 'shared';
           for (presentation of this.$store.state.presentation.presentationList) {
-              if (presentation.name === this.presentationFormName && presentation.id == this.id) {
+              if (presentation.id == this.id) {
                   //Mark which presentationList the current presentation is from
                   whichList = 'local';
               }
@@ -138,6 +138,9 @@
                   }
               }
           }
+          console.log(whichList)
+                                 console.log('false')
+
           return false;
       },
     },
