@@ -124,18 +124,14 @@
       },
       hasDuplicateName() {
           var presentation;
-          var whichList = 'shared';
-          for (presentation of this.$store.state.presentation.presentationList) {
-              if (presentation.name === this.presentationFormName && presentation.id == this.id) {
-                  //Mark which presentationList the current presentation is from
-                  whichList = 'local';
+          for (presentation of this.$store.state.presentation.sharedPresentationList) {
+              if (presentation.id == this.id) {
+                  return false;
               }
           }
-          if (whichList === 'local') {
-              for (presentation of this.$store.state.presentation.presentationList) {
-                  if (presentation.name === this.presentationFormName && presentation.id != this.id) {
-                      return true;
-                  }
+          for (presentation of this.$store.state.presentation.presentationList) {
+              if (presentation.name === this.presentationFormName && presentation.id != this.id) {
+                  return true;
               }
           }
           return false;
