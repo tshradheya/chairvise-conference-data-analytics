@@ -31,5 +31,6 @@ script:
 # test backend and the server
 - cd $TRAVIS_BUILD_DIR && ./gradlew check
 after_success:
+- chmod +x deploy/deploy
 - test $TRAVIS_BRANCH = "master" && test $TRAVIS_PULL_REQUEST = "false" && cd deploy
   && ./deploy
